@@ -1,4 +1,4 @@
-package com.DavidOlejniczak.RaceFileFinder;
+package com.WT.RaceFileFinder;
 
 public record Greeting(long id, String content) {
 }
