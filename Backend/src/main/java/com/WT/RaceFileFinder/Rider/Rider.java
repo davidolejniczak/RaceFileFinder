@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Rider {
 
     @Id
-    @Column(riderName = "ridername", unique = true)
+    @Column(name = "ridername", unique = true)
     private String riderName;
     private String nationality;
     private String team;
@@ -48,9 +48,14 @@ public class Rider {
 
     @Override
     public String toString() {
-        return String.format(
-                "Rider[Name='&s',Nationality='%s',Team='%s']",
-                riderName, nationality, team);
+        try {
+            String returnString = String.format(
+                    "\nRider[\nRider Name %s\nNationality = %s\nTeam = %s\n]",
+                    riderName, nationality, team);
+            return returnString;
+        } catch (Exception e) {
+            return ("\nRider is not found\n");
+        }
     }
 
 }
