@@ -19,4 +19,6 @@ public interface RiderRepository extends JpaRepository<Rider, String>, PagingAnd
     Rider findByRiderName(String riderName);
 
     List<Rider> findByTeam(@Param("team") String name);
+
+    List<Rider> findByNationality(@Param("country") String nationality);
 }
