@@ -19,6 +19,9 @@ public interface RiderRepository extends JpaRepository<Rider, String>, PagingAnd
 
     Rider findByRiderNameIgnoreCase(String riderName);
 
+    @Query(value = "SELECT * FROM riders WHERE unaccent(riderName) ILIKE unaccent(:name)", nativeQuery = true)
+    Rider searchByName(@Param("name") String riderName);
+
     List<Rider> findByNameContaining(String keyword);
 
     List<Rider> findByTeam(String team);
