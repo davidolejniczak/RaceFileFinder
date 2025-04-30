@@ -11,14 +11,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@RepositoryRestResource(collectionResourceRel = "team", path = "team")
 public interface RiderRepository extends JpaRepository<Rider, String>, PagingAndSortingRepository<Rider, String> {
 
-    // List<Rider> findByTeam(String team);
+    List<Rider> findAllRiders(Sort sort);
 
     Rider findByRiderName(String riderName);
 
-    List<Rider> findByTeam(@Param("team") String name);
+    Rider findByRiderNameIgnoreCase(String riderName);
 
-    List<Rider> findByNationality(@Param("country") String nationality);
+    List<Rider> findByNameContaining(String keyword);
+
+    List<Rider> findByTeam(String team);
+
+    List<Rider> findByNationality(String nationality);
+
+    List<Rider> findByTeamAndNationality(String team, String nationality);
+
+    Rider saveRider(String riderName, String team, String nationality);
+
 }
