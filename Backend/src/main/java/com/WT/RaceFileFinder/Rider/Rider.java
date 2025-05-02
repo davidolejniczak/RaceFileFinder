@@ -1,6 +1,5 @@
 package com.WT.RaceFileFinder.Rider;
 
-import javax.annotation.processing.Generated;
 import jakarta.persistence.*;
 
 @Entity
