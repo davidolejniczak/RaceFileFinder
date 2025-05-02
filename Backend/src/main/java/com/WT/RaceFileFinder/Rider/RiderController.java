@@ -31,13 +31,13 @@ public class RiderController {
         if (team != null && nationality != null) {
             return riderService.getByTeamAndNationality(team, nationality);
         }
-
         if (nationality == null) {
             return riderService.getByTeam(team);
         }
-
-        else {
+        if (team != null) {
             return riderService.getByNationality(nationality);
+        } else {
+            return Collections.emptyList();
         }
     }
 
