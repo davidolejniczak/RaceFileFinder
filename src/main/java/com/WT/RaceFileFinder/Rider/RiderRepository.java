@@ -17,16 +17,16 @@ public interface RiderRepository extends JpaRepository<Rider, String>, PagingAnd
 
     Optional<Rider> findByRiderNameIgnoreCase(String riderName);
 
-    @Query(value = "SELECT * FROM riders WHERE unaccent(riderName) ILIKE unaccent(:name)", nativeQuery = true)
-    Optional<Rider> searchByName(@Param("name") String riderName);
+    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(riderName)), ' ', '') = LOWER(unaccent(:riderName))", nativeQuery = true)
+    Optional<Rider> searchByName(@Param("riderName") String riderName);
 
     List<Rider> findByRiderNameContaining(String keyword);
 
-    List<Rider> findByTeam(String team);
+    List<Rider> findByTeamIgnoreCase(String team);
 
-    List<Rider> findByNationality(String nationality);
+    List<Rider> findByNationalityIgnoreCase(String nationality);
 
-    List<Rider> findByTeamAndNationality(String team, String nationality);
+    List<Rider> findByTeamAndNationalityIgnoreCase(String team, String nationality);
 
     @Modifying
     @Query(value = "INSERT INTO riders (riderName, team, nationality) VALUES (:riderName, :team, :nationality)", nativeQuery = true)
