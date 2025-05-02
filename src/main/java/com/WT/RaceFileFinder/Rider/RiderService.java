@@ -1,8 +1,10 @@
 package com.WT.RaceFileFinder.Rider;
 
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RiderService {
@@ -13,12 +15,13 @@ public class RiderService {
         this.riderRepository = riderRepository;
     }
 
-    public List<Rider> getAllRiders(Sort sort) {
-        return riderRepository.findAllRiders(sort);
+    public List<Rider> getAllRiders() {
+        Sort sort = Sort.by(Sort.Order.asc("riderName"));
+        return riderRepository.findAll(sort);
     }
 
     public Rider getRiderByName(String riderName) {
-        Optional<Rider> foundRider = riderRepository.findByRiderName(riderName);
+        Optional<Rider> foundRider = riderRepository.findByriderName(riderName);
         if (foundRider.isPresent())
             return foundRider.get();
 
@@ -27,18 +30,16 @@ public class RiderService {
             return foundRider.get();
 
         foundRider = riderRepository.searchByName(riderName);
-        if (foundRider.isPresent())
-            return foundRider.get();
+        return foundRider.get();
 
-        throw new RiderNotFoundException("Rider not found");
     }
 
-    public Rider getByTeam(String team) {
+    public List<Rider> getByTeam(String team) {
         return riderRepository.findByTeam(team);
     }
 
     public List<Rider> getByNameContaining(String keyword) {
-        return riderRepository.findByNameContaining(keyword);
+        return riderRepository.findByRiderNameContaining(keyword);
     }
 
     public List<Rider> getByNationality(String nationality) {
@@ -49,8 +50,12 @@ public class RiderService {
         return riderRepository.findByTeamAndNationality(team, nationality);
     }
 
-    public Rider saveRider(String riderName, String team, String nationality) {
-        return riderRepository.saveRider(riderName, team, nationality);
+    @Transactional
+    public void saveRider(Rider rider) {
+        String riderName = rider.getRiderName();
+        String team = rider.getTeam();
+        String nationality = rider.getNationality();
+        riderRepository.saveRider(rider);
     }
 
 }
