@@ -9,15 +9,15 @@ public class Rider {
     @Id
     @Column(name = "ridername", unique = true)
     private String riderName;
-    private String nationality;
+    private String nation;
     private String team;
 
     protected Rider() {
     }
 
-    public Rider(String riderName, String nationality, String team) {
+    public Rider(String riderName, String nation, String team) {
         this.riderName = riderName;
-        this.nationality = nationality;
+        this.nation = nation;
         this.team = team;
     }
 
@@ -29,12 +29,12 @@ public class Rider {
         return riderName;
     }
 
-    public void setNationality(String nationallity) {
-        this.nationality = nationallity;
+    public void setNation(String nation) {
+        this.nation = nation;
     }
 
-    public String getNationality() {
-        return nationality;
+    public String getNation() {
+        return nation;
     }
 
     public void setTeam(String team) {
@@ -50,7 +50,7 @@ public class Rider {
         try {
             String returnString = String.format(
                     "\nRider[\nRider Name %s\nNationality = %s\nTeam = %s\n]",
-                    riderName, nationality, team);
+                    riderName, nation, team);
             return returnString;
         } catch (Exception e) {
             return ("\nRider is not found\n");

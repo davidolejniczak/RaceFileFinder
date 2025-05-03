@@ -35,26 +35,23 @@ public class RiderService {
     }
 
     public List<Rider> getByTeam(String team) {
-        return riderRepository.findByTeam(team);
+        return riderRepository.findByTeamIgnoreCase(team);
     }
 
     public List<Rider> getByNameContaining(String keyword) {
         return riderRepository.findByRiderNameContaining(keyword);
     }
 
-    public List<Rider> getByNationality(String nationality) {
-        return riderRepository.findByNationality(nationality);
+    public List<Rider> getByNation(String nation) {
+        return riderRepository.findByNation(nation);
     }
 
-    public List<Rider> getByTeamAndNationality(String team, String nationality) {
-        return riderRepository.findByTeamAndNationality(team, nationality);
+    public List<Rider> getByTeamAndNation(String team, String nation) {
+        return riderRepository.findByTeamAndNationIgnoreCase(team, nation);
     }
 
     @Transactional
     public void saveRider(Rider rider) {
-        String riderName = rider.getRiderName();
-        String team = rider.getTeam();
-        String nationality = rider.getNationality();
         riderRepository.saveRider(rider);
     }
 

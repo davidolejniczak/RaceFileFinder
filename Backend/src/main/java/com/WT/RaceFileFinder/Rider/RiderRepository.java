@@ -17,19 +17,22 @@ public interface RiderRepository extends JpaRepository<Rider, String>, PagingAnd
 
     Optional<Rider> findByRiderNameIgnoreCase(String riderName);
 
-    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(riderName)), ' ', '') = LOWER(unaccent(:riderName))", nativeQuery = true)
+    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(riderName)), ' ', '') = REPLACE(LOWER(unaccent(:riderName)),' '.'')", nativeQuery = true)
     Optional<Rider> searchByName(@Param("riderName") String riderName);
 
     List<Rider> findByRiderNameContaining(String keyword);
 
-    List<Rider> findByTeamIgnoreCase(String team);
+    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:team))", nativeQuery = true)
+    List<Rider> findByTeamIgnoreCase(@Param("team") String team);
 
-    List<Rider> findByNationalityIgnoreCase(String nationality);
+    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(nation)),' ','') = LOWER(unaccent(:nation))", nativeQuery = true)
+    List<Rider> findByNation(@Param("nation") String nation);
 
-    List<Rider> findByTeamAndNationalityIgnoreCase(String team, String nationality);
+    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:team)) AND LOWER(unaccent(nation)) = LOWER(unaccent(:nation))", nativeQuery = true)
+    List<Rider> findByTeamAndNationIgnoreCase(String team, String nation);
 
     @Modifying
-    @Query(value = "INSERT INTO riders (riderName, team, nationality) VALUES (:riderName, :team, :nationality)", nativeQuery = true)
+    @Query(value = "INSERT INTO riders (riderName, team, nation) VALUES(:riderName, :team, :nation)", nativeQuery = true)
     void saveRider(Rider rider);
 
 }
