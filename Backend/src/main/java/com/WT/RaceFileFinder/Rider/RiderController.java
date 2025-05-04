@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RiderController {
 
     private final RiderService riderService;
@@ -42,8 +44,14 @@ public class RiderController {
     }
 
     @GetMapping("/all")
-    public List<Rider> getAllRiders() {
-        return riderService.getAllRiders();
+    public List<String> getAllRiders(@RequestParam(required = false) String q) {
+        List<Rider> riders;
+        if (q != null && !q.isEmpty()) {
+            riders = riderService.getByNameContaining(q);
+        } else {
+            riders = riderService.getAllRiders();
+        }
+        return riders.stream().map(Rider::getRiderName).collect(Collectors.toList());
     }
 
     @PutMapping("/save")
