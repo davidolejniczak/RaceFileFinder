@@ -20,6 +20,7 @@ public interface RiderRepository extends JpaRepository<Rider, String>, PagingAnd
     @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(riderName)), ' ', '') = REPLACE(LOWER(unaccent(:riderName)),' '.'')", nativeQuery = true)
     Optional<Rider> searchByName(@Param("riderName") String riderName);
 
+    @Query(value = "SELECT * FROM riders WHERE unaccent(riderName) ILike unaccent(CONCAT('%', :keyword, '%'))", nativeQuery = true)
     List<Rider> findByRiderNameContaining(String keyword);
 
     @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:team))", nativeQuery = true)
