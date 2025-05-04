@@ -1,103 +1,211 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import "./home.css";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+interface RaceResult {
+  id: string;
+  position: number; 
+  riderName: string; 
+  stravaLink: string; 
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [error, setError] = useState<string | null>(null); 
+  const [raceResults, setRaceResults] = useState<RaceResult[]>([]); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchAttempted, setSearchAttempted] = useState(false); 
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const debounce = (func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const fetchSuggestions = async (query: string) => {
+    setError(null); 
+    if (!query) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/all?q=${encodeURIComponent(query)}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: string[] = await response.json(); 
+      setSuggestions(data);
+      setShowSuggestions(data.length > 0);
+
+    } catch (e) {
+      setError("Failed to load suggestions."); 
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+
+  const triggerRaceSearch = async (raceName: string) => {
+    if (!raceName) return; 
+
+    setError(null); 
+    setRaceResults([]); 
+    setIsLoading(true); 
+    setSearchAttempted(true); 
+    setShowSuggestions(false);
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/Race?race=${encodeURIComponent(raceName)}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const raceData: RaceResult[] = await response.json(); 
+      setRaceResults(raceData); 
+
+    } catch (e) {
+      setRaceResults([]); 
+    } finally {
+      setIsLoading(false); 
+    }
+  };
+
+  const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
+    debouncedFetchSuggestions(value);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputValue(suggestion);
+    setSuggestions([]);
+    setShowSuggestions(false); 
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); 
+      let searchTarget = inputValue;
+      if (showSuggestions && suggestions.length > 0) {
+        searchTarget = suggestions[0];
+        setInputValue(searchTarget); 
+        setShowSuggestions(false); 
+        setSuggestions([]);
+      }
+      triggerRaceSearch(searchTarget);
+    }
+  };
+
+  return (
+    <div className="home-root">
+      <div className="home-form-row">
+        <label className="home-label" htmlFor="rider-strava">
+          Enter WorldTour Race Name:
+        </label>
+        <div className="input-wrapper">
+          <div className="autocomplete-container"> 
+            <input
+              id="rider-strava"
+              type="text"
+              placeholder="Race Name"
+              className="home-input"
+              value={inputValue}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown} 
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 150)} 
+              autoComplete="off" 
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <button
+              className="search-button"
+              onClick={() => triggerRaceSearch(inputValue)}
+              aria-label="Search"
+              disabled={isLoading}
+            />
+            {showSuggestions && suggestions.length > 0 && (
+              <ul className="suggestions-list">
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onMouseDown={() => handleSuggestionClick(suggestion)} 
+                    className="suggestion-item"
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="error-message">
+            {error ? error : "\u00A0"}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+
+{/* Race Results Table */}
+<div className="results-table-container flex-[2] max-w-full mt-0 max-h-[calc(100vh-4rem)] overflow-y-auto rounded-lg border border-gray-500 shadow-sm">
+  <Table className="table-auto w-full bg-gray-50">
+    <TableHeader>
+      <TableRow className="border-b border-gray-800 bg-gray-200">
+        <TableHead className="border-r border-gray-300 whitespace-nowrap">Position</TableHead>
+        <TableHead className="border-r border-gray-300 whitespace-nowrap">Rider Name</TableHead>
+        <TableHead className="text-right whitespace-nowrap">Strava Link</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {!isLoading && raceResults.length > 0 ? (
+        raceResults.map((result) => (
+          <TableRow key={result.id}>
+            <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.position}</TableCell>
+            <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderName}</TableCell>
+            <TableCell className="text-right whitespace-nowrap">
+              <a
+                href={result.stravaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                View on Strava
+              </a>
+            </TableCell>
+          </TableRow>
+        ))
+      ) : isLoading ? (
+        <TableRow>
+          <TableCell colSpan={3} className="text-center h-24">
+            Loading...
+          </TableCell>
+        </TableRow>
+      ) : searchAttempted ? (
+        <TableRow>
+          <TableCell colSpan={3} className="text-center h-24">
+            No results found.
+          </TableCell>
+        </TableRow>
+      ) : null}
+    </TableBody>
+  </Table>
+</div>
     </div>
   );
 }
