@@ -1,12 +1,20 @@
 package com.WT.RaceFileFinder.Race;
 
-import jakarta.persistence.*;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.domain.Sort;
+
 import java.util.List;
 import java.util.Optional;
 
-public interface RaceRepository extends JpaRepository<Races, String>, PagingAndSortingRepository<Races, String> {
+public interface RaceRepository extends JpaRepository<Race, String>, PagingAndSortingRepository<Race, String> {
 
-    @Query(value = "SELECT * FROM Races WHERE unaccent(raceName) ILike unaccent(CONCAT('%', :raceName, '%'))", nativeQuery = true)
+    @Query(value = "SELECT * FROM Races WHERE unaccent(racename) ILike unaccent(CONCAT('%', :raceName, '%'))", nativeQuery = true)
     List<Race> findByRaceName(String raceName);
 
+    @Query(value = "SELECT * FROM Races WHERE unaccent(raceName) ILike unaccent(CONCAT('%', :raceName, '%')) AND EXTRACT(YEAR FROM racedate) = (:raceDate)", nativeQuery = true)
+    List<Race> findByRaceNameAndDate(String raceName, int raceDate);
 }

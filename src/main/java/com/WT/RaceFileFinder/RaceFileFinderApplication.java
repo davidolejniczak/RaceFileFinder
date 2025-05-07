@@ -15,7 +15,7 @@ public class RaceFileFinderApplication {
 
 	@RequestMapping("/")
 	String home() {
-		return "Hello World!";
+		return "Backend APIs";
 	}
 
 	public static void main(String[] args) {
@@ -24,11 +24,6 @@ public class RaceFileFinderApplication {
 		System.setProperty("spring.datasource.password", dotenv.get("DB_PASS"));
 
 		SpringApplication.run(RaceFileFinderApplication.class, args);
-	}
-
-	@GetMapping("/hello")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return String.format("Hello %s!", name);
 	}
 
 }
