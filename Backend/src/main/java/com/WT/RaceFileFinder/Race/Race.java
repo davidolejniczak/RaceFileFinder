@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 public class Race {
 
     @Id
-    @Column(name = "raceid", unique = true)
-    private int raceId;
+    @Column(name = "raceId", unique = true)
+    private String raceId;
     private String raceName;
     private String raceDate;
     private String raceLocation;
@@ -17,24 +17,19 @@ public class Race {
     protected Race() {
     }
 
-    public Race(int raceId, String raceName, String raceDate, String raceLocation, String raceLevel) {
-        this.raceId = raceId;
+    public Race(String raceName, String raceDate, String raceLocation, String raceLevel) {
         this.raceName = raceName;
         this.raceDate = raceDate;
         this.raceLocation = raceLocation;
         this.raceLevel = raceLevel;
     }
 
-    private int getRaceId() {
-        return raceId;
-    }
-
     public String getRaceName() {
         return raceName;
     }
 
-    public void setRaceName(String raceNace) {
-        this.raceName = raceNace;
+    public void setRaceName(String raceName) {
+        this.raceName = raceName;
     }
 
     public String getRaceDate() {
