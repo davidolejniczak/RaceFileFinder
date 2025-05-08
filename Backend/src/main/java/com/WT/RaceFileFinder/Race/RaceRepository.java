@@ -12,9 +12,9 @@ import java.util.Optional;
 
 public interface RaceRepository extends JpaRepository<Race, String>, PagingAndSortingRepository<Race, String> {
 
-    @Query(value = "SELECT * FROM Races WHERE unaccent(racename) ILike unaccent(CONCAT('%', :raceName, '%'))", nativeQuery = true)
+    @Query(value = "SELECT * FROM races WHERE unaccent(racename) ILike unaccent(CONCAT('%', :raceName, '%'))", nativeQuery = true)
     List<Race> findByRaceName(String raceName);
 
-    @Query(value = "SELECT * FROM Races WHERE unaccent(raceName) ILike unaccent(CONCAT('%', :raceName, '%')) AND EXTRACT(YEAR FROM racedate) = (:raceDate)", nativeQuery = true)
-    List<Race> findByRaceNameAndDate(String raceName, int raceDate);
+    @Query(value = "SELECT * FROM races WHERE unaccent(racename) ILike unaccent(CONCAT('%', :raceName, '%')) AND raceyear = :raceYear", nativeQuery = true)
+    List<Race> findByRaceNameAndDate(String raceName, int raceYear);
 }
