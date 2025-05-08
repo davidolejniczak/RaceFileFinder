@@ -19,7 +19,7 @@ public class RaceService {
         return raceRepository.findByRaceName(raceName);
     }
 
-    public List<Race> getRaceNameDate(String raceName, int raceDate) {
-        return raceRepository.findByRaceNameAndDate(raceName, raceDate);
+    public List<Race> getRaceNameDate(String raceName, int raceYear) {
+        return raceRepository.findByRaceNameAndDate(raceName, raceYear);
     }
 }

@@ -27,8 +27,8 @@ public class RaceController {
     }
 
     @GetMapping("/all/date")
-    public List<Race> getRaceDate(@RequestParam String raceName, @RequestParam int raceDate) {
-        return raceService.getRaceNameDate(raceName, raceDate);
+    public List<Race> getRaceDate(@RequestParam String raceName, @RequestParam int raceYear) {
+        return raceService.getRaceNameDate(raceName, raceYear);
     }
 
 }

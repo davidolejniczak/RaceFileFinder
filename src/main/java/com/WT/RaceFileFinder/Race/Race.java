@@ -7,21 +7,34 @@ import jakarta.persistence.*;
 public class Race {
 
     @Id
-    @Column(name = "raceId", unique = true)
+    @Column(name = "raceid", unique = true)
     private String raceId;
+    @Column(name = "racename")
     private String raceName;
-    private String raceDate;
+    @Column(name = "raceyear")
+    private String raceYear;
+    @Column(name = "racelocation")
     private String raceLocation;
+    @Column(name = "racelevel")
     private String raceLevel;
 
     protected Race() {
     }
 
-    public Race(String raceName, String raceDate, String raceLocation, String raceLevel) {
+    public Race(String raceId, String raceName, String raceYear, String raceLocation, String raceLevel) {
+        this.raceId = raceId;
         this.raceName = raceName;
-        this.raceDate = raceDate;
+        this.raceYear = raceYear;
         this.raceLocation = raceLocation;
         this.raceLevel = raceLevel;
+    }
+
+    public String getRaceId() {
+        return raceId;
+    }
+
+    public void setRaceId(String raceId) {
+        this.raceId = raceId;
     }
 
     public String getRaceName() {
@@ -32,12 +45,12 @@ public class Race {
         this.raceName = raceName;
     }
 
-    public String getRaceDate() {
-        return raceDate;
+    public String getraceYear() {
+        return raceYear;
     }
 
-    public void setRaceDate(String raceDate) {
-        this.raceDate = raceDate;
+    public void setraceYear(String raceYear) {
+        this.raceYear = raceYear;
     }
 
     public String getRaceLocation() {
