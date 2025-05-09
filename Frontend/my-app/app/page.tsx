@@ -12,6 +12,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+interface Race {
+  raceId: string;
+  raceName: string;
+  raceYear: string;
+  raceLocation: string;
+  raceLevel: string;
+}
+
 interface RaceResult {
   id: string;
   position: number; 
@@ -47,13 +55,13 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/all?q=${encodeURIComponent(query)}`);
+      const response = await fetch(`http://localhost:8080/api/race/all?raceName=${encodeURIComponent(query)}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data: string[] = await response.json(); 
-      setSuggestions(data);
+      const data: Race[] = await response.json(); 
+      setSuggestions(data.map(race => race.raceName));
       setShowSuggestions(data.length > 0);
 
     } catch (e) {
@@ -73,14 +81,20 @@ export default function Home() {
     setShowSuggestions(false);
 
     try {
-      const response = await fetch(`http://localhost:8080/api/Race?race=${encodeURIComponent(raceName)}`);
+      const response = await fetch(`http://localhost:8080/api/race/all?raceName=${encodeURIComponent(raceName)}`);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const raceData: RaceResult[] = await response.json(); 
-      setRaceResults(raceData); 
+      const backendRaces: Race[] = await response.json(); 
+      const mappedRaceResults: RaceResult[] = backendRaces.map((race, index) => ({
+        id: race.raceId,
+        position: index + 1, // Using index as a placeholder for position
+        riderName: race.raceName, // Displaying raceName in the riderName column
+        stravaLink: "", // Placeholder as Race object doesn't have Strava link
+      }));
+      setRaceResults(mappedRaceResults); 
 
     } catch (e) {
       setRaceResults([]); 
@@ -168,7 +182,7 @@ export default function Home() {
     <TableHeader>
       <TableRow className="border-b border-gray-800 bg-gray-200">
         <TableHead className="border-r border-gray-300 whitespace-nowrap">Position</TableHead>
-        <TableHead className="border-r border-gray-300 whitespace-nowrap">Rider Name</TableHead>
+        <TableHead className="border-r border-gray-300 whitespace-nowrap">Race Name</TableHead>
         <TableHead className="text-right whitespace-nowrap">Strava Link</TableHead>
       </TableRow>
     </TableHeader>
