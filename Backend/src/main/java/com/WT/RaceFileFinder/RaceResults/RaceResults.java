@@ -3,7 +3,7 @@ package com.WT.RaceFile.Race_results;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "raceresults", unique = true)
+@Table(name = "raceresults")
 public class RaceResults {
 
     @Id
