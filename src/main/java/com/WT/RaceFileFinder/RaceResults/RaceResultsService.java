@@ -1,4 +1,4 @@
-package com.WT.RaceFile.Race_results;
+package com.WT.RaceFileFinder.RaceResults;
 
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
@@ -14,8 +14,8 @@ public class RaceResultsService {
         this.raceResultsRepository = raceResultsRepository;
     }
 
-    public List<RaceResults> getRaceResults(String raceName, String raceYear) {
-        return raceResultsRepository.findByRaceNameANDRaceYear(raceName, raceYear);
+    public List<RaceResults> getRaceResults(String racename) {
+        return raceResultsRepository.findByRaceName(racename);
     }
 
 }

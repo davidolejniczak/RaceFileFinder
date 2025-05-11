@@ -1,4 +1,4 @@
-package com.WT.RaceFile.Race_results;
+package com.WT.RaceFileFinder.RaceResults;
 
 import jakarta.persistence.*;
 

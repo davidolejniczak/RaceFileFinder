@@ -1,4 +1,4 @@
-package com.WT.RaceFile.Race_results;
+package com.WT.RaceFileFinder.RaceResults;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -21,9 +21,9 @@ public class RaceResultsController {
         this.raceResultsService = raceResultsService;
     }
 
-    @GetMapping("/")
-    public List<RaceResults> getRaceResults(@RequestParam String raceName, @RequestParam String raceYear) {
-        return raceResultsService.getRaceResults(raceName, raceYear);
+    @GetMapping("/r")
+    public List<RaceResults> getRaceResults(@RequestParam String racename) {
+        return raceResultsService.getRaceResults(racename);
     }
 
 }
