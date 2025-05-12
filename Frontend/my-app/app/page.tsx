@@ -21,10 +21,9 @@ interface Race {
 }
 
 interface RaceResult {
-  id: string;
-  position: number; 
-  riderName: string; 
-  stravaLink: string; 
+  riderPosition: string;
+  riderName: string;
+  riderStrava: string;
 }
 
 export default function Home() {
@@ -71,32 +70,29 @@ export default function Home() {
     }
   };
 
-  const triggerRaceSearch = async (raceName: string) => {
-    if (!raceName) return; 
+  const triggerRaceSearch = async (raceNameInput: string) => { 
 
-    setError(null); 
-    setRaceResults([]); 
-    setIsLoading(true); 
-    setSearchAttempted(true); 
+    setError(null);
+    setRaceResults([]);
+    setIsLoading(true);
+    setSearchAttempted(true);
     setShowSuggestions(false);
 
     try {
-      const response = await fetch(`http://localhost:8080/api/race/all?raceName=${encodeURIComponent(raceName)}`);
+      const response = await fetch(`http://localhost:8080/api/raceresults/r?racename=${encodeURIComponent(raceNameInput)}`);
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        let errorText = `HTTP error! status: ${response.status}`;
+        throw new Error(errorText);
       }
 
-      const backendRaces: Race[] = await response.json(); 
-      const mappedRaceResults: RaceResult[] = backendRaces.map((race, index) => ({
-        id: race.raceId,
-        position: index + 1, // Using index as a placeholder for position
-        riderName: race.raceName, // Displaying raceName in the riderName column
-        stravaLink: "", // Placeholder as Race object doesn't have Strava link
-      }));
-      setRaceResults(mappedRaceResults); 
+      const backendRaceResults: RaceResult[] = await response.json();
+      console.log("Received race results from backend:", backendRaceResults); 
+      setRaceResults(backendRaceResults);
 
-    } catch (e) {
+    } catch (e: any) {
+      console.error("Failed to fetch race results:", e);
+      setError(e.message || "Failed to fetch race results. Check console for details.");
       setRaceResults([]); 
     } finally {
       setIsLoading(false); 
@@ -130,6 +126,9 @@ export default function Home() {
       triggerRaceSearch(searchTarget);
     }
   };
+
+  // Only include results with valid riderPosition to avoid null entries
+  const validResults = raceResults.filter((r): r is RaceResult => r?.riderPosition != null && r?.riderName != null && r?.riderStrava != null);
 
   return (
     <div className="home-root">
@@ -182,19 +181,19 @@ export default function Home() {
     <TableHeader>
       <TableRow className="border-b border-gray-800 bg-gray-200">
         <TableHead className="border-r border-gray-300 whitespace-nowrap">Position</TableHead>
-        <TableHead className="border-r border-gray-300 whitespace-nowrap">Race Name</TableHead>
+        <TableHead className="border-r border-gray-300 whitespace-nowrap">Rider Name</TableHead>
         <TableHead className="text-right whitespace-nowrap">Strava Link</TableHead>
       </TableRow>
     </TableHeader>
     <TableBody>
-      {!isLoading && raceResults.length > 0 ? (
-        raceResults.map((result) => (
-          <TableRow key={result.id}>
-            <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.position}</TableCell>
+      {!isLoading && validResults.length > 0 ? (
+        validResults.map((result) => ( 
+          <TableRow key={`${result.raceId}-${result.riderName}`}>
+            <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderPosition}</TableCell>
             <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderName}</TableCell>
             <TableCell className="text-right whitespace-nowrap">
               <a
-                href={result.stravaLink}
+                href={result.riderStrava}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
