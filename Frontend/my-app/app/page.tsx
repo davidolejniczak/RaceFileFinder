@@ -21,6 +21,9 @@ interface Race {
 }
 
 interface RaceResult {
+  raceid: string;
+  racename: string;
+  raceyear: string;
   riderPosition: string;
   riderName: string;
   riderStrava: string;
@@ -188,7 +191,7 @@ export default function Home() {
     <TableBody>
       {!isLoading && validResults.length > 0 ? (
         validResults.map((result) => ( 
-          <TableRow key={`${result.raceId}-${result.riderName}`}>
+          <TableRow key={`${result.raceid}-${result.riderName}`}>
             <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderPosition}</TableCell>
             <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderName}</TableCell>
             <TableCell className="text-right whitespace-nowrap">
