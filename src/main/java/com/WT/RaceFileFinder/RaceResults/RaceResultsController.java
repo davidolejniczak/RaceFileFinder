@@ -23,7 +23,10 @@ public class RaceResultsController {
 
     @GetMapping("/r")
     public List<RaceResults> getRaceResults(@RequestParam String racename) {
-        return raceResultsService.getRaceResults(racename);
+        System.out.println("Searching for race name: " + racename);
+        List<RaceResults> results = raceResultsService.getRaceResults(racename);
+        System.out.println("Found " + results.size() + " results");
+        return results;
     }
 
 }
