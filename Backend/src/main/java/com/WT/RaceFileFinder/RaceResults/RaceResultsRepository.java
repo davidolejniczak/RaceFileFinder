@@ -12,10 +12,7 @@ import java.util.List;
 public interface RaceResultsRepository
         extends JpaRepository<RaceResults, String>, PagingAndSortingRepository<RaceResults, String> {
 
-    // @Query(value = "SELECT raceid, racename, raceyear, riderposition, ridername,
-    // riderstrava, riderteam FROM raceresults WHERE unaccent(racename) ILIKE
-    // unaccent(CONCAT('%', :raceName, '%'))", nativeQuery = true)
-    @Query(value = "SELECT raceid, racename, raceyear, riderposition, ridername,riderstrava, riderteam FROM raceresults WHERE REPLACE(LOWER(unaccent(racename)),' ','') = REPLACE(LOWER(unaccent(:raceName)),' ','')", nativeQuery = true)
+    @Query(value = "SELECT * FROM raceresults WHERE unaccent(racename) ILIKE unaccent(:raceName)", nativeQuery = true)
     List<RaceResults> findByRaceName(String raceName);
 
 }

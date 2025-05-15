@@ -90,9 +90,25 @@ export default function Home() {
         throw new Error(errorText);
       }
 
-      const backendRaceResults: RaceResult[] = await response.json();
+      const data = await response.json();
+      console.log("Raw response data:", data);
+      const backendRaceResults = Array.isArray(data) ? data : [];
       console.log("Received race results from backend:", backendRaceResults); 
-      setRaceResults(backendRaceResults);
+      
+      const validatedResults = backendRaceResults.filter(result => {
+        const isValid = result && 
+                       typeof result === 'object' &&
+                       'riderPosition' in result &&
+                       'riderName' in result &&
+                       'riderStrava' in result;
+        if (!isValid) {
+          console.warn('Invalid result object:', result);
+        }
+        return isValid;
+      });
+      
+      console.log("Validated results:", validatedResults);
+      setRaceResults(validatedResults);
 
     } catch (e: any) {
       console.error("Failed to fetch race results:", e);
@@ -131,8 +147,18 @@ export default function Home() {
     }
   };
 
-  // Only include results with valid riderPosition to avoid null entries
-  const validResults = raceResults.filter((r): r is RaceResult => r?.riderPosition != null && r?.riderName != null && r?.riderStrava != null);
+  // Only include results with valid required fields
+  const validResults = raceResults.filter((r): r is RaceResult => {
+    console.log("Checking result:", r);
+    return r && 
+           typeof r === 'object' && 
+           r.riderPosition !== null && 
+           r.riderPosition !== undefined &&
+           r.riderName !== null && 
+           r.riderName !== undefined &&
+           r.riderStrava !== null && 
+           r.riderStrava !== undefined;
+  });
 
   return (
     <div className="home-root">
