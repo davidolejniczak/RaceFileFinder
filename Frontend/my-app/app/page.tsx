@@ -21,13 +21,10 @@ interface Race {
 }
 
 interface RaceResult {
-  raceId: string;
   raceName: string;
-  raceYear: string;
   riderPosition: string;
   riderName: string;
   riderStrava: string;
-  riderteam: string;
 }
 
 export default function Home() {
