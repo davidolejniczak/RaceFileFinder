@@ -107,7 +107,6 @@
   opacity: 1;
 }
 
-/* Custom scrollbar styling */
 .results-table-container {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
@@ -137,7 +136,6 @@
   background-clip: content-box;
 }
 
-/* Ensure table corners don't get chopped off */
 .results-table-container {
   padding-right: 4px;
   padding-bottom: 4px;
