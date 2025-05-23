@@ -113,7 +113,7 @@
 }
 
 .results-table-container::-webkit-scrollbar {
-  width: 8px;
+  width: 12px;
   height: 8px;
 }
 
@@ -126,13 +126,13 @@
 .results-table-container::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   background-clip: content-box;
 }
 
 .results-table-container::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.4);
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   background-clip: content-box;
 }
 

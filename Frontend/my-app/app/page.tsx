@@ -172,52 +172,54 @@ export default function Home() {
       </div>
 
 {/* Race Results Table */}
-<div className="results-table-container flex-[2] max-w-full mt-0 max-h-[calc(100vh-4rem)] overflow-y-auto rounded-lg border border-gray-500 shadow-sm">
-  <Table className="table-auto w-full bg-gray-50">
-    <TableHeader>
-      <TableRow className="border-b border-gray-800 bg-gray-200">
-        <TableHead className="border-r border-gray-300 whitespace-nowrap">Position</TableHead>
-        <TableHead className="border-r border-gray-300 whitespace-nowrap">Rider Name</TableHead>
-        <TableHead className="text-right whitespace-nowrap">Strava Link</TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      {!isLoading && raceResults.length > 0 ? (
-        raceResults.map((result, index) => ( 
-          <TableRow key={`${index}-${result.riderName || 'unknown'}`}>
-            <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderPosition || 'N/A'}</TableCell>
-            <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderName || 'Unknown'}</TableCell>
-            <TableCell className="text-right whitespace-nowrap">
-              {result.riderStrava ? (
-                <a
-                  href={result.riderStrava}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  View on Strava
-                </a>
-              ) : (
-                <span className="text-gray-400">No link available</span>
-              )}
+<div className="results-table-container flex-[2] max-w-full mt-0 max-h-[calc(100vh-4rem)] overflow-y-auto rounded-lg border border-gray-500 shadow-sm" style={{ paddingRight: 0, paddingBottom: 0 }}>
+  <div data-slot="table-container" className="relative w-full overflow-x-auto">
+    <Table className="table-auto w-full bg-gray-50">
+      <TableHeader>
+        <TableRow className="border-b border-gray-800 bg-gray-200">
+          <TableHead className="border-r border-gray-300 whitespace-nowrap w-24 text-center">Position</TableHead>
+          <TableHead className="border-r border-gray-300 text-left">Rider Name</TableHead>
+          <TableHead className="text-right whitespace-nowrap w-36 text-left">Strava Link</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {!isLoading && raceResults.length > 0 ? (
+          raceResults.map((result, index) => ( 
+            <TableRow key={`${index}-${result.riderName || 'unknown'}`}>
+              <TableCell className="border-r border-gray-200 whitespace-nowrap text-center">{result.riderPosition || 'N/A'}</TableCell>
+              <TableCell className="border-r border-gray-200 break-words ">{result.riderName || 'Unknown'}</TableCell>
+              <TableCell className="text-right whitespace-nowrap">
+                {result.riderStrava ? (
+                  <a
+                    href={result.riderStrava}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    View on Strava
+                  </a>
+                ) : (
+                  <span className="text-gray-400">No link available</span>
+                )}
+              </TableCell>
+            </TableRow>
+          ))
+        ) : isLoading ? (
+          <TableRow>
+            <TableCell colSpan={3} className="text-center h-24">
+              Loading...
             </TableCell>
           </TableRow>
-        ))
-      ) : isLoading ? (
-        <TableRow>
-          <TableCell colSpan={3} className="text-center h-24">
-            Loading...
-          </TableCell>
-        </TableRow>
-      ) : searchAttempted ? (
-        <TableRow>
-          <TableCell colSpan={3} className="text-center h-24">
-            No results found.
-          </TableCell>
-        </TableRow>
-      ) : null}
-    </TableBody>
-  </Table>
+        ) : searchAttempted ? (
+          <TableRow>
+            <TableCell colSpan={3} className="text-center h-24">
+              No results found.
+            </TableCell>
+          </TableRow>
+        ) : null}
+      </TableBody>
+    </Table>
+  </div>
 </div>
     </div>
   );
