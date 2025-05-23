@@ -16,12 +16,12 @@ public class RaceResultsService {
         System.out.println("Service: Searching for race name: " + racename);
         List<RaceResults> results = raceResultsRepository.findByRaceName(racename);
         System.out.println("Service: Found " + results.size() + " results");
-        for (RaceResults result : results) {
-            System.out.println("Service: Result - RaceName: " + result.getRaceName() +
-                    ", RiderName: " + result.getRiderName() +
-                    ", Position: " + result.getRiderPosition() +
-                    ", Strava: " + result.getRiderStrava());
-        }
+    //    for (RaceResults result : results) {
+    //         System.out.println("Service: Result - RaceName: " + result.getRaceName() +
+    //                 ",  RiderName: " + result.getRiderName() +
+    //                 ", Position: " + result.getRiderPosition() +
+    //                 ", Strava: " + result.getRiderStrava());
+    //     }
         return results;
     }
 
