@@ -4,15 +4,21 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "raceresults")
+@IdClass(RaceResultsId.class)
 public class RaceResults {
 
+    @Id
     @Column(name = "racename")
     private String raceName;
+    
+    @Id
     @Column(name = "riderposition")
     private String riderPosition;
+    
     @Id
-    @Column(name = "ridername", unique = true)
+    @Column(name = "ridername")
     private String riderName;
+    
     @Column(name = "riderstrava")
     private String riderStrava;
 
