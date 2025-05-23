@@ -1,8 +1,6 @@
 package com.WT.RaceFileFinder.RaceResults;
 
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Sort;
 import java.util.List;
 
 @Service
@@ -18,7 +16,6 @@ public class RaceResultsService {
         System.out.println("Service: Searching for race name: " + racename);
         List<RaceResults> results = raceResultsRepository.findByRaceName(racename);
         System.out.println("Service: Found " + results.size() + " results");
-        results.removeIf(result -> result == null);
         for (RaceResults result : results) {
             System.out.println("Service: Result - RaceName: " + result.getRaceName() +
                     ", RiderName: " + result.getRiderName() +

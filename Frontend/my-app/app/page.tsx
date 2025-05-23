@@ -88,28 +88,10 @@ export default function Home() {
       }
 
       const data = await response.json();
-      console.log("Raw response data:", data);
       const backendRaceResults = Array.isArray(data) ? data : [];
-      console.log("Received race results from backend:", backendRaceResults); 
-      
-      const validatedResults = backendRaceResults.filter(result => {
-        const isValid = result && 
-                       typeof result === 'object' &&
-                       'riderPosition' in result &&
-                       'riderName' in result &&
-                       'riderStrava' in result;
-        if (!isValid) {
-          console.warn('Invalid result object:', result);
-        }
-        return isValid;
-      });
-      
-      console.log("Validated results:", validatedResults);
-      setRaceResults(validatedResults);
+      setRaceResults(backendRaceResults);
 
     } catch (e: any) {
-      console.error("Failed to fetch race results:", e);
-      setError(e.message || "Failed to fetch race results. Check console for details.");
       setRaceResults([]); 
     } finally {
       setIsLoading(false); 
@@ -143,19 +125,6 @@ export default function Home() {
       triggerRaceSearch(searchTarget);
     }
   };
-
-  // Only include results with valid required fields
-  const validResults = raceResults.filter((r): r is RaceResult => {
-    console.log("Checking result:", r);
-    return r && 
-           typeof r === 'object' && 
-           r.riderPosition !== null && 
-           r.riderPosition !== undefined &&
-           r.riderName !== null && 
-           r.riderName !== undefined &&
-           r.riderStrava !== null && 
-           r.riderStrava !== undefined;
-  });
 
   return (
     <div className="home-root">
@@ -213,20 +182,24 @@ export default function Home() {
       </TableRow>
     </TableHeader>
     <TableBody>
-      {!isLoading && validResults.length > 0 ? (
-        validResults.map((result) => ( 
-          <TableRow key={`${result.raceId}-${result.riderName}`}>
-            <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderPosition}</TableCell>
-            <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderName}</TableCell>
+      {!isLoading && raceResults.length > 0 ? (
+        raceResults.map((result, index) => ( 
+          <TableRow key={`${index}-${result.riderName || 'unknown'}`}>
+            <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderPosition || 'N/A'}</TableCell>
+            <TableCell className="border-r border-gray-200 whitespace-nowrap">{result.riderName || 'Unknown'}</TableCell>
             <TableCell className="text-right whitespace-nowrap">
-              <a
-                href={result.riderStrava}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
-              >
-                View on Strava
-              </a>
+              {result.riderStrava ? (
+                <a
+                  href={result.riderStrava}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  View on Strava
+                </a>
+              ) : (
+                <span className="text-gray-400">No link available</span>
+              )}
             </TableCell>
           </TableRow>
         ))

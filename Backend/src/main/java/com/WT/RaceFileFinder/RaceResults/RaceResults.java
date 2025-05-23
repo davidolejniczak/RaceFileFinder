@@ -6,42 +6,26 @@ import jakarta.persistence.*;
 @Table(name = "raceresults")
 public class RaceResults {
 
-    @Id
-    @Column(name = "raceid", unique = true)
-    private String raceId;
     @Column(name = "racename")
     private String raceName;
-    @Column(name = "raceyear")
-    private String raceYear;
     @Column(name = "riderposition")
     private String riderPosition;
-    @Column(name = "ridername")
+    @Id
+    @Column(name = "ridername", unique = true)
     private String riderName;
     @Column(name = "riderstrava")
     private String riderStrava;
-    @Column(name = "riderteam")
-    private String riderTeam;
+
 
     protected RaceResults() {
     }
 
-    public RaceResults(String raceId, String raceName, String raceYear, String riderPosition, String riderName,
-            String riderStrava, String riderTeam) {
-        this.raceId = raceId;
+    public RaceResults(String raceName, String riderPosition, String riderName,
+            String riderStrava) {
         this.raceName = raceName;
-        this.raceYear = raceYear;
         this.riderPosition = riderPosition;
         this.riderName = riderName;
         this.riderStrava = riderStrava;
-        this.riderTeam = riderTeam;
-    }
-
-    public String getRaceId() {
-        return raceId;
-    }
-
-    public void setRaceId(String raceId) {
-        this.raceId = raceId;
     }
 
     public String getRaceName() {
@@ -50,14 +34,6 @@ public class RaceResults {
 
     public void setRaceName(String raceName) {
         this.raceName = raceName;
-    }
-
-    public String getRaceYear() {
-        return raceYear;
-    }
-
-    public void setRaceYear(String raceYear) {
-        this.raceYear = raceYear;
     }
 
     public String getRiderPosition() {
@@ -82,14 +58,6 @@ public class RaceResults {
 
     public void setRiderStrava(String riderStrava) {
         this.riderStrava = riderStrava;
-    }
-
-    public String getRiderTeam() {
-        return riderTeam;
-    }
-
-    public void setRiderTeam(String riderTeam) {
-        this.riderTeam = riderTeam;
     }
 
 }
