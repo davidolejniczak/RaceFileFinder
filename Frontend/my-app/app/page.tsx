@@ -194,12 +194,12 @@ export default function Home() {
                     href={result.riderStrava}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline"
+                    className="text-blue-600 hover:underline text-left"
                   >
                     View on Strava
                   </a>
                 ) : (
-                  <span className="text-gray-400">No link available</span>
+                  <span className="text-gray-400 text-left">No link available</span>
                 )}
               </TableCell>
             </TableRow>
