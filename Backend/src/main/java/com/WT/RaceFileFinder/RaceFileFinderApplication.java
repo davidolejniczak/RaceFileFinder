@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RaceFileFinderApplication {
 
-	@RequestMapping("/")
-	String home() {
-		return "Backend APIs";
-	}
-
 	public static void main(String[] args) {
 		Dotenv dotenv = Dotenv.configure().directory("./").ignoreIfMissing().load();
 		System.setProperty("spring.datasource.username", dotenv.get("DB_USER"));

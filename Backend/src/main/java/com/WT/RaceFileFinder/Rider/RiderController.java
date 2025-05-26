@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/rider")
-@CrossOrigin(origins = "http://localhost:3000")
 public class RiderController {
 
     private final RiderService riderService;
