@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/race")
-@CrossOrigin(origins = "http://localhost:3000")
 public class RaceController {
 
     private final RaceService raceService;

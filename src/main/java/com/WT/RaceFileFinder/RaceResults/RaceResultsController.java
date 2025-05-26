@@ -7,7 +7,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/raceresults")
-@CrossOrigin(origins = "http://localhost:3000")
 public class RaceResultsController {
 
     private final RaceResultsService raceResultsService;
