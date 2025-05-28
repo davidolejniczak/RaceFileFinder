@@ -128,6 +128,9 @@ export default function Home() {
 
   return (
     <div className="home-root">
+      <div className="header-bar">
+        Search for any Men's World Tour race in 2025 to see strava links of all the riders who raced
+      </div>
       <div className="home-form-row">
         <label className="home-label" htmlFor="rider-strava">
           Enter WorldTour Race Name:
