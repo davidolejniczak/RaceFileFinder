@@ -13,20 +13,14 @@ public class Race {
     private String raceName;
     @Column(name = "raceyear")
     private String raceYear;
-    @Column(name = "racelocation")
-    private String raceLocation;
-    @Column(name = "racelevel")
-    private String raceLevel;
 
     protected Race() {
     }
 
-    public Race(String raceId, String raceName, String raceYear, String raceLocation, String raceLevel) {
+    public Race(String raceId, String raceName, String raceYear) {
         this.raceId = raceId;
         this.raceName = raceName;
         this.raceYear = raceYear;
-        this.raceLocation = raceLocation;
-        this.raceLevel = raceLevel;
     }
 
     public String getRaceId() {
@@ -51,22 +45,6 @@ public class Race {
 
     public void setraceYear(String raceYear) {
         this.raceYear = raceYear;
-    }
-
-    public String getRaceLocation() {
-        return raceLocation;
-    }
-
-    public void setRaceLocation(String raceLocation) {
-        this.raceLocation = raceLocation;
-    }
-
-    public String getRaceLevel() {
-        return raceLevel;
-    }
-
-    public void setRaceLevel(String raceLevel) {
-        this.raceLevel = raceLevel;
     }
 
 }

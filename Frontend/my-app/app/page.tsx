@@ -16,8 +16,6 @@ interface Race {
   raceId: string;
   raceName: string;
   raceYear: string;
-  raceLocation: string;
-  raceLevel: string;
 }
 
 interface RaceResult {
