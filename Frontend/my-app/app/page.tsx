@@ -33,6 +33,7 @@ export default function Home() {
   const [raceResults, setRaceResults] = useState<RaceResult[]>([]); 
   const [isLoading, setIsLoading] = useState(false);
   const [searchAttempted, setSearchAttempted] = useState(false); 
+  const [searchedRaceName, setSearchedRaceName] = useState(""); // Added state for searched race name
 
   const debounce = (func: Function, delay: number) => {
     let timeoutId: NodeJS.Timeout;
@@ -76,6 +77,7 @@ export default function Home() {
     setIsLoading(true);
     setSearchAttempted(true);
     setShowSuggestions(false);
+    setSearchedRaceName(raceNameInput); // Set the searched race name
 
     try {
       const response = await fetch(`http://localhost:8080/api/raceresults/r?racename=${encodeURIComponent(raceNameInput)}`);
@@ -130,6 +132,15 @@ export default function Home() {
         Search for any Men's World Tour race in 2025 to see strava links of all the riders who raced
       </div>
       <div className="home-form-row">
+        {searchAttempted && searchedRaceName && (
+          <div className="logo-box">
+            <img 
+              src={`/logos/${searchedRaceName.toLowerCase().replace(/\s+/g, '-')}.png`} 
+              alt={`${searchedRaceName} Logo`} 
+              onError={(e) => (e.currentTarget.style.display = 'none')} 
+            />
+          </div>
+        )}
         <label className="home-label" htmlFor="rider-strava">
           Enter WorldTour Race Name:
         </label>
