@@ -42,21 +42,6 @@ public class RiderController {
         }
     }
 
-    @GetMapping("/all")
-    public List<String> getAllRiders(@RequestParam(required = false) String q) {
-        List<Rider> riders;
-        if (q != null && !q.isEmpty()) {
-            riders = riderService.getByNameContaining(q);
-        } else {
-            riders = riderService.getAllRiders();
-        }
-        return riders.stream().map(Rider::getRiderName).collect(Collectors.toList());
-    }
 
-    @PutMapping("/save")
-    public ResponseEntity<String> saveRider(@RequestBody Rider rider) {
-        riderService.saveRider(rider);
-        return ResponseEntity.ok("Rider Info Saved");
-    }
 
 }
