@@ -18,4 +18,9 @@ public class RaceFileFinderApplication {
 		SpringApplication.run(RaceFileFinderApplication.class, args);
 	}
 
+	@GetMapping("/")
+	public String home() {
+		return "cyclingfilefinder api";
+	}
+
 }
