@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class RaceFileFinderApplication {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.configure().directory("./").ignoreIfMissing().load();
-		System.setProperty("spring.datasource.username", dotenv.get("DB_USER"));
-		System.setProperty("spring.datasource.password", dotenv.get("DB_PASS"));
 
 		SpringApplication.run(RaceFileFinderApplication.class, args);
 	}
