@@ -54,7 +54,7 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/race/all?raceName=${encodeURIComponent(query)}`);
+      const response = await fetch(`https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/race/all?raceName=${encodeURIComponent(query)}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -80,7 +80,7 @@ export default function Home() {
     setSearchedRaceName(raceNameInput); // Set the searched race name
 
     try {
-      const response = await fetch(`http://localhost:8080/api/raceresults/r?racename=${encodeURIComponent(raceNameInput)}`);
+      const response = await fetch(`https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/raceresults/r?racename=${encodeURIComponent(raceNameInput)}`);
 
       if (!response.ok) {
         let errorText = `HTTP error! status: ${response.status}`;
