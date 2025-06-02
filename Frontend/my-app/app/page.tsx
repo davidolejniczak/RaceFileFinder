@@ -184,7 +184,7 @@ export default function Home() {
       </div>
 
 {/* Race Results Table */}
-<div className="results-table-container flex-[2] max-w-full mt-0 max-h-[calc(100vh-4rem)] overflow-y-auto rounded-lg border border-gray-500 shadow-sm" style={{ paddingRight: 0, paddingBottom: 0 }}>
+<div className="results-table-container flex-1 min-h-0 max-h-[780px] max-w-full mt-0 overflow-y-auto rounded-lg border border-gray-500 shadow-sm" style={{ paddingRight: 0, paddingBottom: 0 }}>
   <div data-slot="table-container" className="relative w-full overflow-x-auto">
     <Table className="table-auto w-full bg-gray-50">
       <TableHeader>
@@ -225,7 +225,7 @@ export default function Home() {
         ) : searchAttempted ? (
           <TableRow>
             <TableCell colSpan={3} className="text-center h-24">
-              No results found.
+              Race has not occured yet
             </TableCell>
           </TableRow>
         ) : null}
