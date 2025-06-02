@@ -3,6 +3,11 @@
 Live Demo: https://cyclingfilefinder.vercel.app/  
 Backend API: https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/  
 
+## Example 
+- Type in `Milano-Sanermo` in the searh box and press Enter
+- The resutls table will appear with the results from the race 
+- Riders' strava account, if available, will appear as well
+
 ## Project Overview
 A full-stack application enabling cyclists to quickly fetch Strava activity URLs for riders in any UCI Men'sWorldTour race from this season (2025)  
 - **Frontend:** React (Next.js), TypeScript, TailwindCSS  
