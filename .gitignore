@@ -1,5 +1,3 @@
-commands.txt
-
 Frontend/my-app/node_modules/
 Frontend/my-app/.next/
 Frontend/my-app/out/
@@ -21,3 +19,6 @@ Frontend/my-app/coverage/
 
 .DS_Store
 Thumbs.db
+
+.vscode
+node_modules/
