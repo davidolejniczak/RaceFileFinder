@@ -32,7 +32,8 @@ export default function Home() {
   const [raceResults, setRaceResults] = useState<RaceResult[]>([]); 
   const [isLoading, setIsLoading] = useState(false);
   const [searchAttempted, setSearchAttempted] = useState(false); 
-  const [searchedRaceName, setSearchedRaceName] = useState(""); 
+  const [searchedRaceName, setSearchedRaceName] = useState("");
+  const [noResultsFound, setNoResultsFound] = useState(false); 
 
   const debounce = (func: Function, delay: number) => {
     let timeoutId: NodeJS.Timeout;
@@ -76,7 +77,8 @@ export default function Home() {
     setIsLoading(true);
     setSearchAttempted(true);
     setShowSuggestions(false);
-    setSearchedRaceName(raceNameInput); 
+    setSearchedRaceName(raceNameInput);
+    setNoResultsFound(false);
 
     try {
       const response = await fetch(`https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/raceresults/r?racename=${encodeURIComponent(raceNameInput)}`);
@@ -89,9 +91,15 @@ export default function Home() {
       const data = await response.json();
       const backendRaceResults = Array.isArray(data) ? data : [];
       setRaceResults(backendRaceResults);
+      
+      // Set noResultsFound if we got a successful response but no results
+      if (backendRaceResults.length === 0) {
+        setNoResultsFound(true);
+      }
 
     } catch (e: any) {
-      setRaceResults([]); 
+      setRaceResults([]);
+      setNoResultsFound(true);
     } finally {
       setIsLoading(false); 
     }
@@ -128,101 +136,120 @@ export default function Home() {
   return (
     <div className="home-root">
       <div className="header-bar">
-        Search for any Men's World Tour race in 2025 to see strava links of all the riders who raced
+        Search for any Men's World Tour race in 2025 to see strava profiles of all the riders who raced!
       </div>
-      <div className="home-form-row">
-        <label className="home-label" htmlFor="rider-strava">
-          Enter WorldTour Race Name:
-        </label>
-        <div className="input-wrapper">
-          <div className="autocomplete-container"> 
-            <input
-              id="rider-strava"
-              type="text"
-              placeholder="Race Name"
-              className="home-input"
-              value={inputValue}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown} 
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 150)} 
-              autoComplete="off" 
-            />
-            <button
-              className="search-button"
-              onClick={() => triggerRaceSearch(inputValue)}
-              aria-label="Search"
-              disabled={isLoading}
-            />
-            {showSuggestions && suggestions.length > 0 && (
-              <ul className="suggestions-list">
-                {suggestions.map((suggestion, index) => (
-                  <li
-                    key={index}
-                    onMouseDown={() => handleSuggestionClick(suggestion)} 
-                    className="suggestion-item"
-                  >
-                    {suggestion}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <div className="error-message">
-            {error ? error : "\u00A0"}
+      {/* New wrapper for search and table */}
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem', width: '100%' }}>
+        <div className="home-form-row">
+          <label className="home-label" htmlFor="rider-strava">
+            Enter WorldTour Race Name:
+          </label>
+          <div className="input-wrapper">
+            <div className="autocomplete-container"> 
+              <input
+                id="rider-strava"
+                type="text"
+                placeholder="Race Name"
+                className="home-input"
+                value={inputValue}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown} 
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)} 
+                autoComplete="off" 
+              />
+              <button
+                className="search-button"
+                onClick={() => triggerRaceSearch(inputValue)}
+                aria-label="Search"
+                disabled={isLoading}
+              />
+              {showSuggestions && suggestions.length > 0 && (
+                <ul className="suggestions-list">
+                  {suggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      onMouseDown={() => handleSuggestionClick(suggestion)} 
+                      className="suggestion-item"
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div className="error-message">
+              {error ? error : "\u00A0"}
+            </div>
           </div>
         </div>
-      </div>
 
-{/* Race Results Table */}
-<div className="results-table-container flex-1 min-h-0 max-h-[780px] max-w-full mt-0 overflow-y-auto rounded-lg border border-gray-500 shadow-sm" style={{ paddingRight: 0, paddingBottom: 0 }}>
-  <div data-slot="table-container" className="relative w-full overflow-x-auto">
-    <Table className="table-auto w-full bg-gray-50">
-      <TableHeader>
-        <TableRow className="border-b border-gray-800 bg-gray-200">
-          <TableHead className="border-r border-gray-300 whitespace-nowrap w-24 text-center">Position</TableHead>
-          <TableHead className="border-r border-gray-300 text-left">Rider Name</TableHead>
-          <TableHead className="text-right whitespace-nowrap w-36 text-left">Strava Link</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {!isLoading && raceResults.length > 0 ? (
-          raceResults.map((result, index) => ( 
-            <TableRow key={`${index}-${result.riderName || 'unknown'}`}>
-              <TableCell className="border-r border-gray-200 whitespace-nowrap text-center">{result.riderPosition || 'N/A'}</TableCell>
-              <TableCell className="border-r border-gray-200 break-words ">{result.riderName || 'Unknown'}</TableCell>
-              <TableCell className="text-right whitespace-nowrap">
-                {result.riderStrava ? (
-                  <a
-                    href={result.riderStrava}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline text-left"
-                  >
-                    View on Strava
-                  </a>
+        {/* Race Results Table */}
+        <div className="results-table-container">
+          <div data-slot="table-container" className="relative w-full overflow-x-auto">
+            <Table className="table-auto w-full bg-gray-50">
+              <TableHeader>
+                <TableRow className="border-b border-gray-800 bg-gray-200">
+                  <TableHead className="border-r border-gray-300 whitespace-nowrap w-24 text-center">Position</TableHead>
+                  <TableHead className="border-r border-gray-300 text-left">Rider Name</TableHead>
+                  <TableHead className="text-right whitespace-nowrap w-36 text-left">Strava Link</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {!isLoading && raceResults.length > 0 ? (
+                  raceResults.map((result, index) => ( 
+                    <TableRow key={`${index}-${result.riderName || 'unknown'}`}>
+                      <TableCell className="border-r border-gray-200 whitespace-nowrap text-center">{result.riderPosition || 'N/A'}</TableCell>
+                      <TableCell className="border-r border-gray-200 break-words ">{result.riderName || 'Unknown'}</TableCell>
+                      <TableCell className="text-right whitespace-nowrap">
+                        {result.riderStrava ? (
+                          <a
+                            href={result.riderStrava}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline text-left"
+                          >
+                            View on Strava
+                          </a>
+                        ) : (
+                          <span className="text-gray-400 text-left">No link available</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={3} className="text-center h-24">
+                      Loading...
+                    </TableCell>
+                  </TableRow>
+                ) : searchAttempted && noResultsFound ? (
+                  // Show enhanced no results message when search was attempted and no results found
+                  <TableRow className="no-results-row">
+                    <TableCell colSpan={3} className="no-results-cell">
+                      This race has not occurred yet or results are not available
+                    </TableCell>
+                  </TableRow>
                 ) : (
-                  <span className="text-gray-400 text-left">No link available</span>
+                  // Show empty rows for initial state
+                  Array.from({ length: 20 }, (_, index) => (
+                    <TableRow key={`empty-${index}`}>
+                      <TableCell className="border-r border-gray-200 whitespace-nowrap text-center">
+                        {"\u00A0"}
+                      </TableCell>
+                      <TableCell className="border-r border-gray-200">
+                        {"\u00A0"}
+                      </TableCell>
+                      <TableCell className="text-right whitespace-nowrap">
+                        {"\u00A0"}
+                      </TableCell>
+                    </TableRow>
+                  ))
                 )}
-              </TableCell>
-            </TableRow>
-          ))
-        ) : isLoading ? (
-          <TableRow>
-            <TableCell colSpan={3} className="text-center h-24">
-              Loading...
-            </TableCell>
-          </TableRow>
-        ) : searchAttempted ? (
-          <TableRow>
-            <TableCell colSpan={3} className="text-center h-24">
-              Race has not occured yet
-            </TableCell>
-          </TableRow>
-        ) : null}
-      </TableBody>
-    </Table>
-  </div>
-</div>
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      </div> {/* End of new wrapper */}
     </div>
   );
 }
