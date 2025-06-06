@@ -14,15 +14,15 @@ A full-stack application enabling cyclists to quickly fetch Strava activity URLs
 - **Backend:** Spring Boot, Java, PostgreSQL  
 - **Hosting:** Vercel (frontend), Heroku (backend), Heroku Postgres  
 
-## Key Features
+## Key 
+- **Java Spring Boot Backend**
+  Efficient, quick and reliable backend service and logic. 
 - **Autocomplete Search**  
   Instant suggestions as you type any race name (case- and accent-insensitive).
 - **Race Results Table**  
-  Displays finishing positions, rider names, and direct Strava links.
+  Displays finishing positions, rider names, and Strava rider links.
 - **Error Handling & UX**  
-  Graceful loading states, no-results feedback, and inline error messages.
-- **Responsive Design**  
-  Mobile-friendly layout with fixed header and scrollable results.
+  Graceful loading states, error messages for bad searches, pleasent UI.
 
 ## How It Works
 1. User types a race name → frontend calls `/api/race/all` → Spring Boot queries `races` table via `ILIKE unaccent(...)`.  
@@ -32,8 +32,7 @@ A full-stack application enabling cyclists to quickly fetch Strava activity URLs
 ## Future Improvements
 - **Race Results links updating** Allow users to update Strava links for a rider 
 - **New Features** for large result sets and to have various search criteria 
-- **Authentication** for saving favorit races and riders
-- **Server-side rendering** for SEO on landing pages
+- **Authentication** for saving favourite races and riders
 
 
 
