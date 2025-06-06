@@ -5,7 +5,6 @@ import "./home.css";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
