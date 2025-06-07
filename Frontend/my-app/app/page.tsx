@@ -218,7 +218,7 @@ export default function Home() {
                   ))
                 ) : isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={3} className="text-center h-24">
+                    <TableCell colSpan={3} className="no-results-cell text-center h-24">
                       Loading...
                     </TableCell>
                   </TableRow>
