@@ -33,8 +33,4 @@ build/
 .vscode/
 .env
 
-entries.csv
-resultsparcingOnedayraces.py
-results.txt
-resultparsingStageRaces.py
-stageraces.csv
+data/
