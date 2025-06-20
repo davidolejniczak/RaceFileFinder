@@ -3,6 +3,9 @@
 Live Demo: https://cyclingfilefinder.vercel.app/  
 Backend API: https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/  
 
+The backend has a 30s start up time if not hot.
+(This explains the lack of immediate feedback when searching)
+
 ## Example 
 - Type in `Milano-Sanermo` in the searh box and press Enter
 - The resutls table will appear with the results from the race 
