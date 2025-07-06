@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
+import MainNav from "@/components/main-nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Strava Race File Finder",
-  description: "Strava File Finder for Pro WT Cycling Races",
+  title: "Pro Cyclist Strava Finder",
+  description: "Find Pro Cyclist (TDF) Strava Profiles and Accounts",
 };
 
 export default function RootLayout({
@@ -28,7 +29,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="home-root">
+          <div className="header-bar">
+            <MainNav />
+          </div>
+          {children}
+        </div>
       </body>
     </html>
   );
