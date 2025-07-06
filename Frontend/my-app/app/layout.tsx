@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "Find Pro Cyclist (TDF) Strava Profiles and Accounts",
 };
 
-export default function RootLayout({
+export default function RootLayorut({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -30,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="home-root">
-          <div className="header-bar">
+          <div className="header-bar w-full flex justify-start">
             <MainNav />
           </div>
           {children}
