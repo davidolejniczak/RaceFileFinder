@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-      <div className="flex flex-row gap-8 w-full p-8">
+      <div className="flex flex-row gap-8 w-full h-full p-8 overflow-auto">
         <div className="flex-1 bg-white rounded-2xl p-8 shadow-lg">
           <h1 className="text-3xl font-bold mb-4">Tour de France 2025</h1>
         

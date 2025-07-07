@@ -95,7 +95,7 @@ export default function RaceSearch() {
   return (
     <div className="home-form-row">
       <label className="home-label" htmlFor="rider-strava">
-        Enter Team Name:
+        Enter Rider Name:
       </label>
       <div className="input-wrapper">
         <div className="autocomplete-container">

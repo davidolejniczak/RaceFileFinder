@@ -27,13 +27,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen overflow-hidden`}
       >
-        <div className="home-root">
-          <div className="header-bar w-full flex justify-start">
+        <div className="home-root h-full flex flex-col">
+          <div className="header-bar w-full flex justify-start flex-shrink-0">
             <MainNav />
           </div>
-          {children}
+          <div className="flex-1 min-h-0 overflow-hidden">
+            {children}
+          </div>
         </div>
       </body>
     </html>

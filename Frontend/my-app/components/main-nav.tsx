@@ -8,7 +8,7 @@ import {
 
 export default function MainNav() {
   return (
-    <div className="w-full bg-gradient-to-r from-gray-50 to-white shadow-lg border-b border-gray-200/70">
+    <div className="sticky top-0 z-50 w-full bg-gradient-to-r from-gray-50 to-white shadow-lg border-b border-gray-200/70">
       <div className="container justify-start">
         <NavigationMenu className="w-full justify-start">
           <NavigationMenuList className="flex items-center justify-start h-16 space-x-2">

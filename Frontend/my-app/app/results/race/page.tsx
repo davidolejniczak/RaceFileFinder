@@ -9,18 +9,22 @@ function RaceResultsContent() {
   const query = searchParams.get('query');
 
   return (
-    <div className="p-8">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-4">
-          Race Results
-        </h1>
-        {query && (
-          <p className="text-muted-foreground">
-            Results for: <span className="font-semibold text-black-600">{query}</span>
-          </p>
-        )}
+    <div className="flex flex-col h-full">
+      <div className="flex-shrink-0 p-8 pb-4">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold mb-4">
+            Race Results
+          </h1>
+          {query && (
+            <p className="text-muted-foreground">
+              Results for: <span className="font-semibold text-black-600">{query}</span>
+            </p>
+          )}
+        </div>
       </div>
-      <RaceTable query={query} />
+      <div className="flex-1 px-8 pb-8 min-h-0">
+        <RaceTable query={query} />
+      </div>
     </div>
   );
 }

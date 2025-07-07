@@ -116,10 +116,10 @@ export default function TeamTable({ query }: TeamTableProps) {
   };
 
   return (
-    <div className="results-table-container">
-      <div data-slot="table-container" className="relative w-full overflow-x-auto">
-        <Table className="table-auto w-full bg-gray-50">
-          <TableHeader>
+    <div className="results-table-container h-full flex flex-col">
+      <div data-slot="table-container" className="relative w-full overflow-x-auto flex-1">
+        <Table className="table-auto w-full bg-gray-50 h-full">
+          <TableHeader className="sticky top-0 z-10">
             <TableRow className="border-b border-gray-800 bg-gray-200">
               <TableHead className="border-r border-gray-300 text-left">
                 Team Name
@@ -129,7 +129,7 @@ export default function TeamTable({ query }: TeamTableProps) {
               </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>{renderResults()}</TableBody>
+          <TableBody className="overflow-y-auto">{renderResults()}</TableBody>
         </Table>
       </div>
     </div>
