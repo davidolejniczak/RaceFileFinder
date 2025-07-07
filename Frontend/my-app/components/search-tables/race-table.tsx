@@ -23,9 +23,6 @@ interface RaceTableProps {
 
 export default function RaceTable({ query }: RaceTableProps) {
   const [raceResults, setRaceResults] = useState<RaceResult[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [noResultsFound, setNoResultsFound] = useState(false);
 
   useEffect(() => {
     if (query) {
@@ -34,35 +31,15 @@ export default function RaceTable({ query }: RaceTableProps) {
   }, [query]);
 
   const fetchResults = async (raceNameInput: string) => {
-    setIsLoading(true);
-    setError(null);
-    setRaceResults([]);
-    setNoResultsFound(false);
-
-    try {
-      const response = await fetch(
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/raceresults/r?racename=${encodeURIComponent(
-          raceNameInput
-        )}`
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const backendRaceResults = Array.isArray(data) ? data : [];
-      setRaceResults(backendRaceResults);
-
-      if (backendRaceResults.length === 0) {
-        setNoResultsFound(true);
-      }
-    } catch (e: any) {
-      setError(e.message);
-      setNoResultsFound(true);
-    } finally {
-      setIsLoading(false);
-    }
+    const response = await fetch(
+      `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/raceresults/r?racename=${encodeURIComponent(
+        raceNameInput
+      )}`
+    );
+    
+    const data = await response.json();
+    const backendRaceResults = Array.isArray(data) ? data : [];
+    setRaceResults(backendRaceResults);
   };
 
   return (
@@ -83,7 +60,7 @@ export default function RaceTable({ query }: RaceTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody className="overflow-y-auto">
-            {!isLoading && raceResults.length > 0 ? (
+            {raceResults.length > 0 ? (
               raceResults.map((result, index) => (
                 <TableRow key={`${index}-${result.riderName || "unknown"}`}>
                   <TableCell className="border-r border-gray-200 whitespace-nowrap text-center">
@@ -108,31 +85,13 @@ export default function RaceTable({ query }: RaceTableProps) {
                   </TableCell>
                 </TableRow>
               ))
-            ) : isLoading ? (
-              <TableRow>
-                <TableCell
-                  colSpan={3}
-                  className="no-results-cell text-center h-24"
-                >
-                  Loading...
-                </TableCell>
-              </TableRow>
-            ) : noResultsFound ? (
-              <TableRow className="no-results-row">
-                <TableCell
-                  colSpan={3}
-                  className="no-results-cell text-center h-24"
-                >
-                  No results found for "{query}"
-                </TableCell>
-              </TableRow>
             ) : (
               <TableRow>
                 <TableCell
                   colSpan={3}
                   className="no-results-cell text-center h-24"
                 >
-                  Enter a race name to see results
+                  {query ? `No results for "${query}"` : "Enter a race name to see results"}
                 </TableCell>
               </TableRow>
             )}

@@ -26,14 +26,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen overflow-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="home-root h-full flex flex-col">
+        <div className="home-root min-h-screen flex flex-col">
           <div className="header-bar w-full flex justify-start flex-shrink-0">
             <MainNav />
           </div>
-          <div className="flex-1 min-h-0 overflow-hidden">
+          <div className="flex-1">
             {children}
           </div>
         </div>
