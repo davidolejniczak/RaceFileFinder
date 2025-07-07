@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Search from "./search";
 
 export default function Home() {
   return (
@@ -21,10 +20,7 @@ export default function Home() {
             View Race Details
           </Link>
         </div>
-        
-        <div className="w-[400px]">
-          <Search searchType="rider" />
-        </div>
+
       </div>
   );
 }

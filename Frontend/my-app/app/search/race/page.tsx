@@ -3,46 +3,19 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-interface SuggestionItem {
-  id: string;
-  name: string;
+interface Race {
+  raceId: string;
+  raceName: string;
+  raceYear: string;
 }
 
-type SearchType = "rider" | "team" | "race";
-
-const searchConfig = {
-  rider: {
-    label: "Enter Rider Name:",
-    placeholder: "e.g., Tadej Pogačar",
-    apiEndpoint: "https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/all",
-    queryParam: "riderName",
-    resultsPage: "/results/rider",
-  },
-  team: {
-    label: "Enter Team Name:",
-    placeholder: "e.g., UAE Team Emirates",
-    apiEndpoint: "https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/team/all",
-    queryParam: "teamName",
-    resultsPage: "/results/team",
-  },
-  race: {
-    label: "Enter WorldTour Race:",
-    placeholder: "e.g., Tour de France",
-    apiEndpoint: "https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/race/all",
-    queryParam: "raceName",
-    resultsPage: "/results/race",
-  },
-};
-
-export default function Search({ searchType }: { searchType: SearchType }) {
+export default function RaceSearch() {
   const [inputValue, setInputValue] = useState("");
-  const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
-  const config = searchConfig[searchType];
 
   const debounce = (func: Function, delay: number) => {
     let timeoutId: NodeJS.Timeout;
@@ -64,22 +37,17 @@ export default function Search({ searchType }: { searchType: SearchType }) {
 
     try {
       const response = await fetch(
-        `${config.apiEndpoint}?${config.queryParam}=${encodeURIComponent(query)}`
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/race/all?raceName=${encodeURIComponent(
+          query
+        )}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      const formattedSuggestions = data
-        .map((item: any) => ({
-          id: item[`${searchType}Id`] || item?.id, // Fallback for different ID keys
-          name: item[`${searchType}Name`] || item?.name, // Fallback for different name keys
-        }))
-        .filter((item: SuggestionItem) => item.id && item.name); // Filter out items with null/undefined id or name
-        
-      setSuggestions(formattedSuggestions);
-      setShowSuggestions(formattedSuggestions.length > 0);
+      const data: Race[] = await response.json();
+      setSuggestions(data.map((race) => race.raceName));
+      setShowSuggestions(data.length > 0);
     } catch (e) {
       setError("Failed to load suggestions.");
       setSuggestions([]);
@@ -89,7 +57,7 @@ export default function Search({ searchType }: { searchType: SearchType }) {
 
   const handleSearch = async (searchQuery: string) => {
     setIsLoading(true);
-    router.push(`${config.resultsPage}?query=${encodeURIComponent(searchQuery)}`);
+    router.push(`/results/race?query=${encodeURIComponent(searchQuery)}`);
   };
 
   const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
@@ -100,11 +68,11 @@ export default function Search({ searchType }: { searchType: SearchType }) {
     debouncedFetchSuggestions(value);
   };
 
-  const handleSuggestionClick = (suggestion: SuggestionItem) => {
-    setInputValue(suggestion.name);
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputValue(suggestion);
     setSuggestions([]);
     setShowSuggestions(false);
-    handleSearch(suggestion.name);
+    handleSearch(suggestion);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -112,7 +80,7 @@ export default function Search({ searchType }: { searchType: SearchType }) {
       event.preventDefault();
       let searchTarget = inputValue;
       if (showSuggestions && suggestions.length > 0) {
-        searchTarget = suggestions[0].name;
+        searchTarget = suggestions[0];
         setInputValue(searchTarget);
         setShowSuggestions(false);
         setSuggestions([]);
@@ -123,15 +91,15 @@ export default function Search({ searchType }: { searchType: SearchType }) {
 
   return (
     <div className="home-form-row">
-      <label className="home-label" htmlFor="search-input">
-        {config.label}
+      <label className="home-label" htmlFor="rider-strava">
+        Enter WorldTour Race:
       </label>
       <div className="input-wrapper">
         <div className="autocomplete-container">
           <input
-            id="search-input"
+            id="rider-strava"
             type="text"
-            placeholder={config.placeholder}
+            placeholder="e.g., Tour De France"
             className="home-input"
             value={inputValue}
             onChange={handleInputChange}
@@ -147,13 +115,13 @@ export default function Search({ searchType }: { searchType: SearchType }) {
           />
           {showSuggestions && suggestions.length > 0 && (
             <ul className="suggestions-list">
-              {suggestions.map((suggestion) => (
+              {suggestions.map((suggestion, index) => (
                 <li
-                  key={suggestion.id}
+                  key={index}
                   onMouseDown={() => handleSuggestionClick(suggestion)}
                   className="suggestion-item"
                 >
-                  {suggestion.name}
+                  {suggestion}
                 </li>
               ))}
             </ul>

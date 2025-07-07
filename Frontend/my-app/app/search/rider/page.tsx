@@ -3,10 +3,13 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-interface Race {
-  raceId: string;
-  raceName: string;
-  raceYear: string;
+interface Rider {
+  // @TODO
+  // add the things in here 
+  riderName: string;
+  riderTeam: string;
+  riderCountry: string;
+  riderStrava: string; 
 }
 
 export default function RaceSearch() {
@@ -37,7 +40,7 @@ export default function RaceSearch() {
 
     try {
       const response = await fetch(
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/race/all?raceName=${encodeURIComponent(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/race/all?riderName=${encodeURIComponent(
           query
         )}`
       );
@@ -45,8 +48,8 @@ export default function RaceSearch() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data: Race[] = await response.json();
-      setSuggestions(data.map((race) => race.raceName));
+      const data: Rider[] = await response.json();
+      setSuggestions(data.map((rider) => rider.riderName)); 
       setShowSuggestions(data.length > 0);
     } catch (e) {
       setError("Failed to load suggestions.");
@@ -92,14 +95,14 @@ export default function RaceSearch() {
   return (
     <div className="home-form-row">
       <label className="home-label" htmlFor="rider-strava">
-        Enter WorldTour Race:
+        Enter Team Name:
       </label>
       <div className="input-wrapper">
         <div className="autocomplete-container">
           <input
             id="rider-strava"
             type="text"
-            placeholder="Race Name"
+            placeholder="e.g., Tadej Pogačar"
             className="home-input"
             value={inputValue}
             onChange={handleInputChange}
