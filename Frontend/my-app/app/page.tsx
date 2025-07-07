@@ -23,7 +23,7 @@ export default function Home() {
         </div>
         
         <div className="w-[400px]">
-          <Search />
+          <Search searchType="rider" />
         </div>
       </div>
   );

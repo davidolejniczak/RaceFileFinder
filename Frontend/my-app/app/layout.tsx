@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "Find Pro Cyclist (TDF) Strava Profiles and Accounts",
 };
 
-export default function RootLayorut({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
