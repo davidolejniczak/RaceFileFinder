@@ -23,10 +23,10 @@ export default function MainNav() {
 
             <NavigationMenuItem>
               <NavigationMenuLink
-                href="/races"
+                href="/riders"
                 className="inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 rounded-lg transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500/50 focus:ring-offset-2 focus:ring-offset-gray-50"
               >
-                <span className="font-semibold">Races</span>
+                <span className="font-semibold">Riders</span>
               </NavigationMenuLink>
             </NavigationMenuItem>
 
@@ -41,10 +41,10 @@ export default function MainNav() {
 
             <NavigationMenuItem>
               <NavigationMenuLink
-                href="/riders"
+                href="/races"
                 className="inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 rounded-lg transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500/50 focus:ring-offset-2 focus:ring-offset-gray-50"
               >
-                <span className="font-semibold">Riders</span>
+                <span className="font-semibold">Races</span>
               </NavigationMenuLink>
             </NavigationMenuItem>
 

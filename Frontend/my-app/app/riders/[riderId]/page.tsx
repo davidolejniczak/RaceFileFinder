@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import RiderTable from "@/components/search-tables/rider-table";
 
 interface RiderProfile {
   riderId: string;
@@ -147,16 +148,14 @@ export default function RiderProfilePage() {
         </Card>
       </div>
 
-      {/* Placeholder for future content */}
-      <div className="text-center py-12">
-        <h2 className="text-xl font-semibold mb-4">Rider Profile</h2>
-        <p className="text-gray-600 mb-4">
-          This page will contain detailed rider information, race results, and statistics.
-        </p>
-        <p className="text-sm text-gray-500">
-          Coming soon: Race history, performance metrics, and more detailed analytics.
-        </p>
+      {/* Race History Table */}
+      <div className="mb-6">
+        <h2 className="text-xl font-bold mb-4">Race History</h2>
+        <div className="h-96">
+          <RiderTable query={rider.riderName} />
+        </div>
       </div>
+
     </div>
   );
 } 

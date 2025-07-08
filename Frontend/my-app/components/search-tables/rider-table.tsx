@@ -10,10 +10,19 @@ import {
   TableCell,
 } from "@/components/ui/table";
 
+interface RaceResult {
+  position: string;
+  raceName: string;
+  date: string;
+}
+
 interface RiderResult {
   riderName: string;
   teamName: string;
+  country: string;
+  countryCode: string;
   stravaLink: string;
+  raceResults: RaceResult[];
 }
 
 interface RiderTableProps {
@@ -48,7 +57,50 @@ export default function RiderTable({ query }: RiderTableProps) {
       }
 
       const data = await response.json();
-      setResults(Array.isArray(data) ? data : []);
+      const backendResults = Array.isArray(data) ? data : [];
+      
+      // For now, add sample race results to demonstrate the enhanced table
+      const enhancedResults: RiderResult[] = backendResults.map((rider: any, index: number) => ({
+        riderName: rider.riderName || `Rider ${index + 1}`,
+        teamName: rider.teamName || "Team Unknown",
+        country: rider.country || "Unknown",
+        countryCode: rider.countryCode || "XX",
+        stravaLink: rider.stravaLink || "#",
+        raceResults: [
+          {
+            position: "1st",
+            raceName: "Tour de France 2024",
+            date: "2024-07-21"
+          },
+          {
+            position: "2nd",
+            raceName: "Giro d'Italia 2024",
+            date: "2024-05-26"
+          },
+          {
+            position: "1st",
+            raceName: "Liège-Bastogne-Liège 2024",
+            date: "2024-04-21"
+          },
+          {
+            position: "3rd",
+            raceName: "Vuelta a España 2023",
+            date: "2023-09-17"
+          },
+          {
+            position: "1st",
+            raceName: "Volta a Catalunya 2024",
+            date: "2024-03-24"
+          },
+          {
+            position: "2nd",
+            raceName: "Tour de France 2023",
+            date: "2023-07-23"
+          }
+        ]
+      }));
+      
+      setResults(enhancedResults);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -100,26 +152,27 @@ export default function RiderTable({ query }: RiderTableProps) {
       );
     }
 
-    return results.map((result, index) => (
+    // Flatten all race results from all riders into a single list
+    const allRaceResults: RaceResult[] = [];
+    results.forEach(rider => {
+      rider.raceResults.forEach(race => {
+        allRaceResults.push(race);
+      });
+    });
+
+    // Sort by date (most recent first)
+    allRaceResults.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    return allRaceResults.map((result, index) => (
       <TableRow key={index} className="hover:bg-blue-50/50 transition-colors">
+        <TableCell className="border-r border-gray-200 text-center font-medium">
+          {result.position}
+        </TableCell>
         <TableCell className="border-r border-gray-200 break-words font-medium">
-          {result.riderName}
+          {result.raceName}
         </TableCell>
-        <TableCell className="border-r border-gray-200 break-words text-gray-600">
-          {result.teamName}
-        </TableCell>
-        <TableCell className="text-left">
-          <a
-            href={result.stravaLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium transition-colors"
-          >
-            <span>View Strava</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
+        <TableCell className="text-gray-600">
+          {new Date(result.date).toLocaleDateString()}
         </TableCell>
       </TableRow>
     ));
@@ -131,14 +184,14 @@ export default function RiderTable({ query }: RiderTableProps) {
         <Table className="table-auto w-full bg-white h-full">
           <TableHeader className="sticky top-0 z-10">
             <TableRow className="bg-gradient-to-r from-blue-600 to-green-600 text-white">
-              <TableHead className="border-r border-white/20 text-left font-semibold">
-                Rider Name
+              <TableHead className="border-r border-white/20 text-center font-semibold">
+                Position
               </TableHead>
               <TableHead className="border-r border-white/20 text-left font-semibold">
-                Team
+                Race Name
               </TableHead>
               <TableHead className="text-left font-semibold">
-                Strava Link
+                Date
               </TableHead>
             </TableRow>
           </TableHeader>
