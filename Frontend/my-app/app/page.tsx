@@ -35,21 +35,21 @@ export default function Home() {
       country: "France",
       countryCode: "FR",
       description: "The world's most prestigious cycling race",
-      image: "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?w=400&h=250&fit=crop"
+      hasResults: true
     },
     {
       name: "Giro d'Italia 2025",
       country: "Italy", 
       countryCode: "IT",
       description: "The beautiful race through Italy",
-      image: "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?w=400&h=250&fit=crop"
+      hasResults: true
     },
     {
       name: "La Vuelta 2025",
       country: "Spain",
       countryCode: "ES", 
       description: "The Spanish grand tour",
-      image: "https://images.unsplash.com/photo-1544191696-102dbdaeeaa5?w=400&h=250&fit=crop"
+      hasResults: false
     }
   ];
 
@@ -160,7 +160,7 @@ export default function Home() {
                 <div className="text-gray-600">Pro Riders</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-green-600 mb-2">50+</div>
+                <div className="text-3xl font-bold text-green-600 mb-2">30+</div>
                 <div className="text-gray-600">World Tour Races</div>
               </div>
               <div className="text-center">
@@ -172,78 +172,63 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 bg-white">
+      {/* Featured Races Section */}
+      <section className="py-15 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Everything You Need for Cycling
+              Featured Races
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From finding your favorite riders on Strava to exploring race results and team rosters
+              Explore the most prestigious cycling races and their results
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center p-8 hover:shadow-lg transition-shadow border-0 shadow-md">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <User className="w-8 h-8 text-blue-600" />
-              </div>
-              <CardTitle className="text-2xl mb-4">Find Riders</CardTitle>
-              <CardDescription className="text-lg mb-6">
-                Discover professional cyclists and their Strava profiles. Follow their training and racing activities.
-              </CardDescription>
-              <Link href="/riders">
-                <Button variant="outline" className="group">
-                  Browse Riders
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-            </Card>
-
-            <Card className="text-center p-8 hover:shadow-lg transition-shadow border-0 shadow-md">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Trophy className="w-8 h-8 text-green-600" />
-              </div>
-              <CardTitle className="text-2xl mb-4">Race Results</CardTitle>
-              <CardDescription className="text-lg mb-6">
-                Explore complete race results with rider positions and direct links to their Strava activities.
-              </CardDescription>
-              <Link href="/races">
-                <Button variant="outline" className="group">
-                  View Races
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-            </Card>
-
-            <Card className="text-center p-8 hover:shadow-lg transition-shadow border-0 shadow-md">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Users className="w-8 h-8 text-purple-600" />
-              </div>
-              <CardTitle className="text-2xl mb-4">Team Rosters</CardTitle>
-              <CardDescription className="text-lg mb-6">
-                Browse complete team rosters and discover all riders from your favorite cycling teams.
-              </CardDescription>
-              <Link href="/teams">
-                <Button variant="outline" className="group">
-                  Explore Teams
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {featuredRaces.map((race, index) => (
+              <Card key={index} className="h-48 hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <span 
+                      className={`fi fi-${race.countryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
+                      title={race.country}
+                    ></span>
+                    <CardTitle className="text-lg">{race.name}</CardTitle>
+                  </div>
+                  <CardDescription>{race.country} • {race.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col justify-end">
+                  <div className="space-y-1">
+                    {race.hasResults ? (
+                      <div className="text-sm">
+                        <span className="text-gray-600">Results available</span>
+                      </div>
+                    ) : (
+                      <div className="text-sm text-gray-500 italic">
+                        Results coming soon
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-1">
+                    {race.hasResults ? (
+                      <Link
+                        href={`/results/race?query=${encodeURIComponent(race.name)}`}
+                        className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                      >
+                        View Results →
+                      </Link>
+                    ) : (
+                      <span className="text-gray-400 text-sm">
+                        Coming Soon
+                      </span>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        </div>
-      </section>
 
-      {/* Featured Races Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Races</h2>
-              <p className="text-xl text-gray-600">Explore the biggest races in professional cycling</p>
-            </div>
+          <div className="text-center">
             <Link href="/races">
               <Button variant="outline" className="group">
                 View All Races
@@ -251,42 +236,58 @@ export default function Home() {
               </Button>
             </Link>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredRaces.map((race, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow border-0 shadow-md">
-                <div className="h-48 bg-gradient-to-br from-blue-500 to-green-500 relative">
-                  <div className="absolute inset-0 bg-black/20"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className={`fi fi-${race.countryCode.toLowerCase()} w-6 h-4 rounded shadow-sm`}></span>
-                      <span className="text-white font-semibold">{race.country}</span>
-                    </div>
-                    <h3 className="text-white text-xl font-bold">{race.name}</h3>
-                  </div>
-                </div>
-                <CardContent className="p-6">
-                  <p className="text-gray-600 mb-4">{race.description}</p>
-                  <Link href={`/results/race?query=${encodeURIComponent(race.name)}`}>
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
-                      View Results
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* Featured Teams Section */}
-      <section className="py-20 bg-white">
+      <section className="py-15 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Top Teams</h2>
-              <p className="text-xl text-gray-600">Discover the world's best cycling teams</p>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Featured Teams
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Discover the world's top cycling teams and their riders
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {featuredTeams.map((team, index) => (
+              <Card key={index} className="h-48 hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <span 
+                      className={`fi fi-${team.countryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
+                      title={team.country}
+                    ></span>
+                    <CardTitle className="text-lg">{team.name}</CardTitle>
+                  </div>
+                  <CardDescription>{team.country}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col justify-end">
+                  <div className="space-y-1">
+                    <div className="text-sm">
+                      <span className="text-gray-600">Riders: </span>
+                      <span className="font-semibold">{team.riders}</span>
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {team.achievements}
+                    </div>
+                  </div>
+                  <div className="mt-1">
+                    <Link
+                      href={`/teams/${index + 1}`}
+                      className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                    >
+                      View Team →
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center">
             <Link href="/teams">
               <Button variant="outline" className="group">
                 View All Teams
@@ -294,47 +295,58 @@ export default function Home() {
               </Button>
             </Link>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredTeams.map((team, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-shadow border-0 shadow-md">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className={`fi fi-${team.countryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}></span>
-                    <CardTitle className="text-xl">{team.name}</CardTitle>
-                  </div>
-                  <CardDescription>{team.country}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3 mb-6">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Riders:</span>
-                      <span className="font-semibold">{team.riders}</span>
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {team.achievements}
-                    </div>
-                  </div>
-                  <Link href={`/teams/${team.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                    <Button variant="outline" className="w-full">
-                      View Roster
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* Featured Riders Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-15 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Star Riders</h2>
-              <p className="text-xl text-gray-600">Follow the world's top cyclists on Strava</p>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Featured Riders
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Meet the world's top cyclists and find their Strava profiles
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {featuredRiders.map((rider, index) => (
+              <Card key={index} className="h-48 hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <span 
+                      className={`fi fi-${rider.countryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
+                      title={rider.country}
+                    ></span>
+                    <CardTitle className="text-lg">{rider.name}</CardTitle>
+                  </div>
+                  <CardDescription>{rider.country}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col justify-end">
+                  <div className="space-y-1">
+                    <div className="text-sm">
+                      <span className="text-gray-600">Team: </span>
+                      <span className="font-semibold">{rider.team}</span>
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {rider.achievements}
+                    </div>
+                  </div>
+                  <div className="mt-1">
+                    <Link
+                      href={`/riders/${index + 1}`}
+                      className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                    >
+                      View Profile →
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center">
             <Link href="/riders">
               <Button variant="outline" className="group">
                 View All Riders
@@ -342,62 +354,29 @@ export default function Home() {
               </Button>
             </Link>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredRiders.map((rider, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-shadow border-0 shadow-md">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className={`fi fi-${rider.countryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}></span>
-                    <CardTitle className="text-xl">{rider.name}</CardTitle>
-                  </div>
-                  <CardDescription>{rider.country}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3 mb-6">
-                    <div className="text-sm">
-                      <span className="text-gray-600">Team: </span>
-                      <span className="font-semibold">{rider.team}</span>
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {rider.achievements}
-                    </div>
-                  </div>
-                  <Link href={`/riders/${rider.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
-                      View Profile
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-green-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Explore Professional Cycling?
+      <section className="py-12 bg-gradient-to-r from-blue-600 to-green-600">
+        <div className="max-w-2xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-white mb-4">
+            Open Source Project
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Start discovering riders, races, and teams today. Find your favorite cyclists on Strava and follow their journey.
+          <p className="text-lg text-blue-100 mb-6">
+            This project is open source. Check out the code on GitHub!
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/search/rider">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-                <Search className="w-5 h-5 mr-2" />
-                Search Riders
-              </Button>
-            </Link>
-            <Link href="/races">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-                <Trophy className="w-5 h-5 mr-2" />
-                Browse Races
-              </Button>
-            </Link>
-          </div>
+          <a 
+            href="https://github.com/davidolejniczak/RaceFileFinder" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold transition-colors"
+          >
+            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View on GitHub
+          </a>
         </div>
       </section>
     </div>

@@ -9,7 +9,7 @@ import {
 export default function MainNav() {
   return (
     <div className="sticky top-0 z-50 w-full bg-gradient-to-r from-gray-50 to-white shadow-lg border-b border-gray-200/70">
-      <div className="container justify-start">
+      <div className="container justify-start pl-4">
         <NavigationMenu className="w-full justify-start">
           <NavigationMenuList className="flex items-center justify-start h-16 space-x-2">
             <NavigationMenuItem>
@@ -18,15 +18,6 @@ export default function MainNav() {
                 className="inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 rounded-lg transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500/50 focus:ring-offset-2 focus:ring-offset-gray-50"
               >
                 <span className="font-semibold">Home</span>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                href="/races/TDF"
-                className="inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 rounded-lg transition-all duration-200 bg-yellow-300 hover:bg-yellow-300  hover:shadow-lg hover:shadow-yellow-200/50 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:ring-offset-2 focus:ring-offset-gray-50 border-2 border-black"
-              >
-                <span className="font-semibold">TDF</span>
               </NavigationMenuLink>
             </NavigationMenuItem>
 

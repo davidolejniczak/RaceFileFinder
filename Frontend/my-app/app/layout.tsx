@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Pro Cyclist Strava Finder",
-  description: "Find Pro Cyclist (TDF) Strava Profiles and Accounts",
+  description: "Find Pro Cyclist Strava Profiles and Accounts",
 };
 
 export default function RootLayout({

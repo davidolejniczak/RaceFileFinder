@@ -3,13 +3,12 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableHead,
-  TableRow,
-  TableCell,
-} from "@/components/ui/table";
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface RaceResult {
   raceName: string;
@@ -65,78 +64,78 @@ export default function Results() {
     }
   };
 
-  return (
-    <div className="results-table-container">
-      <div data-slot="table-container" className="relative w-full overflow-x-auto">
-        <Table className="table-auto w-full bg-gray-50">
-          <TableHeader>
-            <TableRow className="border-b border-gray-800 bg-gray-200">
-              <TableHead className="border-r border-gray-300 whitespace-nowrap w-24 text-center">
-                Position
-              </TableHead>
-              <TableHead className="border-r border-gray-300 text-left">
-                Rider Name
-              </TableHead>
-              <TableHead className="text-right whitespace-nowrap w-36 text-left">
-                Strava Link
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {!isLoading && raceResults.length > 0 ? (
-              raceResults.map((result, index) => (
-                <TableRow key={`${index}-${result.riderName || "unknown"}`}>
-                  <TableCell className="border-r border-gray-200 whitespace-nowrap text-center">
-                    {result.riderPosition}
-                  </TableCell>
-                  <TableCell className="border-r border-gray-200 break-words">
-                    {result.riderName}
-                  </TableCell>
-                  <TableCell className="text-right whitespace-nowrap">
-                    {result.riderStrava && (
-                      <a
-                        href={result.riderStrava}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800"
-                      >
-                        View Activity
-                      </a>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : isLoading ? (
-              <TableRow>
-                <TableCell
-                  colSpan={3}
-                  className="no-results-cell text-center h-24"
-                >
-                  Loading...
-                </TableCell>
-              </TableRow>
-            ) : noResultsFound ? (
-              <TableRow className="no-results-row">
-                <TableCell
-                  colSpan={3}
-                  className="no-results-cell text-center h-24"
-                >
-                  No results found for "{query}"
-                </TableCell>
-              </TableRow>
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={3}
-                  className="no-results-cell text-center h-24"
-                >
-                  Enter a race name to see results
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+  if (isLoading) {
+    return (
+      <div className="h-full p-8 overflow-auto">
+        <h1 className="text-3xl font-bold mb-6">Race Results</h1>
+        {query && <p className="text-gray-600 mb-6">Results for: {query}</p>}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {[...Array(8)].map((_, index) => (
+            <Card key={index} className="h-32 animate-pulse">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-6 bg-gray-200 rounded"></div>
+                  <div className="h-6 bg-gray-200 rounded flex-1"></div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
+    );
+  }
+
+  return (
+    <div className="h-full p-8 overflow-auto">
+      <h1 className="text-3xl font-bold mb-6">Race Results</h1>
+      
+      {query && <p className="text-gray-600 mb-6">Results for: {query}</p>}
+      
+      {error && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-red-600">Error loading results: {error}</p>
+        </div>
+      )}
+
+      {!isLoading && raceResults.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {raceResults.map((result, index) => (
+            <Card key={`${index}-${result.riderName || "unknown"}`} className="h-32 hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-6 bg-blue-100 rounded flex items-center justify-center">
+                    <span className="text-sm font-bold text-blue-600">{result.riderPosition}</span>
+                  </div>
+                  <CardTitle className="text-lg">{result.riderName}</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="flex-1 flex flex-col justify-end">
+                {result.riderStrava && (
+                  <a
+                    href={result.riderStrava}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                  >
+                    View Strava Activity →
+                  </a>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : noResultsFound ? (
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">No results found for "{query}"</p>
+        </div>
+      ) : (
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">Enter a race name to see results</p>
+        </div>
+      )}
     </div>
   );
 }

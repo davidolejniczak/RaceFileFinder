@@ -104,8 +104,11 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
     if (isLoading) {
       return (
         <TableRow>
-          <TableCell colSpan={5} className="text-center h-24">
-            Loading...
+          <TableCell colSpan={5} className="text-center h-24 text-gray-600">
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              Loading...
+            </div>
           </TableCell>
         </TableRow>
       );
@@ -114,7 +117,7 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
     if (error) {
       return (
         <TableRow>
-          <TableCell colSpan={5} className="text-center h-24">
+          <TableCell colSpan={5} className="text-center h-24 text-red-600 bg-red-50">
             Error: {error}
           </TableCell>
         </TableRow>
@@ -124,7 +127,7 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
     if (results.length === 0) {
       return (
         <TableRow>
-          <TableCell colSpan={5} className="text-center h-24">
+          <TableCell colSpan={5} className="text-center h-24 text-gray-500">
             No results found for this team
           </TableCell>
         </TableRow>
@@ -132,23 +135,23 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
     }
 
     return results.map((result, index) => (
-      <TableRow key={index}>
-        <TableCell className="border-r border-gray-200 whitespace-nowrap text-center">
+      <TableRow key={index} className="hover:bg-blue-50/50 transition-colors">
+        <TableCell className="border-r border-gray-200 whitespace-nowrap text-center font-medium">
           {result.position}
         </TableCell>
-        <TableCell className="border-r border-gray-200 break-words">
+        <TableCell className="border-r border-gray-200 break-words font-medium">
           {result.raceName}
         </TableCell>
-        <TableCell className="border-r border-gray-200 break-words">
+        <TableCell className="border-r border-gray-200 break-words text-gray-600">
           {result.riderName}
         </TableCell>
         <TableCell className="border-r border-gray-200 text-center">
           <span 
-            className={`fi fi-${result.countryCode.toLowerCase()} w-5 h-4 rounded`}
+            className={`fi fi-${result.countryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
             title={result.countryCode}
           ></span>
         </TableCell>
-        <TableCell className="text-left whitespace-nowrap">
+        <TableCell className="text-left whitespace-nowrap text-gray-600">
           {new Date(result.date).toLocaleDateString()}
         </TableCell>
       </TableRow>
@@ -157,23 +160,23 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
 
   return (
     <div className="results-table-container h-full flex flex-col">
-      <div data-slot="table-container" className="relative w-full overflow-x-auto flex-1">
-        <Table className="table-auto w-full bg-gray-50 h-full">
+      <div data-slot="table-container" className="relative w-full overflow-x-auto flex-1 rounded-lg border border-gray-200 shadow-sm">
+        <Table className="table-auto w-full bg-white h-full">
           <TableHeader className="sticky top-0 z-10">
-            <TableRow className="border-b border-gray-800 bg-gray-200">
-              <TableHead className="border-r border-gray-300 whitespace-nowrap w-16 text-center">
+            <TableRow className="bg-gradient-to-r from-blue-600 to-green-600 text-white">
+              <TableHead className="border-r border-white/20 whitespace-nowrap w-16 text-center font-semibold">
                 Position
               </TableHead>
-              <TableHead className="border-r border-gray-300 text-left">
+              <TableHead className="border-r border-white/20 text-left font-semibold">
                 Race Name
               </TableHead>
-              <TableHead className="border-r border-gray-300 text-left">
+              <TableHead className="border-r border-white/20 text-left font-semibold">
                 Rider
               </TableHead>
-              <TableHead className="border-r border-gray-300 text-center">
+              <TableHead className="border-r border-white/20 text-center font-semibold">
                 Country
               </TableHead>
-              <TableHead className="text-left">
+              <TableHead className="text-left font-semibold">
                 Date
               </TableHead>
             </TableRow>
