@@ -1,36 +1,24 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+Frontend/my-app/node_modules/
+Frontend/my-app/.next/
+Frontend/my-app/out/
+Frontend/my-app/.env*.local
+Frontend/my-app/npm-debug.log*
+Frontend/my-app/yarn-debug.log*
+Frontend/my-app/yarn-error.log*
+Frontend/my-app/coverage/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+.idea/
 *.iml
-*.ipr
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.swp
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
-.vscode/
-.env
+.DS_Store
+Thumbs.db
 
-data/
+.vscode
+node_modules/
