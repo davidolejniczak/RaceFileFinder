@@ -21,4 +21,8 @@ public class RaceService {
     public List<Race> getRaceNameDate(String raceName, int raceYear) {
         return raceRepository.findByRaceNameAndDate(raceName, raceYear);
     }
+
+    public List<Race> getRaces() {
+        return raceRepository.findbyRace();
+    }
 }

@@ -25,6 +25,11 @@ public class RaceController {
         return raceService.getRaceName(raceName);
     }
 
+    @GetMapping("/")
+    public List<Race> getRace() {
+        return raceService.getRaces();
+    }
+
     @GetMapping("/all/date")
     public List<Race> getRaceDate(@RequestParam String raceName, @RequestParam int raceYear) {
         return raceService.getRaceNameDate(raceName, raceYear);

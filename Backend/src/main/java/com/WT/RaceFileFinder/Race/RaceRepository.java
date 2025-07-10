@@ -17,4 +17,7 @@ public interface RaceRepository extends JpaRepository<Race, String>, PagingAndSo
 
     @Query(value = "SELECT * FROM races WHERE unaccent(racename) ILike unaccent(CONCAT('%', :raceName, '%')) AND raceyear = :raceYear", nativeQuery = true)
     List<Race> findByRaceNameAndDate(String raceName, int raceYear);
+
+    @Query(value = "SELECT * FROM race")
+    List<Race> findByRace();
 }
