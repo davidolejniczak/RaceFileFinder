@@ -34,20 +34,20 @@ public class RiderService {
 
     }
 
-    public List<Rider> getByTeam(String team) {
-        return riderRepository.findByTeamIgnoreCase(team);
+    public List<Rider> getByTeam(String riderTeam) {
+        return riderRepository.findByTeamIgnoreCase(riderTeam);
     }
 
     public List<Rider> getByNameContaining(String keyword) {
         return riderRepository.findByRiderNameContaining(keyword);
     }
 
-    public List<Rider> getByNation(String nation) {
-        return riderRepository.findByNation(nation);
+    public List<Rider> getByNation(String riderCountry) {
+        return riderRepository.findByNation(riderCountry);
     }
 
-    public List<Rider> getByTeamAndNation(String team, String nation) {
-        return riderRepository.findByTeamAndNationIgnoreCase(team, nation);
+    public List<Rider> getByTeamAndNation(String riderTeam, String riderCountry) {
+        return riderRepository.findByTeamAndNationIgnoreCase(riderTeam, riderCountry);
     }
 
     @Transactional

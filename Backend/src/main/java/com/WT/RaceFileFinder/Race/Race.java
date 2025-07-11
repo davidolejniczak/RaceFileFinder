@@ -17,22 +17,23 @@ public class Race {
     private String raceCountry;
     @Column(name = "countryCode")
     private String countryCode;
-    @Column(name = "winner")
-    private String winner;
+    @Column(name = "raceWinner")
+    private String raceWinner;
     @Column(name = "hasResults")
     private boolean hasResults;
 
     protected Race() {
     }
 
-    public Race(String raceId, String raceName, String raceYear, String raceCountry, String countryCode, String winner,
+    public Race(String raceId, String raceName, String raceYear, String raceCountry, String countryCode,
+            String raceWinner,
             boolean hasResults) {
         this.raceId = raceId;
         this.raceName = raceName;
         this.raceYear = raceYear;
         this.raceCountry = raceCountry;
         this.countryCode = countryCode;
-        this.winner = winner;
+        this.raceWinner = raceWinner;
         this.hasResults = hasResults;
     }
 
@@ -76,12 +77,12 @@ public class Race {
         this.countryCode = countryCode;
     }
 
-    public String getWinner() {
-        return winner;
+    public String getRaceWinner() {
+        return raceWinner;
     }
 
-    public void setWinner(String winner) {
-        this.winner = winner;
+    public void setRaceWinner(String raceWinner) {
+        this.raceWinner = raceWinner;
     }
 
     public boolean isHasResults() {

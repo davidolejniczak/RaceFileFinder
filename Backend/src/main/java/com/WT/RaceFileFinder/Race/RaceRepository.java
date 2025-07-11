@@ -20,4 +20,7 @@ public interface RaceRepository extends JpaRepository<Race, String>, PagingAndSo
 
     @Query(value = "SELECT * FROM race")
     List<Race> findByRace();
+
+    @Query(value = "SELECT * FROM races", nativeQuery = true)
+    List<Race> findAllRaces();
 }

@@ -23,16 +23,17 @@ public interface RiderRepository extends JpaRepository<Rider, String>, PagingAnd
     @Query(value = "SELECT * FROM riders WHERE unaccent(riderName) ILike unaccent(CONCAT('%', :keyword, '%'))", nativeQuery = true)
     List<Rider> findByRiderNameContaining(String keyword);
 
-    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:team))", nativeQuery = true)
-    List<Rider> findByTeamIgnoreCase(@Param("team") String team);
+    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:riderTeam))", nativeQuery = true)
+    List<Rider> findByTeamIgnoreCase(@Param("riderTeam") String riderTeam);
 
-    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(nation)),' ','') = LOWER(unaccent(:nation))", nativeQuery = true)
-    List<Rider> findByNation(@Param("nation") String nation);
+    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(nation)),' ','') = LOWER(unaccent(:riderCountry))", nativeQuery = true)
+    List<Rider> findByNation(@Param("riderCountry") String riderCountry);
 
-    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:team)) AND LOWER(unaccent(nation)) = LOWER(unaccent(:nation))", nativeQuery = true)
+    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:riderTeam)) AND LOWER(unaccent(nation)) = LOWER(unaccent(:riderCountry))", nativeQuery = true)
     List<Rider> findByTeamAndNationIgnoreCase(String team, String nation);
 
     @Modifying
-    @Query(value = "INSERT INTO riders (riderName, team, nation) VALUES(:riderName, :team, :nation)", nativeQuery = true)
-    void saveRider(Rider rider);
+    @Query(value = "INSERT INTO riders (riderName, team, nation) VALUES(:riderName, :riderTeam, :riderCountry)", nativeQuery = true)
+    void saveRider(@Param("riderName") String riderName, @Param("riderTeam") String riderTeam,
+            @Param("riderCountry") String riderCountry);
 }

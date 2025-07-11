@@ -25,6 +25,11 @@ public class RaceController {
         return raceService.getRaceName(raceName);
     }
 
+    @GetMapping("/all/all")
+    public List<Race> getAllRaces() {
+        return raceService.getAllRaces();
+    }
+
     @GetMapping("/")
     public List<Race> getRace() {
         return raceService.getRaces();

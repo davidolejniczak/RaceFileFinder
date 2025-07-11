@@ -26,17 +26,17 @@ public class RiderController {
 
     @GetMapping("/info")
     public List<Rider> getRiders(
-            @RequestParam(required = false) String team,
-            @RequestParam(required = false) String nation) {
+            @RequestParam(required = false) String riderTeam,
+            @RequestParam(required = false) String riderCountry) {
 
-        if (team != null && nation != null) {
-            return riderService.getByTeamAndNation(team, nation);
+        if (riderTeam != null && riderCountry != null) {
+            return riderService.getByTeamAndNation(riderTeam, riderCountry);
         }
-        if (team != null) {
-            return riderService.getByTeam(team);
+        if (riderTeam != null) {
+            return riderService.getByTeam(riderTeam);
         }
-        if (nation != null) {
-            return riderService.getByNation(nation);
+        if (riderCountry != null) {
+            return riderService.getByNation(riderCountry);
         } else {
             return Collections.emptyList();
         }
