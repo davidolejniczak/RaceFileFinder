@@ -19,8 +19,7 @@ public class RaceFileFinderApplication {
 	}
 
 	@GetMapping("/")
-	public String home() {
-		return "cyclingfilefinder api";
+	public void home() {
 	}
 
 }
