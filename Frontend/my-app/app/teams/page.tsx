@@ -31,107 +31,24 @@ export default function TeamsPage() {
 
   const fetchTeams = async () => {
     try {
-      // TODO: Replace with actual API endpoint when available
-      // const response = await fetch(
-      //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/all`
-      // );
-      
-      // For now, use sample data
-      const sampleTeams: Team[] = [
-        {
-          teamId: "1",
-          teamName: "UAE Team Emirates",
-          country: "United Arab Emirates",
-          countryCode: "AE",
-          riderCount: 0,
-          bestResult: "",
-          teamUrl: "https://www.uaeteamemirates.com"
-        },
-        {
-          teamId: "2",
-          teamName: "INEOS Grenadiers",
-          country: "Great Britain",
-          countryCode: "GB",
-          riderCount: 0,
-          bestResult: "",
-          teamUrl: "https://www.ineosgrenadiers.com"
-        },
-        {
-          teamId: "3",
-          teamName: "Jumbo-Visma",
-          country: "Netherlands",
-          countryCode: "NL",
-          riderCount: 0,
-          bestResult: "",
-          teamUrl: "https://www.teamjumbovisma.nl"
-        },
-        {
-          teamId: "4",
-          teamName: "Soudal Quick-Step",
-          country: "Belgium",
-          countryCode: "BE",
-          riderCount: 0,
-          bestResult: "",
-          teamUrl: "https://www.soudal-quickstepteam.com"
-        },
-        {
-          teamId: "5",
-          teamName: "Bora-Hansgrohe",
-          country: "Germany",
-          countryCode: "DE",
-          riderCount: 0,
-          bestResult: "",
-          teamUrl: "https://www.bora-hansgrohe.com"
-        },
-        {
-          teamId: "6",
-          teamName: "Movistar Team",
-          country: "Spain",
-          countryCode: "ES",
-          riderCount: 0,
-          bestResult: "",
-          teamUrl: "https://www.movistarteam.com"
-        }
-      ];
-
-      // Fetch rider counts and best results for each team
-      const teamsWithData = await Promise.all(
-        sampleTeams.map(async (team) => {
-          try {
-            // TODO: Replace with actual API endpoints when available
-            // Fetch rider count for the team
-            // const riderCountResponse = await fetch(
-            //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/${team.teamId}/rider-count`
-            // );
-            // const riderCountData = await riderCountResponse.json();
-            
-            // Fetch best result for the team
-            // const bestResultResponse = await fetch(
-            //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/${team.teamId}/best-result`
-            // );
-            // const bestResultData = await bestResultResponse.json();
-
-            // For now, use placeholder data
-            const riderCount = Math.floor(Math.random() * 30) + 20; // Random number between 20-50
-            const bestResult = "1st Place - Tour de France 2024"; // Placeholder best result
-
-            return {
-              ...team,
-              riderCount,
-              bestResult
-            };
-          } catch (error) {
-            console.error(`Error fetching data for team ${team.teamName}:`, error);
-            return {
-              ...team,
-              riderCount: 0,
-              bestResult: "Data unavailable"
-            };
-          }
-        })
+      const response = await fetch(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/all`
       );
-      
-      setTeams(teamsWithData);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      const backendTeams = Array.isArray(data) ? data : [];
+      const mappedTeams: Team[] = backendTeams.map((team: any) => ({
+        teamId: team.teamId?.toString() ?? team.id?.toString() ?? "",
+        teamName: team.teamName ?? team.name ?? "",
+        country: team.country ?? "",
+        countryCode: team.countryCode ?? "",
+        riderCount: team.riderCount ?? 0,
+        bestResult: team.bestResult ?? "",
+        teamUrl: team.teamUrl ?? undefined,
+      }));
+      setTeams(mappedTeams);
     } catch (e: any) {
       setError(e.message);
     } finally {

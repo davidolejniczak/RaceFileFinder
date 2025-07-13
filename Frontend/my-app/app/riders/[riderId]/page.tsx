@@ -38,46 +38,17 @@ export default function RiderProfilePage() {
 
   const fetchRiderProfile = async () => {
     try {
-      // TODO: Replace with actual API endpoint when available
-      // const response = await fetch(
-      //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/riders/${riderId}`
-      // );
+      const response = await fetch(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/riders/${riderId}`
+      );
 
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-
-      // const data = await response.json();
-      // setRider(data);
-
-      // For now, use sample data based on riderId
-      const sampleRiders: { [key: string]: RiderProfile } = {
-        "1": {
-          riderId: "1",
-          riderName: "Tadej Pogačar",
-          country: "Slovenia",
-          countryCode: "SI",
-          teamName: "UAE Team Emirates",
-          achievements: "2x Tour de France Winner",
-          stravaLink: "https://www.strava.com/athletes/tadejpogacar"
-        },
-        "2": {
-          riderId: "2",
-          riderName: "Jonas Vingegaard",
-          country: "Denmark",
-          countryCode: "DK",
-          teamName: "Jumbo-Visma",
-          achievements: "2x Tour de France Winner",
-          stravaLink: "https://www.strava.com/athletes/jonasvingegaard"
-        }
-      };
-
-      const riderData = sampleRiders[riderId];
-      if (riderData) {
-        setRider(riderData);
-      } else {
-        setError("Rider not found");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      const data = await response.json();
+      setRider(data);
+
     } catch (e: any) {
       setError(e.message);
     } finally {

@@ -37,70 +37,17 @@ export default function TeamRidersPage() {
 
   const fetchTeamInfo = async () => {
     try {
-      // TODO: Replace with actual API endpoint when available
-      // const response = await fetch(
-      //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/${teamId}`
-      // );
+      const response = await fetch(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/${teamId}`
+      );
 
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-
-      // const data = await response.json();
-      // setTeam(data);
-
-      // For now, use sample data based on teamId
-      const sampleTeams: { [key: string]: Team } = {
-        "1": {
-          teamId: "1",
-          teamName: "UAE Team Emirates",
-          country: "United Arab Emirates",
-          countryCode: "AE",
-          teamUrl: "https://www.uaeteamemirates.com"
-        },
-        "2": {
-          teamId: "2",
-          teamName: "INEOS Grenadiers",
-          country: "Great Britain",
-          countryCode: "GB",
-          teamUrl: "https://www.ineosgrenadiers.com"
-        },
-        "3": {
-          teamId: "3",
-          teamName: "Jumbo-Visma",
-          country: "Netherlands",
-          countryCode: "NL",
-          teamUrl: "https://www.teamjumbovisma.nl"
-        },
-        "4": {
-          teamId: "4",
-          teamName: "Soudal Quick-Step",
-          country: "Belgium",
-          countryCode: "BE",
-          teamUrl: "https://www.soudal-quickstepteam.com"
-        },
-        "5": {
-          teamId: "5",
-          teamName: "Bora-Hansgrohe",
-          country: "Germany",
-          countryCode: "DE",
-          teamUrl: "https://www.bora-hansgrohe.com"
-        },
-        "6": {
-          teamId: "6",
-          teamName: "Movistar Team",
-          country: "Spain",
-          countryCode: "ES",
-          teamUrl: "https://www.movistarteam.com"
-        }
-      };
-
-      const teamData = sampleTeams[teamId];
-      if (teamData) {
-        setTeam(teamData);
-      } else {
-        setError("Team not found");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      const data = await response.json();
+      setTeam(data);
+
     } catch (e: any) {
       setError(e.message);
     } finally {

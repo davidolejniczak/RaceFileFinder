@@ -31,9 +31,8 @@ export default function RacesPage() {
 
   const fetchRaces = async () => {
     try {
-      // TODO: change to all races
       const response = await fetch(
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/race/all?raceName=Tour`
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/race/all/all`
       );
 
       if (!response.ok) {
@@ -43,61 +42,17 @@ export default function RacesPage() {
       const data = await response.json();
       const backendRaces = Array.isArray(data) ? data : [];
       
-      // For now, use sample data with enhanced information
-      const sampleRaces: Race[] = [
-        {
-          raceId: "1",
-          raceName: "Tour de France",
-          raceYear: "2024",
-          country: "France",
-          countryCode: "FR",
-          winner: "Tadej Pogačar",
-          hasResults: true
-        },
-        {
-          raceId: "2",
-          raceName: "Giro d'Italia",
-          raceYear: "2024",
-          country: "Italy",
-          countryCode: "IT",
-          winner: "Tadej Pogačar",
-          hasResults: true
-        },
-        {
-          raceId: "3",
-          raceName: "La Vuelta",
-          raceYear: "2024",
-          country: "Spain",
-          countryCode: "ES",
-          hasResults: false
-        },
-        {
-          raceId: "4",
-          raceName: "Tour de France",
-          raceYear: "2025",
-          country: "France",
-          countryCode: "FR",
-          hasResults: false
-        },
-        {
-          raceId: "5",
-          raceName: "Giro d'Italia",
-          raceYear: "2025",
-          country: "Italy",
-          countryCode: "IT",
-          hasResults: false
-        },
-        {
-          raceId: "6",
-          raceName: "La Vuelta",
-          raceYear: "2025",
-          country: "Spain",
-          countryCode: "ES",
-          hasResults: false
-        }
-      ];
+      const mappedRaces: Race[] = backendRaces.map((race: any) => ({
+        raceId: race.raceId?.toString() ?? race.id?.toString() ?? "",
+        raceName: race.raceName ?? race.name ?? "",
+        raceYear: race.raceYear?.toString() ?? race.year?.toString() ?? "",
+        country: race.country ?? "",
+        countryCode: race.countryCode ?? "",
+        winner: race.winner ?? undefined,
+        hasResults: !!race.hasResults || !!race.winner,
+      }));
       
-      setRaces(sampleRaces);
+      setRaces(mappedRaces);
     } catch (e: any) {
       setError(e.message);
     } finally {

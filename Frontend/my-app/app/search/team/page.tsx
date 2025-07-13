@@ -4,13 +4,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface Team {
-  // @TODO
-  // add the things in here 
+  teamId: string;
   teamName: string;
-  teamCountry: string;
-  // raceId: string;
-  // raceName: string;
-  // raceYear: string;
 }
 
 export default function RaceSearch() {
