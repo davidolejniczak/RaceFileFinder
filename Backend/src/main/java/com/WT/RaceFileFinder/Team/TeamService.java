@@ -36,4 +36,8 @@ public class TeamService {
     public List<Team> getByNameContaining(String keyword) {
         return teamRepository.findByTeamNameContaining(keyword);
     }
+
+    public Team getTeamById(String teamId) {
+        return teamRepository.findByTeamId(teamId);
+    }
 }

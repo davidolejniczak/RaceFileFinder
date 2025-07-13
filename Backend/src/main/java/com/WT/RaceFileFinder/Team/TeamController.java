@@ -19,6 +19,11 @@ public class TeamController {
         this.teamService = teamService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Team> getTeamById(@PathVariable String teamId) {
+        return teamService.getTeamById(teamId);
+    }
+
     @GetMapping("/name")
     public Team getTeam(@RequestParam String teamName) {
         return teamService.getTeamByName(teamName);

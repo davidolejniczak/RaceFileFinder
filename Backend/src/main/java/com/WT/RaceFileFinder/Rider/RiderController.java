@@ -59,4 +59,14 @@ public class RiderController {
         return ResponseEntity.ok("Rider Info Saved");
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Rider> getRiderById(@PathVariable String riderId) {
+        return riderService.getRiderById(riderId);
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Rider> getRiderPage(@RequestParam String riderName) {
+        return riderService.getRiderByName(riderName);
+    }
+
 }

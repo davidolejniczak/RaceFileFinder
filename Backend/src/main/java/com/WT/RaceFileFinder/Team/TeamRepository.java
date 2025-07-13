@@ -22,4 +22,7 @@ public interface TeamRepository extends JpaRepository<Team, String>, PagingAndSo
 
     @Query(value = "SELECT * FROM teams WHERE unaccent(teamName) ILike unaccent(CONCAT('%', :keyword, '%'))", nativeQuery = true)
     List<Team> findByTeamNameContaining(String keyword);
+
+    @Query(value = "SELECT teamId, teamName, country, countryCode, teamURL FROM teams WHERE teamId = :teamId", nativeQuery = true)
+    Team findByTeamId(@Param("teamId") String teamId);
 }

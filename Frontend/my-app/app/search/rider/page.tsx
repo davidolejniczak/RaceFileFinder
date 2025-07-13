@@ -4,12 +4,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface Rider {
-  // @TODO
-  // add the things in here 
+  riderId: string;
   riderName: string;
-  riderTeam: string;
-  riderCountry: string;
-  riderStrava: string; 
 }
 
 export default function RaceSearch() {

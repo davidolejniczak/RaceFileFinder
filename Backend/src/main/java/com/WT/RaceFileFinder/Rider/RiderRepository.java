@@ -36,4 +36,8 @@ public interface RiderRepository extends JpaRepository<Rider, String>, PagingAnd
     @Query(value = "INSERT INTO riders (riderName, team, nation) VALUES(:riderName, :riderTeam, :riderCountry)", nativeQuery = true)
     void saveRider(@Param("riderName") String riderName, @Param("riderTeam") String riderTeam,
             @Param("riderCountry") String riderCountry);
+
+    @Query(value = "SELECT * FROM riders WHERE riderId = :riderId", nativeQuery = true)
+    Rider findByRiderId(@Param("riderId") String riderId);
+
 }

@@ -18,10 +18,10 @@ interface RaceResult {
 
 interface RiderResult {
   riderName: string;
-  teamName: string;
-  country: string;
+  riderTeam: string;
+  riderCountry: string;
   countryCode: string;
-  stravaLink: string;
+  riderStrava: string;
   raceResults: RaceResult[];
 }
 
@@ -47,61 +47,46 @@ export default function RiderTable({ query }: RiderTableProps) {
 
     try {
       const response = await fetch(
-        // @TODO
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/all?riderName=${encodeURIComponent(
-          searchQuery
-        )}`
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/page?riderName=${encodeURIComponent(searchQuery)}`
       );
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data = await response.json();
-      const backendResults = Array.isArray(data) ? data : [];
-      
-      // For now, add sample race results to demonstrate the enhanced table
-      const enhancedResults: RiderResult[] = backendResults.map((rider: any, index: number) => ({
-        riderName: rider.riderName || `Rider ${index + 1}`,
-        teamName: rider.teamName || "Team Unknown",
-        country: rider.country || "Unknown",
+      const rider = Array.isArray(data) && data.length > 0 ? data[0] : null;
+      if (!rider) {
+        setResults([]);
+        setIsLoading(false);
+        return;
+      }
+
+      // TODO JAVA
+      let raceResults: RaceResult[] = [];
+      try {
+        const raceResultsResponse = await fetch(
+          `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/race/results?riderName=${encodeURIComponent(rider.riderName)}`
+        );
+        if (raceResultsResponse.ok) {
+          const raceResultsData = await raceResultsResponse.json();
+          raceResults = Array.isArray(raceResultsData)
+            ? raceResultsData.map((result: any) => ({
+                position: result.position?.toString() ?? "",
+                raceName: result.raceName ?? result.race ?? "",
+                date: result.date ?? result.raceDate ?? "",
+              }))
+            : [];
+        }
+      } catch (err) {}
+
+      const riderResult: RiderResult = {
+        riderName: rider.riderName || rider.name || "Rider",
+        riderTeam: rider.teamName || "Team Unknown",
+        riderCountry: rider.country || "Unknown",
         countryCode: rider.countryCode || "XX",
-        stravaLink: rider.stravaLink || "#",
-        raceResults: [
-          {
-            position: "1st",
-            raceName: "Tour de France 2024",
-            date: "2024-07-21"
-          },
-          {
-            position: "2nd",
-            raceName: "Giro d'Italia 2024",
-            date: "2024-05-26"
-          },
-          {
-            position: "1st",
-            raceName: "Liège-Bastogne-Liège 2024",
-            date: "2024-04-21"
-          },
-          {
-            position: "3rd",
-            raceName: "Vuelta a España 2023",
-            date: "2023-09-17"
-          },
-          {
-            position: "1st",
-            raceName: "Volta a Catalunya 2024",
-            date: "2024-03-24"
-          },
-          {
-            position: "2nd",
-            raceName: "Tour de France 2023",
-            date: "2023-07-23"
-          }
-        ]
-      }));
-      
-      setResults(enhancedResults);
+        riderStrava: rider.stravaLink || "#",
+        raceResults,
+      };
+      setResults([riderResult]);
     } catch (e: any) {
       setError(e.message);
     } finally {

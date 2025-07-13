@@ -55,4 +55,8 @@ public class RiderService {
         riderRepository.saveRider(rider);
     }
 
+    public Rider getByRiderId(String riderId) {
+        return riderRepository.findByRiderId(riderId);
+    }
+
 }
