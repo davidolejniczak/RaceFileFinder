@@ -40,60 +40,18 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
     setResults([]);
 
     try {
-      // TODO JAVA: Replace with actual API endpoint when available
-      // Search resutls table by team query 
-      // const response = await fetch(
-      //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/${teamId}/best-results`
-      // );
+      // tricky query check it out later
+      const response = await fetch(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/raceresults/${teamId}/results`
+      );
 
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-      // const data = await response.json();
-      // const backendResults = Array.isArray(data) ? data : [];
-      // setResults(backendResults);
-
-      // For now, use sample data
-      const sampleResults: TeamResult[] = [
-        {
-          riderPosition: "1st",
-          raceName: "Tour de France 2024",
-          riderName: "Tadej Pogačar",
-          riderCountryCode: "SI",
-          raceDate: "2024-07-21"
-        },
-        {
-          riderPosition: "2nd",
-          raceName: "Tour de France 2024",
-          riderName: "Adam Yates",
-          riderCountryCode: "GB",
-          raceDate: "2024-07-21"
-        },
-        {
-          riderPosition: "1st",
-          raceName: "Liège-Bastogne-Liège 2024",
-          riderName: "Tadej Pogačar",
-          riderCountryCode: "SI",
-          raceDate: "2024-04-21"
-        },
-        {
-          riderPosition: "3rd",
-          raceName: "Giro d'Italia 2024",
-          riderName: "João Almeida",
-          riderCountryCode: "PT",
-          raceDate: "2024-05-26"
-        },
-        {
-          riderPosition: "1st",
-          raceName: "Volta a Catalunya 2024",
-          riderName: "Tadej Pogačar",
-          riderCountryCode: "SI",
-          raceDate: "2024-03-24"
-        }
-      ];
-
-      setResults(sampleResults);
+      const data = await response.json();
+      const backendResults = Array.isArray(data) ? data : [];
+      setResults(backendResults);
     } catch (e: any) {
       setError(e.message);
     } finally {

@@ -42,14 +42,14 @@ export default function RacesPage() {
       const data = await response.json();
       const backendRaces = Array.isArray(data) ? data : [];
       
-      const mappedRaces: Race[] = backendRaces.map((race: any) => ({
-        raceId: race.raceId?.toString() ?? race.id?.toString() ?? "",
-        raceName: race.raceName ?? race.name ?? "",
-        raceYear: race.raceYear?.toString() ?? race.year?.toString() ?? "",
-        country: race.country ?? "",
-        countryCode: race.countryCode ?? "",
-        winner: race.winner ?? undefined,
-        hasResults: !!race.hasResults || !!race.winner,
+        const mappedRaces: Race[] = backendRaces.map((race: any) => ({
+          raceId: race.raceId?.toString() ?? race.id?.toString() ?? "",
+          raceName: race.raceName ?? race.name ?? "",
+          raceYear: race.raceYear?.toString() ?? race.year?.toString() ?? "",
+          raceCountry: race.country ?? "",
+          raceCountryCode: race.countryCode ?? "",
+          raceWinner: race.winner ?? undefined,
+          raceHasResults: !!race.hasResults || !!race.winner,
       }));
       
       setRaces(mappedRaces);

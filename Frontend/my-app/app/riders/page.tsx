@@ -31,89 +31,17 @@ export default function RidersPage() {
 
   const fetchPopularRiders = async () => {
     try {
-      // TODO JAVA: Replace with actual API endpoint when available
-      // add popular boolean column for all riders which is true if it should return for this
-      // const response = await fetch(
-      //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/riders/popular`
-      // );
+      const response = await fetch(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/popular`
+      );
 
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-      // const data = await response.json();
-      // const backendRiders = Array.isArray(data) ? data : [];
-      // setRiders(backendRiders);
-
-      // For now, use sample data for the 8 most popular riders
-      const sampleRiders: Rider[] = [
-        {
-          riderId: "1",
-          riderName: "Tadej Pogačar",
-          riderCountry: "Slovenia",
-          riderCountryCode: "SI",
-          teamName: "UAE Team Emirates",
-          riderAchievements: "2x Tour de France Winner"
-        },
-        {
-          riderId: "2",
-          riderName: "Jonas Vingegaard",
-          riderCountry: "Denmark",
-          riderCountryCode: "DK",
-          teamName: "Jumbo-Visma",
-          riderAchievements: "2x Tour de France Winner"
-        },
-        {
-          riderId: "3",
-          riderName: "Primož Roglič",
-          riderCountry: "Slovenia",
-          riderCountryCode: "SI",
-          teamName: "Bora-Hansgrohe",
-          riderAchievements: "3x Vuelta Winner"
-        },
-        {
-          riderId: "4",
-          riderName: "Remco Evenepoel",
-          riderCountry: "Belgium",
-          riderCountryCode: "BE",
-          teamName: "Soudal Quick-Step",
-          riderAchievements: "Vuelta Winner 2022"
-        },
-        {
-          riderId: "5",
-          riderName: "Egan Bernal",
-          riderCountry: "Colombia",
-          riderCountryCode: "CO",
-          teamName: "INEOS Grenadiers",
-          riderAchievements: "Tour de France Winner 2019"
-        },
-        {
-          riderId: "6",
-          riderName: "Wout van Aert",
-          riderCountry: "Belgium",
-          riderCountryCode: "BE",
-          teamName: "Jumbo-Visma",
-          riderAchievements: "Multiple Classics Winner"
-        },
-        {
-          riderId: "7",
-          riderName: "Mathieu van der Poel",
-          riderCountry: "Netherlands",
-          riderCountryCode: "NL",
-          teamName: "Alpecin-Deceuninck",
-          riderAchievements: "World Champion 2023"
-        },
-        {
-          riderId: "8",
-          riderName: "Peter Sagan",
-          riderCountry: "Slovakia",
-          riderCountryCode: "SK",
-          teamName: "TotalEnergies",
-          riderAchievements: "3x World Champion"
-        }
-      ];
-
-      setRiders(sampleRiders);
+      const data = await response.json();
+      const backendRiders = Array.isArray(data) ? data : [];
+      setRiders(backendRiders);
     } catch (e: any) {
       setError(e.message);
     } finally {

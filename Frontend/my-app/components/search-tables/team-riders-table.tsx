@@ -39,55 +39,18 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
     setRiders([]);
 
     try {
-      // TODO JAVA: Replace with actual API endpoint when available
-      // Search riders by team and return all riders who have this team
-      // const response = await fetch(
-      //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/${teamId}/riders`
-      // );
+      const response = await fetch(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/${teamId}/riders`
+      );
 
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-      // const data = await response.json();
-      // const backendRiders = Array.isArray(data) ? data : [];
-      // setRiders(backendRiders);
+      const data = await response.json();
+      const backendRiders = Array.isArray(data) ? data : [];
+      setRiders(backendRiders);
 
-      // For now, use sample data
-      const sampleRiders: TeamRider[] = [
-        {
-          riderName: "Tadej Pogačar",
-          riderCountry: "Slovenia",
-          riderCountryCode: "SI",
-          riderStrava: "https://www.strava.com/athletes/tadejpogacar"
-        },
-        {
-          riderName: "Adam Yates",
-          riderCountry: "Great Britain",
-          riderCountryCode: "GB",
-          riderStrava: "https://www.strava.com/athletes/adamyates"
-        },
-        {
-          riderName: "João Almeida",
-          riderCountry: "Portugal",
-          riderCountryCode: "PT",
-          riderStrava: "https://www.strava.com/athletes/joaoalmeida"
-        },
-        {
-          riderName: "Marc Soler",
-          riderCountry: "Spain",
-          riderCountryCode: "ES",
-          riderStrava: "https://www.strava.com/athletes/marcsoler"
-        },
-        {
-          riderName: "Rafal Majka",
-          riderCountry: "Poland",
-          riderCountryCode: "PL",
-          riderStrava: "https://www.strava.com/athletes/rafalmajka"
-        }
-      ];
-
-      setRiders(sampleRiders);
     } catch (e: any) {
       setError(e.message);
     } finally {

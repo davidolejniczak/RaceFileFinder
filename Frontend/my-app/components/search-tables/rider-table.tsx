@@ -70,9 +70,9 @@ export default function RiderTable({ query }: RiderTableProps) {
           const raceResultsData = await raceResultsResponse.json();
           raceResults = Array.isArray(raceResultsData)
             ? raceResultsData.map((result: any) => ({
-                position: result.position?.toString() ?? "",
+                riderPosition: result.position?.toString() ?? "",
                 raceName: result.raceName ?? result.race ?? "",
-                date: result.date ?? result.raceDate ?? "",
+                raceDate: result.date ?? result.raceDate ?? "",
               }))
             : [];
         }

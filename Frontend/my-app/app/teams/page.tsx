@@ -39,14 +39,14 @@ export default function TeamsPage() {
       }
       const data = await response.json();
       const backendTeams = Array.isArray(data) ? data : [];
-      const mappedTeams: Team[] = backendTeams.map((team: any) => ({
-        teamId: team.teamId?.toString() ?? team.id?.toString() ?? "",
-        teamName: team.teamName ?? team.name ?? "",
-        country: team.country ?? "",
-        countryCode: team.countryCode ?? "",
-        riderCount: team.riderCount ?? 0,
-        bestResult: team.bestResult ?? "",
-        teamUrl: team.teamUrl ?? undefined,
+        const mappedTeams: Team[] = backendTeams.map((team: any) => ({
+          teamId: team.teamId?.toString() ?? team.id?.toString() ?? "",
+          teamName: team.teamName ?? team.name ?? "",
+          teamCountry: team.country ?? "",
+          teamCountryCode: team.countryCode ?? "",
+          teamRiderCount: team.riderCount ?? 0,
+          teamBestResult: team.bestResult ?? "",
+          teamUrl: team.teamUrl ?? undefined,
       }));
       setTeams(mappedTeams);
     } catch (e: any) {
