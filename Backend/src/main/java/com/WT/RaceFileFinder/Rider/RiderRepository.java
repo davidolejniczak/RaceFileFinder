@@ -40,4 +40,10 @@ public interface RiderRepository extends JpaRepository<Rider, String>, PagingAnd
     @Query(value = "SELECT * FROM riders WHERE riderId = :riderId", nativeQuery = true)
     Rider findByRiderId(@Param("riderId") String riderId);
 
+    @Query(value = "SELECT * FROM riders WHERE teamId = :teamId", nativeQuery = true)
+    List<Rider> findByTeamId(@Param("teamId") String teamId);
+
+    @Query(value = "SELECT * FROM riders WHERE popular = true", nativeQuery = true)
+    List<Rider> findPopularRiders();
+
 }

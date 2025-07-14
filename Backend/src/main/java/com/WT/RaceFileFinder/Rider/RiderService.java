@@ -59,4 +59,12 @@ public class RiderService {
         return riderRepository.findByRiderId(riderId);
     }
 
+    public List<Rider> getRidersByTeamId(String teamId) {
+        return riderRepository.findByTeamId(teamId);
+    }
+
+    public List<Rider> getPopularRiders() {
+        return riderRepository.findPopularRiders();
+    }
+
 }

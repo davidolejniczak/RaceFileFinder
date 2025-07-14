@@ -69,4 +69,13 @@ public class RiderController {
         return riderService.getRiderByName(riderName);
     }
 
+    @GetMapping("/{id}/riders")
+    public List<Rider> getRidersByTeamId(@PathVariable String id) {
+        return riderService.getRidersByTeamId(id);
+    }
+
+    @GetMapping("/popular")
+    public List<Rider> getPopularRiders() {
+        return riderService.getPopularRiders();
+    }
 }
