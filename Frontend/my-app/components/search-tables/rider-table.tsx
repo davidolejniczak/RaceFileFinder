@@ -11,16 +11,16 @@ import {
 } from "@/components/ui/table";
 
 interface RaceResult {
-  position: string;
+  riderPosition: string;
   raceName: string;
-  date: string;
+  raceDate: string;
 }
 
 interface RiderResult {
   riderName: string;
   riderTeam: string;
   riderCountry: string;
-  countryCode: string;
+  riderCountryCode: string;
   riderStrava: string;
   raceResults: RaceResult[];
 }
@@ -82,7 +82,7 @@ export default function RiderTable({ query }: RiderTableProps) {
         riderName: rider.riderName || rider.name || "Rider",
         riderTeam: rider.teamName || "Team Unknown",
         riderCountry: rider.country || "Unknown",
-        countryCode: rider.countryCode || "XX",
+        riderCountryCode: rider.countryCode || "XX",
         riderStrava: rider.stravaLink || "#",
         raceResults,
       };
@@ -147,18 +147,18 @@ export default function RiderTable({ query }: RiderTableProps) {
     });
 
     // Sort by date (most recent first)
-    allRaceResults.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    allRaceResults.sort((a, b) => new Date(b.raceDate).getTime() - new Date(a.raceDate).getTime());
 
     return allRaceResults.map((result, index) => (
       <TableRow key={index} className="hover:bg-blue-50/50 transition-colors">
         <TableCell className="border-r border-gray-200 text-center font-medium">
-          {result.position}
+          {result.riderPosition}
         </TableCell>
         <TableCell className="border-r border-gray-200 break-words font-medium">
           {result.raceName}
         </TableCell>
         <TableCell className="text-gray-600">
-          {new Date(result.date).toLocaleDateString()}
+          {new Date(result.raceDate).toLocaleDateString()}
         </TableCell>
       </TableRow>
     ));

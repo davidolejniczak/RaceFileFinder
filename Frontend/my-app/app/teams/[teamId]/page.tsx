@@ -16,8 +16,8 @@ import TeamResultsTable from "@/components/search-tables/team-results-table";
 interface Team {
   teamId: string;
   teamName: string;
-  country: string;
-  countryCode: string;
+  teamCountry: string;
+  teamCountryCode: string;
   teamUrl?: string;
 }
 
@@ -92,12 +92,12 @@ export default function TeamRidersPage() {
           <CardHeader>
             <div className="flex items-center gap-4">
               <span 
-                className={`fi fi-${team.countryCode.toLowerCase()} w-12 h-9 rounded shadow-md`}
-                title={team.country}
+                className={`fi fi-${team.teamCountryCode.toLowerCase()} w-12 h-9 rounded shadow-md`}
+                title={team.teamCountry}
               ></span>
               <div>
                 <CardTitle className="text-2xl">{team.teamName}</CardTitle>
-                <CardDescription className="text-lg">{team.country}</CardDescription>
+                <CardDescription className="text-lg">{team.teamCountry}</CardDescription>
               </div>
               {team.teamUrl && (
                 <a

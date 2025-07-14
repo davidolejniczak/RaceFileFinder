@@ -12,9 +12,9 @@ import {
 
 interface TeamRider {
   riderName: string;
-  country: string;
-  countryCode: string;
-  stravaLink?: string;
+  riderCountry: string;
+  riderCountryCode: string;
+  riderStrava?: string;
 }
 
 interface TeamRidersTableProps {
@@ -39,7 +39,8 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
     setRiders([]);
 
     try {
-      // TODO: Replace with actual API endpoint when available
+      // TODO JAVA: Replace with actual API endpoint when available
+      // Search riders by team and return all riders who have this team
       // const response = await fetch(
       //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/${teamId}/riders`
       // );
@@ -56,33 +57,33 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
       const sampleRiders: TeamRider[] = [
         {
           riderName: "Tadej Pogačar",
-          country: "Slovenia",
-          countryCode: "SI",
-          stravaLink: "https://www.strava.com/athletes/tadejpogacar"
+          riderCountry: "Slovenia",
+          riderCountryCode: "SI",
+          riderStrava: "https://www.strava.com/athletes/tadejpogacar"
         },
         {
           riderName: "Adam Yates",
-          country: "Great Britain",
-          countryCode: "GB",
-          stravaLink: "https://www.strava.com/athletes/adamyates"
+          riderCountry: "Great Britain",
+          riderCountryCode: "GB",
+          riderStrava: "https://www.strava.com/athletes/adamyates"
         },
         {
           riderName: "João Almeida",
-          country: "Portugal",
-          countryCode: "PT",
-          stravaLink: "https://www.strava.com/athletes/joaoalmeida"
+          riderCountry: "Portugal",
+          riderCountryCode: "PT",
+          riderStrava: "https://www.strava.com/athletes/joaoalmeida"
         },
         {
           riderName: "Marc Soler",
-          country: "Spain",
-          countryCode: "ES",
-          stravaLink: "https://www.strava.com/athletes/marcsoler"
+          riderCountry: "Spain",
+          riderCountryCode: "ES",
+          riderStrava: "https://www.strava.com/athletes/marcsoler"
         },
         {
           riderName: "Rafal Majka",
-          country: "Poland",
-          countryCode: "PL",
-          stravaLink: "https://www.strava.com/athletes/rafalmajka"
+          riderCountry: "Poland",
+          riderCountryCode: "PL",
+          riderStrava: "https://www.strava.com/athletes/rafalmajka"
         }
       ];
 
@@ -136,16 +137,16 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
         <TableCell className="border-r border-gray-200">
           <div className="flex items-center gap-2">
             <span 
-              className={`fi fi-${rider.countryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
-              title={rider.country}
+              className={`fi fi-${rider.riderCountryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
+              title={rider.riderCountry}
             ></span>
-            <span className="text-sm text-gray-600">{rider.country}</span>
+            <span className="text-sm text-gray-600">{rider.riderCountry}</span>
           </div>
         </TableCell>
         <TableCell className="text-left">
-          {rider.stravaLink ? (
+          {rider.riderStrava ? (
             <a
-              href={rider.stravaLink}
+              href={rider.riderStrava}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium transition-colors"

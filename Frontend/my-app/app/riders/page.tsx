@@ -13,10 +13,10 @@ import {
 interface Rider {
   riderId: string;
   riderName: string;
-  country: string;
-  countryCode: string;
+  riderCountry: string;
+  riderCountryCode: string;
   teamName: string;
-  achievements?: string;
+  riderAchievements?: string;
 }
 
 export default function RidersPage() {
@@ -31,7 +31,8 @@ export default function RidersPage() {
 
   const fetchPopularRiders = async () => {
     try {
-      // TODO: Replace with actual API endpoint when available
+      // TODO JAVA: Replace with actual API endpoint when available
+      // add popular boolean column for all riders which is true if it should return for this
       // const response = await fetch(
       //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/riders/popular`
       // );
@@ -49,66 +50,66 @@ export default function RidersPage() {
         {
           riderId: "1",
           riderName: "Tadej Pogačar",
-          country: "Slovenia",
-          countryCode: "SI",
+          riderCountry: "Slovenia",
+          riderCountryCode: "SI",
           teamName: "UAE Team Emirates",
-          achievements: "2x Tour de France Winner"
+          riderAchievements: "2x Tour de France Winner"
         },
         {
           riderId: "2",
           riderName: "Jonas Vingegaard",
-          country: "Denmark",
-          countryCode: "DK",
+          riderCountry: "Denmark",
+          riderCountryCode: "DK",
           teamName: "Jumbo-Visma",
-          achievements: "2x Tour de France Winner"
+          riderAchievements: "2x Tour de France Winner"
         },
         {
           riderId: "3",
           riderName: "Primož Roglič",
-          country: "Slovenia",
-          countryCode: "SI",
+          riderCountry: "Slovenia",
+          riderCountryCode: "SI",
           teamName: "Bora-Hansgrohe",
-          achievements: "3x Vuelta Winner"
+          riderAchievements: "3x Vuelta Winner"
         },
         {
           riderId: "4",
           riderName: "Remco Evenepoel",
-          country: "Belgium",
-          countryCode: "BE",
+          riderCountry: "Belgium",
+          riderCountryCode: "BE",
           teamName: "Soudal Quick-Step",
-          achievements: "Vuelta Winner 2022"
+          riderAchievements: "Vuelta Winner 2022"
         },
         {
           riderId: "5",
           riderName: "Egan Bernal",
-          country: "Colombia",
-          countryCode: "CO",
+          riderCountry: "Colombia",
+          riderCountryCode: "CO",
           teamName: "INEOS Grenadiers",
-          achievements: "Tour de France Winner 2019"
+          riderAchievements: "Tour de France Winner 2019"
         },
         {
           riderId: "6",
           riderName: "Wout van Aert",
-          country: "Belgium",
-          countryCode: "BE",
+          riderCountry: "Belgium",
+          riderCountryCode: "BE",
           teamName: "Jumbo-Visma",
-          achievements: "Multiple Classics Winner"
+          riderAchievements: "Multiple Classics Winner"
         },
         {
           riderId: "7",
           riderName: "Mathieu van der Poel",
-          country: "Netherlands",
-          countryCode: "NL",
+          riderCountry: "Netherlands",
+          riderCountryCode: "NL",
           teamName: "Alpecin-Deceuninck",
-          achievements: "World Champion 2023"
+          riderAchievements: "World Champion 2023"
         },
         {
           riderId: "8",
           riderName: "Peter Sagan",
-          country: "Slovakia",
-          countryCode: "SK",
+          riderCountry: "Slovakia",
+          riderCountryCode: "SK",
           teamName: "TotalEnergies",
-          achievements: "3x World Champion"
+          riderAchievements: "3x World Champion"
         }
       ];
 
@@ -178,12 +179,12 @@ export default function RidersPage() {
                 <CardHeader>
                   <div className="flex items-center gap-3">
                     <span 
-                      className={`fi fi-${rider.countryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
-                      title={rider.country}
+                      className={`fi fi-${rider.riderCountryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
+                      title={rider.riderCountry}
                     ></span>
                     <CardTitle className="text-lg">{rider.riderName}</CardTitle>
                   </div>
-                  <CardDescription>{rider.country}</CardDescription>
+                  <CardDescription>{rider.riderCountry}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col justify-end">
                   <div className="space-y-1">
@@ -191,9 +192,9 @@ export default function RidersPage() {
                       <span className="text-gray-600">Team: </span>
                       <span className="font-semibold">{rider.teamName}</span>
                     </div>
-                    {rider.achievements && (
+                    {rider.riderAchievements && (
                       <div className="text-xs text-gray-500">
-                        {rider.achievements}
+                        {rider.riderAchievements}
                       </div>
                     )}
                   </div>

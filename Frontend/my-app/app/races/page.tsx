@@ -14,10 +14,10 @@ interface Race {
   raceId: string;
   raceName: string;
   raceYear: string;
-  country: string;
-  countryCode: string;
-  winner?: string;
-  hasResults: boolean;
+  raceCountry: string;
+  raceCountryCode: string;
+  raceWinner?: string;
+  raceHasResults: boolean;
 }
 
 export default function RacesPage() {
@@ -104,19 +104,19 @@ export default function RacesPage() {
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <span 
-                    className={`fi fi-${race.countryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
-                    title={race.country}
+                    className={`fi fi-${race.raceCountryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
+                    title={race.raceCountry}
                   ></span>
                   <CardTitle className="text-lg">{race.raceName}</CardTitle>
                 </div>
-                <CardDescription>{race.country} • {race.raceYear}</CardDescription>
+                <CardDescription>{race.raceCountry} • {race.raceYear}</CardDescription>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-end">
                 <div className="space-y-1">
-                  {race.hasResults && race.winner ? (
+                  {race.raceHasResults && race.raceWinner ? (
                     <div className="text-sm">
                       <span className="text-gray-600">Winner: </span>
-                      <span className="font-semibold">{race.winner}</span>
+                      <span className="font-semibold">{race.raceWinner}</span>
                     </div>
                   ) : (
                     <div className="text-sm text-gray-500 italic">
@@ -125,7 +125,7 @@ export default function RacesPage() {
                   )}
                 </div>
                 <div className="mt-1">
-                  {race.hasResults ? (
+                  {race.raceHasResults ? (
                     <Link
                       href={`/results/race?query=${encodeURIComponent(race.raceName)}`}
                       className="text-blue-600 hover:text-blue-800 font-medium text-sm"

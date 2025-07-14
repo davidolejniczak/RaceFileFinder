@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/table";
 
 interface TeamResult {
-  position: string;
+  riderPosition: string;
   raceName: string;
   riderName: string;
-  countryCode: string;
-  date: string;
+  riderCountryCode: string;
+  raceDate: string;
 }
 
 interface TeamResultsTableProps {
@@ -40,7 +40,8 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
     setResults([]);
 
     try {
-      // TODO: Replace with actual API endpoint when available
+      // TODO JAVA: Replace with actual API endpoint when available
+      // Search resutls table by team query 
       // const response = await fetch(
       //   `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/${teamId}/best-results`
       // );
@@ -56,39 +57,39 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
       // For now, use sample data
       const sampleResults: TeamResult[] = [
         {
-          position: "1st",
+          riderPosition: "1st",
           raceName: "Tour de France 2024",
           riderName: "Tadej Pogačar",
-          countryCode: "SI",
-          date: "2024-07-21"
+          riderCountryCode: "SI",
+          raceDate: "2024-07-21"
         },
         {
-          position: "2nd",
+          riderPosition: "2nd",
           raceName: "Tour de France 2024",
           riderName: "Adam Yates",
-          countryCode: "GB",
-          date: "2024-07-21"
+          riderCountryCode: "GB",
+          raceDate: "2024-07-21"
         },
         {
-          position: "1st",
+          riderPosition: "1st",
           raceName: "Liège-Bastogne-Liège 2024",
           riderName: "Tadej Pogačar",
-          countryCode: "SI",
-          date: "2024-04-21"
+          riderCountryCode: "SI",
+          raceDate: "2024-04-21"
         },
         {
-          position: "3rd",
+          riderPosition: "3rd",
           raceName: "Giro d'Italia 2024",
           riderName: "João Almeida",
-          countryCode: "PT",
-          date: "2024-05-26"
+          riderCountryCode: "PT",
+          raceDate: "2024-05-26"
         },
         {
-          position: "1st",
+          riderPosition: "1st",
           raceName: "Volta a Catalunya 2024",
           riderName: "Tadej Pogačar",
-          countryCode: "SI",
-          date: "2024-03-24"
+          riderCountryCode: "SI",
+          raceDate: "2024-03-24"
         }
       ];
 
@@ -137,7 +138,7 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
     return results.map((result, index) => (
       <TableRow key={index} className="hover:bg-blue-50/50 transition-colors">
         <TableCell className="border-r border-gray-200 whitespace-nowrap text-center font-medium">
-          {result.position}
+          {result.riderPosition}
         </TableCell>
         <TableCell className="border-r border-gray-200 break-words font-medium">
           {result.raceName}
@@ -147,12 +148,12 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
         </TableCell>
         <TableCell className="border-r border-gray-200 text-center">
           <span 
-            className={`fi fi-${result.countryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
-            title={result.countryCode}
+            className={`fi fi-${result.riderCountryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
+            title={result.riderCountryCode}
           ></span>
         </TableCell>
         <TableCell className="text-left whitespace-nowrap text-gray-600">
-          {new Date(result.date).toLocaleDateString()}
+          {new Date(result.raceDate).toLocaleDateString()}
         </TableCell>
       </TableRow>
     ));

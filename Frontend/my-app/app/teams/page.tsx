@@ -13,10 +13,10 @@ import {
 interface Team {
   teamId: string;
   teamName: string;
-  country: string;
-  countryCode: string;
-  riderCount: number;
-  bestResult: string;
+  teamCountry: string;
+  teamCountryCode: string;
+  teamRiderCount: number;
+  teamBestResult: string;
   teamUrl?: string;
 }
 
@@ -100,21 +100,21 @@ export default function TeamsPage() {
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <span 
-                    className={`fi fi-${team.countryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
-                    title={team.country}
+                    className={`fi fi-${team.teamCountryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
+                    title={team.teamCountry}
                   ></span>
                   <CardTitle className="text-lg">{team.teamName}</CardTitle>
                 </div>
-                <CardDescription>{team.country}</CardDescription>
+                <CardDescription>{team.teamCountry}</CardDescription>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-end">
                 <div className="space-y-1">
                   <div className="text-sm">
                     <span className="text-gray-600">Riders: </span>
-                    <span className="font-semibold">{team.riderCount}</span>
+                    <span className="font-semibold">{team.teamRiderCount}</span>
                   </div>
                   <div className="text-xs text-gray-500">
-                    {team.bestResult}
+                    {team.teamBestResult}
                   </div>
                 </div>
                 <div className="mt-1">

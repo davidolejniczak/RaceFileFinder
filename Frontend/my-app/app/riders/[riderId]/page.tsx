@@ -15,11 +15,11 @@ import RiderTable from "@/components/search-tables/rider-table";
 interface RiderProfile {
   riderId: string;
   riderName: string;
-  country: string;
-  countryCode: string;
+  riderCountry: string;
+  riderCountryCode: string;
   teamName: string;
-  achievements?: string;
-  stravaLink?: string;
+  riderAchievements?: string;
+  riderStrava?: string;
 }
 
 export default function RiderProfilePage() {
@@ -90,16 +90,16 @@ export default function RiderProfilePage() {
           <CardHeader>
             <div className="flex items-center gap-4">
               <span 
-                className={`fi fi-${rider.countryCode.toLowerCase()} w-12 h-9 rounded shadow-md`}
-                title={rider.country}
+                className={`fi fi-${rider.riderCountryCode.toLowerCase()} w-12 h-9 rounded shadow-md`}
+                title={rider.riderCountry}
               ></span>
               <div>
                 <CardTitle className="text-2xl">{rider.riderName}</CardTitle>
-                <CardDescription className="text-lg">{rider.country} • {rider.teamName}</CardDescription>
+                <CardDescription className="text-lg">{rider.riderCountry} • {rider.teamName}</CardDescription>
               </div>
-              {rider.stravaLink && (
+              {rider.riderStrava && (
                 <a
-                  href={rider.stravaLink}
+                  href={rider.riderStrava}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="ml-auto text-blue-600 hover:text-blue-800 font-medium"
@@ -109,10 +109,10 @@ export default function RiderProfilePage() {
               )}
             </div>
           </CardHeader>
-          {rider.achievements && (
+          {rider.riderAchievements && (
             <CardContent>
               <p className="text-sm text-gray-600">
-                <span className="font-semibold">Achievements:</span> {rider.achievements}
+                <span className="font-semibold">Achievements:</span> {rider.riderAchievements}
               </p>
             </CardContent>
           )}

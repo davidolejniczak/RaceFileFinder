@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 
 interface TeamResult {
-  teamName: string;
+  teamName: string; 
   teamUrl: string;
 }
 
@@ -37,7 +37,7 @@ export default function TeamTable({ query }: TeamTableProps) {
 
     try {
       const response = await fetch(
-        // TODO
+        // TODO JAVA 
         `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/team/all?teamName=${encodeURIComponent(
           searchQuery
         )}`
