@@ -10,6 +10,7 @@ public class Rider {
     @Column(name = "riderID", unique = true)
     private String riderID;
 
+    @Column(name = "riderName")
     private String riderName;
 
     @Column(name = "nation")
@@ -27,11 +28,14 @@ public class Rider {
     @Column(name = "riderStravaLink")
     private String riderStravaLink;
 
+    @Column(name = "riderPopular")
+    private boolean popular;
+
     protected Rider() {
     }
 
     public Rider(String riderName, String riderCountry, String riderTeam, String riderID, String countryCode,
-            String riderAchievements, String riderStravaLink) {
+            String riderAchievements, String riderStravaLink, boolean popular) {
         this.riderID = riderID;
         this.riderName = riderName;
         this.riderCountry = riderCountry;
@@ -39,6 +43,7 @@ public class Rider {
         this.countryCode = countryCode;
         this.riderAchievements = riderAchievements;
         this.riderStravaLink = riderStravaLink;
+        this.popular = popular;
     }
 
     public void setRiderName(String riderName) {
@@ -96,5 +101,12 @@ public class Rider {
     public void setRiderStravaLink(String riderStravaLink) {
         this.riderStravaLink = riderStravaLink;
     }
+
+    public boolean isPopular() {
+        return popular;
+    }
+
+    public void setPopular(boolean popular) {
+        this.popular = popular;
 
 }
