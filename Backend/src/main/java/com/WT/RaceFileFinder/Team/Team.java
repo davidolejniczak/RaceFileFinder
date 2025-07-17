@@ -23,7 +23,7 @@ public class Team {
     private int riderCount;
 
     @Column(name = "bestResult")
-    private String bestResult;
+    private String teamBestResult;
 
     @Column(name = "teamUrl")
     private String teamUrl;
@@ -38,7 +38,7 @@ public class Team {
         this.teamCountry = teamCountry;
         this.countryCode = countryCode;
         this.riderCount = riderCount;
-        this.bestResult = bestResult;
+        this.teamBestResult = bestResult;
         this.teamUrl = teamUrl;
     }
 
@@ -82,12 +82,12 @@ public class Team {
         this.riderCount = riderCount;
     }
 
-    public String getBestResult() {
-        return bestResult;
+    public String getTeamBestResult() {
+        return teamBestResult;
     }
 
-    public void setBestResult(String bestResult) {
-        this.bestResult = bestResult;
+    public void setTeamBestResult(String bestResult) {
+        this.teamBestResult = bestResult;
     }
 
     public String getTeamUrl() {

@@ -22,8 +22,8 @@ public class RaceResults {
     @Column(name = "riderstrava")
     private String riderStrava;
 
-    @Column(name = "ridercountrycode")
-    private String riderCountryCode;
+    @Column(name = "countrycode")
+    private String countryCode;
 
     @Column(name = "racedate")
     private String raceDate;
@@ -32,13 +32,13 @@ public class RaceResults {
     }
 
     public RaceResults(String raceName, String riderPosition, String riderName,
-            String riderStrava, String riderCountryCode,
+            String riderStrava, String countryCode,
             String raceDate) {
         this.raceName = raceName;
         this.riderPosition = riderPosition;
         this.riderName = riderName;
         this.riderStrava = riderStrava;
-        this.riderCountryCode = riderCountryCode;
+        this.countryCode = countryCode;
         this.raceDate = raceDate;
     }
 
@@ -74,12 +74,12 @@ public class RaceResults {
         this.riderStrava = riderStrava;
     }
 
-    public String getRiderCountryCode() {
-        return riderCountryCode;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setRiderCountryCode(String riderCountryCode) {
-        this.riderCountryCode = riderCountryCode;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public String getRaceDate() {

@@ -35,7 +35,6 @@ export default function RaceTable({ query }: RaceTableProps) {
     setIsLoading(true);
     try {
       const response = await fetch(
-        // TODO JAVA
         `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/raceresults/r?racename=${encodeURIComponent(
           raceNameInput
         )}`

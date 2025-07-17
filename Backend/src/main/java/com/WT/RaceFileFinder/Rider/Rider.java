@@ -18,20 +18,25 @@ public class Rider {
     @Column(name = "team")
     private String riderTeam;
 
-    private String riderCountryCode;
+    @Column(name = "countryCode")
+    private String countryCode;
+
+    @Column(name = "riderAchievements")
     private String riderAchievements;
+
+    @Column(name = "riderStravaLink")
     private String riderStravaLink;
 
     protected Rider() {
     }
 
-    public Rider(String riderName, String riderCountry, String riderTeam, String riderID, String riderCountryCode,
+    public Rider(String riderName, String riderCountry, String riderTeam, String riderID, String countryCode,
             String riderAchievements, String riderStravaLink) {
         this.riderID = riderID;
         this.riderName = riderName;
         this.riderCountry = riderCountry;
         this.riderTeam = riderTeam;
-        this.riderCountryCode = riderCountryCode;
+        this.countryCode = countryCode;
         this.riderAchievements = riderAchievements;
         this.riderStravaLink = riderStravaLink;
     }
@@ -49,7 +54,7 @@ public class Rider {
     }
 
     public String getridercountry() {
-        return ridercountry;
+        return riderCountry;
     }
 
     public void setTeam(String riderTeam) {
@@ -68,12 +73,12 @@ public class Rider {
         this.riderID = riderID;
     }
 
-    public String getRiderCountryCode() {
-        return riderCountryCode;
+    public String getcountryCode() {
+        return countryCode;
     }
 
-    public void setRiderCountryCode(String riderCountryCode) {
-        this.riderCountryCode = riderCountryCode;
+    public void setcountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public String getRiderAchievements() {
@@ -90,18 +95,6 @@ public class Rider {
 
     public void setRiderStravaLink(String riderStravaLink) {
         this.riderStravaLink = riderStravaLink;
-    }
-
-    @Override
-    public String toString() {
-        try {
-            String returnString = String.format(
-                    "\nRider[\nRider Name %s\nridercountryality = %s\nTeam = %s\n]",
-                    riderName, ridercountry, riderTeam);
-            return returnString;
-        } catch (Exception e) {
-            return ("\nRider is not found\n");
-        }
     }
 
 }

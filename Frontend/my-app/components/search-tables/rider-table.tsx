@@ -20,7 +20,7 @@ interface RiderResult {
   riderName: string;
   riderTeam: string;
   riderCountry: string;
-  riderCountryCode: string;
+  countryCode: string;
   riderStrava: string;
   raceResults: RaceResult[];
 }
@@ -82,7 +82,7 @@ export default function RiderTable({ query }: RiderTableProps) {
         riderName: rider.riderName || rider.name || "Rider",
         riderTeam: rider.teamName || "Team Unknown",
         riderCountry: rider.country || "Unknown",
-        riderCountryCode: rider.countryCode || "XX",
+        countryCode: rider.countryCode || "XX",
         riderStrava: rider.stravaLink || "#",
         raceResults,
       };
