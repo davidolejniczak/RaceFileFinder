@@ -8,3 +8,6 @@ A Java Spring Boot, React-TS, full stack application allowing users to find info
 - **Backend:** Java Spring Boot, PostgreSQL  
 - **Hosting:** Vercel (Frontend), Heroku (Backend), Heroku Postgres (Database)
 
+## Database schema 
+
+## Backend design
