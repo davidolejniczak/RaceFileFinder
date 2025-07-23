@@ -108,5 +108,5 @@ public class Rider {
 
     public void setPopular(boolean popular) {
         this.popular = popular;
-
+    }
 }
