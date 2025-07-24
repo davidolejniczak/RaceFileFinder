@@ -1,6 +1,6 @@
 package com.WT.RaceFileFinder.Rider;
 
-import jakarta.transaction.Transactional;
+// import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 import java.util.List;
@@ -50,13 +50,13 @@ public class RiderService {
         return riderRepository.findByTeamAndNationIgnoreCase(riderTeam, riderCountry);
     }
 
-    @Transactional
-    public void saveRider(Rider rider) {
-        riderRepository.saveRider(rider);
-    }
+    // @Transactional
+    // public void saveRider(Rider rider) {
+    // riderRepository.saveRider(rider);
+    // }
 
-    public Rider getByRiderId(String riderId) {
-        return riderRepository.findByRiderId(riderId);
+    public Rider getRiderById(String riderID) {
+        return riderRepository.findByRiderId(riderID);
     }
 
     public List<Rider> getRidersByTeamId(String teamId) {

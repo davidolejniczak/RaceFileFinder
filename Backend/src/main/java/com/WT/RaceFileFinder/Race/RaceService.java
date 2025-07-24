@@ -1,8 +1,6 @@
 package com.WT.RaceFileFinder.Race;
 
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Sort;
 import java.util.List;
 
 @Service
@@ -23,6 +21,10 @@ public class RaceService {
     }
 
     public List<Race> getRaces() {
-        return raceRepository.findbyRace();
+        return raceRepository.findByRace();
+    }
+
+    public List<Race> getAllRaces() {
+        return raceRepository.findAllRaces();
     }
 }

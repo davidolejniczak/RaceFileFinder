@@ -1,6 +1,5 @@
-package WT.RaceFileFinder.Team;
+package com.WT.RaceFileFinder.Team;
 
-import java.lang.annotation.Inherited;
 import jakarta.persistence.*;
 
 @Entity

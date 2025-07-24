@@ -2,16 +2,13 @@ package com.WT.RaceFileFinder.Rider;
 
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RiderRepository extends JpaRepository<Rider, String>, PagingAndSortingRepository<Rider, String> {
+public interface RiderRepository extends JpaRepository<Rider, String> {
 
     Optional<Rider> findByriderName(String riderName);
 
@@ -32,10 +29,12 @@ public interface RiderRepository extends JpaRepository<Rider, String>, PagingAnd
     @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:riderTeam)) AND LOWER(unaccent(nation)) = LOWER(unaccent(:riderCountry))", nativeQuery = true)
     List<Rider> findByTeamAndNationIgnoreCase(String team, String nation);
 
-    @Modifying
-    @Query(value = "INSERT INTO riders (riderName, team, nation) VALUES(:riderName, :riderTeam, :riderCountry)", nativeQuery = true)
-    void saveRider(@Param("riderName") String riderName, @Param("riderTeam") String riderTeam,
-            @Param("riderCountry") String riderCountry);
+    // @Modifying
+    // @Query(value = "INSERT INTO riders (riderName, team, nation)
+    // VALUES(:riderName, :riderTeam, :riderCountry)", nativeQuery = true)
+    // void saveRider(@Param("riderName") String riderName, @Param("riderTeam")
+    // String riderTeam,
+    // @Param("riderCountry") String riderCountry);
 
     @Query(value = "SELECT * FROM riders WHERE riderId = :riderId", nativeQuery = true)
     Rider findByRiderId(@Param("riderId") String riderId);

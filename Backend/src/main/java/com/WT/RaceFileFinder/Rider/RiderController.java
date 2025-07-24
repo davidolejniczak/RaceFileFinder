@@ -1,8 +1,9 @@
 package com.WT.RaceFileFinder.Rider;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+// import jakarta.transaction.Transactional;
+// import org.springframework.data.domain.Sort;
+// import org.springframework.http.HttpStatus;
+// import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -53,19 +54,19 @@ public class RiderController {
         return riders.stream().map(Rider::getRiderName).collect(Collectors.toList());
     }
 
-    @PutMapping("/save")
-    public ResponseEntity<String> saveRider(@RequestBody Rider rider) {
-        riderService.saveRider(rider);
-        return ResponseEntity.ok("Rider Info Saved");
-    }
+    // @PutMapping("/save")
+    // public ResponseEntity<String> saveRider(@RequestBody Rider rider) {
+    // riderService.saveRider(rider);
+    // return ResponseEntity.ok("Rider Info Saved");
+    // }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Rider> getRiderById(@PathVariable String riderId) {
-        return riderService.getRiderById(riderId);
+    public Rider getRiderById(@PathVariable String riderID) {
+        return riderService.getRiderById(riderID);
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Rider> getRiderPage(@RequestParam String riderName) {
+    public Rider getRiderPage(@RequestParam String riderName) {
         return riderService.getRiderByName(riderName);
     }
 

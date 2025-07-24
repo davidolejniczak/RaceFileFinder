@@ -1,11 +1,7 @@
-package WT.RaceFileFinder.Team;
+package com.WT.RaceFileFinder.Team;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +16,7 @@ public class TeamController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Team> getTeamById(@PathVariable String teamId) {
+    public Team getTeamById(@PathVariable String teamId) {
         return teamService.getTeamById(teamId);
     }
 
