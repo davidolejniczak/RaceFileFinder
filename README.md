@@ -11,3 +11,5 @@ A Java Spring Boot, React-TS, full stack application allowing users to find info
 ## Database schema 
 
 ## Backend design
+
+## Future Improvements
