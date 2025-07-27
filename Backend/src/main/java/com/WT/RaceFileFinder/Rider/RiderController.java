@@ -79,6 +79,8 @@ public class RiderController {
 
     @GetMapping("/popular")
     public List<Rider> getPopularRiders() {
+        List<Rider> riders = riderService.getPopularRiders();
+        System.out.println("[DEBUG] Controller - Retrieved riders: " + (riders != null ? riders.size() : "null"));
         return riderService.getPopularRiders();
     }
 }

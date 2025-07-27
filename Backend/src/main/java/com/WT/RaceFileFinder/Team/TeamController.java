@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/api/team")
+@RequestMapping(path = "/api/teams")
 public class TeamController {
 
     private final TeamService teamService;
@@ -17,7 +17,9 @@ public class TeamController {
 
     @GetMapping("/{id}")
     public Team getTeamById(@PathVariable String teamId) {
-        return teamService.getTeamById(teamId);
+        Team team = teamService.getTeamById(teamId);
+        System.out.println("[DEBUG] Controller - Retrieved team by id: " + (team != null ? team.getTeamID() : "null"));
+        return team;
     }
 
     @GetMapping("/name")
