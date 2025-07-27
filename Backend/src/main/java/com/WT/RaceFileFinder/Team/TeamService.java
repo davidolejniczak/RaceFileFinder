@@ -41,7 +41,7 @@ public class TeamService {
 
     public Team getTeamById(String teamId) {
         Team team = teamRepository.findByTeamId(teamId);
-        System.out.println("[DEBUG] Service - Retrieved team by id: " + (team != null ? team.getTeamID() : "null"));
+        System.out.println("[DEBUG] Service - Retrieved team by id: " + (team != null ? team : "null"));
         return team;
     }
 }

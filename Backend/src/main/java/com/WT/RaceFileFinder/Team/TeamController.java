@@ -17,8 +17,9 @@ public class TeamController {
 
     @GetMapping("/{id}")
     public Team getTeamById(@PathVariable String teamId) {
+        System.out.println("[DEBUG] Controller - Retrieving team by id: " + teamId);
         Team team = teamService.getTeamById(teamId);
-        System.out.println("[DEBUG] Controller - Retrieved team by id: " + (team != null ? team.getTeamID() : "null"));
+        System.out.println("[DEBUG] Controller - Retrieved teams: " + (team != null ? team : "null"));
         return team;
     }
 
