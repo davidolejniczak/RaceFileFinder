@@ -67,6 +67,9 @@ public class RiderService {
     }
 
     public List<Rider> getPopularRiders() {
+        List<Rider> riders = riderRepository.findPopularRiders();
+        System.out.println(
+                "[DEBUG] Service - Retrieved riders from repository: " + (riders != null ? riders.size() : "null"));
         return riderRepository.findPopularRiders();
     }
 

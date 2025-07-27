@@ -42,7 +42,7 @@ public interface RiderRepository extends JpaRepository<Rider, String> {
     @Query(value = "SELECT * FROM riders WHERE teamId = :teamId", nativeQuery = true)
     List<Rider> findByTeamId(@Param("teamId") String teamId);
 
-    @Query(value = "SELECT * FROM riders WHERE popular = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM riders WHERE riderpopular = true", nativeQuery = true)
     List<Rider> findPopularRiders();
 
 }
