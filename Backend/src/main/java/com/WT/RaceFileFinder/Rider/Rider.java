@@ -7,10 +7,10 @@ import jakarta.persistence.*;
 public class Rider {
 
     @Id
-    @Column(name = "riderID", unique = true)
+    @Column(name = "riderid", unique = true)
     private String riderID;
 
-    @Column(name = "riderName")
+    @Column(name = "ridername")
     private String riderName;
 
     @Column(name = "nation")
@@ -19,16 +19,16 @@ public class Rider {
     @Column(name = "team")
     private String riderTeam;
 
-    @Column(name = "countryCode")
+    @Column(name = "countrycode")
     private String countryCode;
 
-    @Column(name = "riderAchievements")
+    @Column(name = "riderachievements")
     private String riderAchievements;
 
-    @Column(name = "riderStravaLink")
+    @Column(name = "riderstravalink")
     private String riderStravaLink;
 
-    @Column(name = "riderPopular")
+    @Column(name = "riderpopular")
     private boolean popular;
 
     protected Rider() {

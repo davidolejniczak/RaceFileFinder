@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/api/Team")
+@RequestMapping(path = "/api/team")
 public class TeamController {
 
     private final TeamService teamService;
