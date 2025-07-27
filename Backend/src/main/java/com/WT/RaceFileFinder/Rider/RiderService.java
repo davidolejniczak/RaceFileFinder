@@ -17,7 +17,10 @@ public class RiderService {
 
     public List<Rider> getAllRiders() {
         Sort sort = Sort.by(Sort.Order.asc("riderName"));
-        return riderRepository.findAll(sort);
+        List<Rider> riders = riderRepository.findAll(sort);
+        System.out.println(
+                "[DEBUG] Service - Retrieved riders from repository: " + (riders != null ? riders.size() : "null"));
+        return riders;
     }
 
     public Rider getRiderByName(String riderName) {

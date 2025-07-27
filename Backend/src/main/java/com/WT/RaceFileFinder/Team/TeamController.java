@@ -33,6 +33,8 @@ public class TeamController {
         } else {
             teams = teamService.getAllTeams();
         }
+
+        System.out.println("[DEBUG] Controller - Retrieved teams: " + (teams != null ? teams.size() : "null"));
         return teams.stream().map(Team::getTeamName).collect(Collectors.toList());
     }
 

@@ -21,7 +21,9 @@ public class RaceController {
 
     @GetMapping("/all/all")
     public List<Race> getAllRaces() {
-        return raceService.getAllRaces();
+        List<Race> races = raceService.getAllRaces();
+        System.out.println("[DEBUG] Controller - Retrieved races: " + (races != null ? races.size() : "null"));
+        return races;
     }
 
     @GetMapping("/")

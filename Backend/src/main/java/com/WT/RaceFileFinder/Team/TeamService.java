@@ -16,7 +16,10 @@ public class TeamService {
 
     public List<Team> getAllTeams() {
         Sort sort = Sort.by(Sort.Order.asc("teamName"));
-        return teamRepository.findAll(sort);
+        List<Team> teams = teamRepository.findAll(sort);
+        System.out.println(
+                "[DEBUG] Service - Retrieved teams from repository: " + (teams != null ? teams.size() : "null"));
+        return teams;
     }
 
     public Team getTeamByName(String teamName) {
