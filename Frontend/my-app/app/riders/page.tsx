@@ -68,7 +68,7 @@ export default function RidersPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
         <div className="h-full p-8 overflow-auto">
-          <h1 className="text-3xl font-bold mb-6 text-gray-900">World Tour Riders</h1>
+          <h1 className="text-3xl font-bold mb-6 text-gray-900">Popular World Tour Riders</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[...Array(8)].map((_, index) => (
               <Card key={index} className="h-48 animate-pulse bg-white/80 backdrop-blur-sm">

@@ -31,21 +31,21 @@ export default function Home() {
 
   const featuredRaces = [
     {
-      name: "Tour de France 2025",
+      name: "Tour de France",
       country: "France",
       countryCode: "FR",
       description: "The world's most prestigious cycling race",
       hasResults: true
     },
     {
-      name: "Giro d'Italia 2025",
+      name: "Giro d'Italia",
       country: "Italy", 
       countryCode: "IT",
       description: "The beautiful race through Italy",
       hasResults: true
     },
     {
-      name: "La Vuelta 2025",
+      name: "La Vuelta Ciclista a España",
       country: "Spain",
       countryCode: "ES", 
       description: "The Spanish grand tour",
