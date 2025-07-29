@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/card";
 
 interface Team {
-  teamId: string;
+  teamID: string;
   teamName: string;
   teamCountry: string;
-  teamCountryCode: string;
+  countrycode: string;
   teamRiderCount: number;
   teamBestResult: string;
   teamUrl?: string;
@@ -40,13 +40,13 @@ export default function TeamsPage() {
       const data = await response.json();
       const backendTeams = Array.isArray(data) ? data : [];
         const mappedTeams: Team[] = backendTeams.map((team: any) => ({
-          teamId: team.teamId?.toString() ?? team.id?.toString() ?? "",
-          teamName: team.teamName ?? team.name ?? "",
-          teamCountry: team.country ?? "",
-          teamCountryCode: team.countryCode ?? "",
-          teamRiderCount: team.riderCount ?? 0,
-          teamBestResult: team.bestResult ?? "",
-          teamUrl: team.teamUrl ?? undefined,
+          teamID: team.id || team.teamID,
+          teamName: team.name || team.teamName,
+          teamCountry: team.country || team.teamCountry,
+          countrycode: team.countryCode || team.countrycode,
+          teamRiderCount: team.riderCount || team.teamRiderCount || 0,
+          teamBestResult: team.bestResult || team.teamBestResult || '',
+          teamUrl: team.url || team.teamUrl
       }));
       setTeams(mappedTeams);
     } catch (e: any) {
@@ -96,34 +96,30 @@ export default function TeamsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {teams.map((team) => (
-            <Card key={team.teamId} className="h-48 hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm border-0 shadow-md">
-              <CardHeader>
-                <div className="flex items-center gap-3">
+            <Card key={team.teamID} className="flex flex-col h-[200px] hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm border-0 shadow-md">
+              <CardHeader className="pb-2">
+                <div className="flex items-center gap-3 min-w-0">
                   <span 
-                    className={`fi fi-${team.teamCountryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
+                    className={`fi fi-${team.countrycode.toLowerCase()} w-8 h-6 rounded shadow-sm flex-shrink-0`}
                     title={team.teamCountry}
                   ></span>
-                  <CardTitle className="text-lg">{team.teamName}</CardTitle>
+                  <Link href={`/teams/${team.teamID}`} className="min-w-0 flex-1">
+                    <CardTitle className="text-lg truncate hover:text-blue-600 transition-colors">
+                      {team.teamName}
+                    </CardTitle>
+                  </Link>
                 </div>
-                <CardDescription>{team.teamCountry}</CardDescription>
+                <CardDescription className="truncate">{team.teamCountry}</CardDescription>
               </CardHeader>
-              <CardContent className="flex-1 flex flex-col justify-end">
-                <div className="space-y-1">
+              <CardContent className="flex flex-col h-full pt-2 pb-3">
+                <div className="flex-1 min-h-0">
                   <div className="text-sm">
                     <span className="text-gray-600">Riders: </span>
                     <span className="font-semibold">{team.teamRiderCount}</span>
                   </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-gray-500 line-clamp-2 mt-1">
                     {team.teamBestResult}
                   </div>
-                </div>
-                <div className="mt-1">
-                  <Link
-                    href={`/teams/${team.teamId}`}
-                    className="text-blue-600 hover:text-blue-800 font-medium text-sm"
-                  >
-                    View Team →
-                  </Link>
                 </div>
               </CardContent>
             </Card>

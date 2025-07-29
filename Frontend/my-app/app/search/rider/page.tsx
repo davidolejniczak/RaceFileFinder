@@ -3,11 +3,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-interface Rider {
-  riderId: string;
-  riderName: string;
-}
-
 export default function RaceSearch() {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -36,7 +31,7 @@ export default function RaceSearch() {
 
     try {
       const response = await fetch(
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/race/all?riderName=${encodeURIComponent(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/all?q=${encodeURIComponent(
           query
         )}`
       );
@@ -44,8 +39,8 @@ export default function RaceSearch() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data: Rider[] = await response.json();
-      setSuggestions(data.map((rider) => rider.riderName)); 
+      const data: string[] = await response.json();
+      setSuggestions(data);
       setShowSuggestions(data.length > 0);
     } catch (e) {
       setError("Failed to load suggestions.");

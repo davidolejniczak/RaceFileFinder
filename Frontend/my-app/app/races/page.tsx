@@ -48,8 +48,8 @@ export default function RacesPage() {
           raceYear: race.raceYear?.toString() ?? race.year?.toString() ?? "",
           raceCountry: race.country ?? "",
           raceCountryCode: race.countryCode ?? "",
-          raceWinner: race.winner ?? undefined,
-          raceHasResults: !!race.hasResults || !!race.winner,
+          raceWinner: race.raceWinner ?? race.winner ?? "",
+          raceHasResults: race.raceHasResults ?? race.hasResults ?? false,
       }));
       
       setRaces(mappedRaces);
@@ -107,9 +107,18 @@ export default function RacesPage() {
                     className={`fi fi-${race.raceCountryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
                     title={race.raceCountry}
                   ></span>
-                  <CardTitle className="text-lg">{race.raceName}</CardTitle>
+                  {race.raceHasResults ? (
+                    <Link 
+                      href={`/results/race?query=${encodeURIComponent(race.raceName)}`}
+                      className="hover:text-blue-600 transition-colors"
+                    >
+                      <CardTitle className="text-lg">{race.raceName}</CardTitle>
+                    </Link>
+                  ) : (
+                    <CardTitle className="text-lg">{race.raceName}</CardTitle>
+                  )}
                 </div>
-                <CardDescription>{race.raceCountry} • {race.raceYear}</CardDescription>
+                <CardDescription>{race.raceCountry} {race.raceYear}</CardDescription>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-end">
                 <div className="space-y-1">
@@ -122,20 +131,6 @@ export default function RacesPage() {
                     <div className="text-sm text-gray-500 italic">
                       Results not available yet
                     </div>
-                  )}
-                </div>
-                <div className="mt-1">
-                  {race.raceHasResults ? (
-                    <Link
-                      href={`/results/race?query=${encodeURIComponent(race.raceName)}`}
-                      className="text-blue-600 hover:text-blue-800 font-medium text-sm"
-                    >
-                      View Results →
-                    </Link>
-                  ) : (
-                    <span className="text-gray-400 text-sm">
-                      Coming Soon
-                    </span>
                   )}
                 </div>
               </CardContent>

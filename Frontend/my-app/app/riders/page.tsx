@@ -11,12 +11,14 @@ import {
 } from "@/components/ui/card";
 
 interface Rider {
-  riderId: string;
+  riderID: string;
   riderName: string;
-  riderCountry: string;
-  riderCountryCode: string;
-  teamName: string;
+  ridercountry: string;
+  countryCode: string;
+  team: string;
   riderAchievements?: string;
+  riderStravaLink?: string;
+  popular: boolean;
 }
 
 export default function RidersPage() {
@@ -40,6 +42,7 @@ export default function RidersPage() {
       }
 
       const data = await response.json();
+      console.log('Received rider data:', data);
       const backendRiders = Array.isArray(data) ? data : [];
       setRiders(backendRiders);
     } catch (e: any) {
@@ -102,23 +105,28 @@ export default function RidersPage() {
         {/* Popular Riders Section */}
         <div className="mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {riders.map((rider) => (
-              <Card key={rider.riderId} className="h-48 hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm border-0 shadow-md">
+            {riders.map((rider, idx) => (
+              <Card key={idx} className="h-48 hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm border-0 shadow-md">
                 <CardHeader>
                   <div className="flex items-center gap-3">
                     <span 
-                      className={`fi fi-${rider.riderCountryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
-                      title={rider.riderCountry}
-                    ></span>
-                    <CardTitle className="text-lg">{rider.riderName}</CardTitle>
+                      className={`fi fi-${(rider.countryCode || 'xx').toLowerCase()} w-8 h-6 rounded shadow-sm`}
+                      title={rider.ridercountry}
+                    >
+                      {/* Debug output */}
+                      {!rider.countryCode && <span className="text-xs">No code</span>}
+                    </span>
+                    <CardTitle className="text-lg">
+                      {rider.riderName || 'No name'}
+                    </CardTitle>
                   </div>
-                  <CardDescription>{rider.riderCountry}</CardDescription>
+                  <CardDescription>{rider.ridercountry}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col justify-end">
                   <div className="space-y-1">
                     <div className="text-sm">
                       <span className="text-gray-600">Team: </span>
-                      <span className="font-semibold">{rider.teamName}</span>
+                      <span className="font-semibold">{rider.team}</span>
                     </div>
                     {rider.riderAchievements && (
                       <div className="text-xs text-gray-500">
@@ -127,12 +135,14 @@ export default function RidersPage() {
                     )}
                   </div>
                   <div className="mt-1">
-                    <Link
-                      href={`/riders/${rider.riderId}`}
-                      className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                    <a
+                      href={rider.riderStravaLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#fc4c02] hover:text-[#d64402] font-medium text-sm"
                     >
-                      View Profile →
-                    </Link>
+                      View Strava Profile →
+                    </a>
                   </div>
                 </CardContent>
               </Card>
