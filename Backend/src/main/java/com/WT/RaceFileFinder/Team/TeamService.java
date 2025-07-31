@@ -44,4 +44,11 @@ public class TeamService {
         System.out.println("[DEBUG] Service - Retrieved team by id: " + (team != null ? team : "null"));
         return team;
     }
+
+    public List<Team> searchTeams(String teamName) {
+        List<Team> teams = teamRepository.searchAll(teamName);
+        System.out
+                .println("[DEBUG] Service - Retrieved teams with details: " + (teams != null ? teams.size() : "null"));
+        return teams;
+    }
 }

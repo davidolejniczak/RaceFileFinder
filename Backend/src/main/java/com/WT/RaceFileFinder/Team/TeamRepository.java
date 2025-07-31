@@ -1,5 +1,6 @@
 package com.WT.RaceFileFinder.Team;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,7 @@ public interface TeamRepository extends JpaRepository<Team, String> {
 
     @Query(value = "SELECT teamid, teamname, country, countrycode, teamurl FROM teams WHERE teamid = :teamid", nativeQuery = true)
     Team findByTeamId(@Param("teamid") String teamId);
+
+    @Query(value = "SELECT * FROM teams WHERE unaccent(teamname) ILike unaccent(CONCAT('%', :teamName, '%'))", nativeQuery = true)
+    List<Team> searchAll(String teamName);
 }

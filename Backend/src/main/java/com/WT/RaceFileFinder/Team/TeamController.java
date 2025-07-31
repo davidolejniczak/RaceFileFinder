@@ -51,4 +51,12 @@ public class TeamController {
         return teams;
     }
 
+    @GetMapping("/search")
+    public List<Team> searchTeams(@RequestParam String teamName) {
+        List<Team> teams = teamService.searchTeams(teamName);
+        System.out.println("[DEBUG] Controller - Search results for '" + teamName + "': "
+                + (teams != null ? teams.size() : "null"));
+        return teams;
+    }
+
 }
