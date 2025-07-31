@@ -94,7 +94,7 @@ export default function RidersPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <div className="h-full p-8 overflow-auto">
-        <h1 className="text-3xl font-bold mb-6 text-gray-900">World Tour Riders</h1>
+        <h1 className="text-3xl font-bold mb-6 text-gray-900">Popular World Tour Riders</h1>
         
         {error && (
           <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">

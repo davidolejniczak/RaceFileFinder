@@ -36,7 +36,7 @@ export default function RaceSearch() {
 
     try {
       const response = await fetch(
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/Team/all?teamName=${encodeURIComponent(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/search?teamName=${encodeURIComponent(
           query
         )}`
       );

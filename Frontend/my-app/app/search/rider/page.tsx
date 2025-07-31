@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function RaceSearch() {
   const [inputValue, setInputValue] = useState("");
@@ -10,6 +10,51 @@ export default function RaceSearch() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleSearch = useCallback(async (searchQuery: string) => {
+    if (!searchQuery.trim()) return;
+
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/name?riderName=${encodeURIComponent(
+          searchQuery
+        )}`
+      );
+
+      if (response.status === 404) {
+        setError(`Rider ${searchQuery} not found or does not have a Strava account.`);
+        setIsLoading(false);
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.riderStravaLink) {
+        window.open(data.riderStravaLink, "_blank");
+      } else {
+        setError(`Rider "${searchQuery}" does not have a Strava account.`);
+      }
+    } catch (e: any) {
+      setError(e.message || "An error occurred during the search.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const query = searchParams.get("query");
+    if (query) {
+      setInputValue(query);
+      handleSearch(query);
+    }
+  }, [searchParams, handleSearch]);
 
   const debounce = (func: Function, delay: number) => {
     let timeoutId: NodeJS.Timeout;
@@ -47,11 +92,6 @@ export default function RaceSearch() {
       setSuggestions([]);
       setShowSuggestions(false);
     }
-  };
-
-  const handleSearch = async (searchQuery: string) => {
-    setIsLoading(true);
-    router.push(`/results?query=${encodeURIComponent(searchQuery)}`);
   };
 
   const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
@@ -121,7 +161,7 @@ export default function RaceSearch() {
             </ul>
           )}
         </div>
-        <div className="error-message">{error ? error : "\u00A0"}</div>
+        <div className="error-message">{error ? error : " "}</div>
       </div>
     </div>
   );
