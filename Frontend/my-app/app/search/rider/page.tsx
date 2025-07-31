@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function RaceSearch() {
+function RiderSearch() {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -164,5 +164,13 @@ export default function RaceSearch() {
         <div className="error-message">{error ? error : " "}</div>
       </div>
     </div>
+  );
+}
+
+export default function RiderSearchPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RiderSearch />
+    </Suspense>
   );
 }
