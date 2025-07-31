@@ -43,9 +43,9 @@ public class TeamController {
     // }
 
     @GetMapping("/all")
-    public List<Team> getAllTeams(@RequestParam(required = false) String teamName) {
+    public List<Team> getAllTeams() {
         List<Team> teams;
-        teams = teamService.getAllTeams(teamName);
+        teams = teamService.getAllTeams();
 
         System.out.println("[DEBUG] Controller - Retrieved teams: " + (teams != null ? teams.size() : "null"));
         return teams;
