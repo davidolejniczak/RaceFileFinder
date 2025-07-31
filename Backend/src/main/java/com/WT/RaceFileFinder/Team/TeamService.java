@@ -14,9 +14,8 @@ public class TeamService {
         this.teamRepository = teamRepository;
     }
 
-    public List<Team> getAllTeams() {
-        Sort sort = Sort.by(Sort.Order.asc("teamName"));
-        List<Team> teams = teamRepository.findAll(sort);
+    public List<Team> getAllTeams(String teamName) {
+        List<Team> teams = teamRepository.findAll(teamName);
         System.out.println(
                 "[DEBUG] Service - Retrieved teams from repository: " + (teams != null ? teams.size() : "null"));
         return teams;
@@ -44,4 +43,5 @@ public class TeamService {
         System.out.println("[DEBUG] Service - Retrieved team by id: " + (team != null ? team : "null"));
         return team;
     }
+
 }

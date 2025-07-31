@@ -14,12 +14,15 @@ public interface TeamRepository extends JpaRepository<Team, String> {
 
     Optional<Team> findByTeamNameIgnoreCase(String teamName);
 
-    @Query(value = "SELECT * FROM teams WHERE REPLACE(LOWER(unaccent(teamName)), ' ', '') = REPLACE(LOWER(unaccent(:teamName)),' ','')", nativeQuery = true)
+    @Query(value = "SELECT * FROM teams WHERE REPLACE(LOWER(unaccent(teamname)), ' ', '') = REPLACE(LOWER(unaccent(:teamName)),' ','')", nativeQuery = true)
     Optional<Team> searchByName(@Param("teamName") String teamName);
 
-    @Query(value = "SELECT * FROM teams WHERE unaccent(teamName) ILike unaccent(CONCAT('%', :keyword, '%'))", nativeQuery = true)
+    @Query(value = "SELECT * FROM teams WHERE unaccent(teamname) ILike unaccent(CONCAT('%', :keyword, '%'))", nativeQuery = true)
     List<Team> findByTeamNameContaining(String keyword);
 
     @Query(value = "SELECT teamid, teamname, country, countrycode, teamurl FROM teams WHERE teamid = :teamid", nativeQuery = true)
     Team findByTeamId(@Param("teamid") String teamId);
+
+    @Query(value = "SELECT * FROM teams WHERE teamname = :teamName", nativeQuery = true)
+    List<Team> findAll(String teamName);
 }
