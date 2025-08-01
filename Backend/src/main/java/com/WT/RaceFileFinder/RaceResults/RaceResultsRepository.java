@@ -15,4 +15,7 @@ public interface RaceResultsRepository
 
     @Query(value = "SELECT raceresults.racename, raceresults.riderposition, raceresults.ridername, riders.riderstravalink FROM raceresults JOIN riders ON LOWER(raceresults.ridername) = LOWER(riders.ridername)  WHERE unaccent(raceresults.racename) ILIKE unaccent(:racename) ORDER BY CAST(raceresults.riderposition AS INTEGER) ASC", nativeQuery = true)
     List<Object[]> findByRaceNameRaw(String racename);
+
+    @Query(value = "SELECT * FROM raceresults WHERE LOWER(riderteam) = LOWER(:teamName) ORDER BY CAST(riderposition AS INTEGER) ASC", nativeQuery = true)
+    List<RaceResults> findByTeamName(String teamName);
 }

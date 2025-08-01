@@ -38,4 +38,9 @@ public class RaceResultsController {
         return raceResultsService.getRaceResults(racename);
     }
 
+    @GetMapping("/results")
+    public List<RaceResults> getRaceResultsByTeamName(@RequestParam String teamName) {
+        return raceResultsService.getRaceResultsByTeamName(teamName);
+    }
+
 }

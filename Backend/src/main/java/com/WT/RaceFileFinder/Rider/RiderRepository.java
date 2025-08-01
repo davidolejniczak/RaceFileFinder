@@ -20,8 +20,8 @@ public interface RiderRepository extends JpaRepository<Rider, String> {
     @Query(value = "SELECT * FROM riders WHERE unaccent(ridername) ILike unaccent(CONCAT('%', :keyword, '%'))", nativeQuery = true)
     List<Rider> findByRiderNameContaining(String keyword);
 
-    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:riderTeam))", nativeQuery = true)
-    List<Rider> findByTeamIgnoreCase(@Param("riderTeam") String riderTeam);
+    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:team))", nativeQuery = true)
+    List<Rider> findByTeamIgnoreCase(@Param("team") String teamName);
 
     @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(nation)),' ','') = LOWER(unaccent(:riderCountry))", nativeQuery = true)
     List<Rider> findByNation(@Param("riderCountry") String riderCountry);

@@ -83,4 +83,12 @@ public class RiderController {
         System.out.println("[DEBUG] Controller - Retrieved riders: " + (riders != null ? riders.size() : "null"));
         return riderService.getPopularRiders();
     }
+
+    @GetMapping("/riders")
+    public List<Rider> getRidersByTeamName(@RequestParam String teamName) {
+        List<Rider> riders = riderService.getByTeam(teamName);
+        System.out.println(
+                "[DEBUG] Controller - Retrieved riders by team name: " + (riders != null ? riders.size() : "null"));
+        return riders;
+    }
 }

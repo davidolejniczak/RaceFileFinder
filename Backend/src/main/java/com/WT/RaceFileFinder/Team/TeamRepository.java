@@ -26,4 +26,7 @@ public interface TeamRepository extends JpaRepository<Team, String> {
 
     @Query(value = "SELECT * FROM teams WHERE unaccent(teamname) ILike unaccent(CONCAT('%', :teamName, '%'))", nativeQuery = true)
     List<Team> searchAll(String teamName);
+
+    @Query(value = "SELECT * FROM teams WHERE teamid = :teamID", nativeQuery = true)
+    Team findTeamDetails(String teamID);
 }

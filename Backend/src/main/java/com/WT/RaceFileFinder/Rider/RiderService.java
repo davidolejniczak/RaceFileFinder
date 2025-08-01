@@ -37,8 +37,8 @@ public class RiderService {
 
     }
 
-    public List<Rider> getByTeam(String riderTeam) {
-        return riderRepository.findByTeamIgnoreCase(riderTeam);
+    public List<Rider> getByTeam(String teamName) {
+        return riderRepository.findByTeamIgnoreCase(teamName);
     }
 
     public List<Rider> getByNameContaining(String keyword) {

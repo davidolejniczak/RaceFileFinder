@@ -58,4 +58,8 @@ public class RaceResultsService {
                 .collect(Collectors.toList());
     }
 
+    public List<RaceResults> getRaceResultsByTeamName(String teamName) {
+        return raceResultsRepository.findByTeamName(teamName);
+    }
+
 }

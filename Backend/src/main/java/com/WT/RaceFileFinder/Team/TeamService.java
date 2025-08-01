@@ -51,4 +51,10 @@ public class TeamService {
                 .println("[DEBUG] Service - Retrieved teams with details: " + (teams != null ? teams.size() : "null"));
         return teams;
     }
+
+    public Team getTeamDetails(String teamID) {
+        Team team = teamRepository.findTeamDetails(teamID);
+        System.out.println("[DEBUG] Service - Retrieved team details: " + (team != null ? team : "null"));
+        return team;
+    }
 }

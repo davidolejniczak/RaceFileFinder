@@ -59,4 +59,10 @@ public class TeamController {
         return teams;
     }
 
+    @GetMapping("/results")
+    public Team getTeamDetails(@RequestParam String teamID) {
+        Team team = teamService.getTeamDetails(teamID);
+        return team;
+    }
+
 }
