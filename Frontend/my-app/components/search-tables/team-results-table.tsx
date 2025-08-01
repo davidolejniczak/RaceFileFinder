@@ -83,7 +83,11 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
       );
     }
 
-    if (results.length === 0) {
+    const filteredResults = results.filter(
+      (result) => result.riderPosition !== "500" && result.riderPosition !== "501"
+    );
+
+    if (filteredResults.length === 0) {
       return (
         <TableRow>
           <TableCell colSpan={5} className="text-center h-24 text-gray-500">
@@ -93,7 +97,7 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
       );
     }
 
-    return results.map((result, index) => (
+    return filteredResults.map((result, index) => (
       <TableRow key={index} className="hover:bg-blue-50/50 transition-colors">
         <TableCell className="border-r border-gray-200 whitespace-nowrap text-center font-medium">
           {result.riderPosition}
@@ -105,10 +109,14 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
           {result.riderName}
         </TableCell>
         <TableCell className="border-r border-gray-200 text-center">
-          <span 
-            className={`fi fi-${result.riderCountryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
-            title={result.riderCountryCode}
-          ></span>
+          {result.riderCountryCode ? (
+            <span
+              className={`fi fi-${result.riderCountryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
+              title={result.riderCountryCode}
+            ></span>
+          ) : (
+            <span className="text-gray-500">N/A</span>
+          )}
         </TableCell>
         <TableCell className="text-left whitespace-nowrap text-gray-600">
           {new Date(result.raceDate).toLocaleDateString()}
@@ -145,4 +153,4 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
       </div>
     </div>
   );
-} 
+}

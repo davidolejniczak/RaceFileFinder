@@ -77,7 +77,12 @@ export default function RaceTable({ query }: RaceTableProps) {
     return raceResults.map((result, index) => (
       <TableRow key={`${index}-${result.riderName || "unknown"}`} className="hover:bg-blue-50/50 transition-colors">
         <TableCell className="border-r border-gray-200 whitespace-nowrap text-center font-medium">
-          {result.riderPosition}
+          {/* Render DNF for 500 and DNS for 501 */}
+          {result.riderPosition === "500"
+            ? "DNF"
+            : result.riderPosition === "501"
+            ? "DNS"
+            : result.riderPosition}
         </TableCell>
         <TableCell className="border-r border-gray-200 break-words font-medium">
           {result.riderName}
@@ -92,7 +97,12 @@ export default function RaceTable({ query }: RaceTableProps) {
             >
               <span>View Rider Profile</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
               </svg>
             </a>
           ) : (

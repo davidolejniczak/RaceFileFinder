@@ -40,7 +40,7 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
 
     try {
       const response = await fetch(
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/riders?teamID=${encodeURIComponent(teamName)}`
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/riders?teamName=${encodeURIComponent(teamName)}`
       );
 
       if (!response.ok) {
@@ -48,10 +48,12 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
       }
 
       const data = await response.json();
+      console.log("Fetched team riders:", data); // Debug statement
       const backendRiders = Array.isArray(data) ? data : [];
       setRiders(backendRiders);
 
     } catch (e: any) {
+      console.error("Error fetching team riders:", e.message); // Debug error
       setError(e.message);
     } finally {
       setIsLoading(false);
@@ -149,4 +151,4 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
       </div>
     </div>
   );
-} 
+}

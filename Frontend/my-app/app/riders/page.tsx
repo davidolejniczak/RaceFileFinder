@@ -42,7 +42,6 @@ export default function RidersPage() {
       }
 
       const data = await response.json();
-      console.log('Received rider data:', data);
       const backendRiders = Array.isArray(data) ? data : [];
       setRiders(backendRiders);
     } catch (e: any) {
