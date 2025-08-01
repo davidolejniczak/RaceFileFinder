@@ -14,7 +14,7 @@ interface TeamResult {
   riderPosition: string;
   raceName: string;
   riderName: string;
-  riderCountryCode: string;
+  countryCode: string;
   raceDate: string;
 }
 
@@ -40,7 +40,6 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
     setResults([]);
 
     try {
-      // tricky query check it out later
       const response = await fetch(
         `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/raceresults/results?teamName=${encodeURIComponent(teamName)}`
       );
@@ -109,10 +108,10 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
           {result.riderName}
         </TableCell>
         <TableCell className="border-r border-gray-200 text-center">
-          {result.riderCountryCode ? (
+          {result.countryCode ? (
             <span
-              className={`fi fi-${result.riderCountryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
-              title={result.riderCountryCode}
+              className={`fi fi-${result.countryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
+              title={result.countryCode}
             ></span>
           ) : (
             <span className="text-gray-500">N/A</span>

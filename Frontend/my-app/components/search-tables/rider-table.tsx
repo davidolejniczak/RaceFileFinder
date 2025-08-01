@@ -60,7 +60,6 @@ export default function RiderTable({ query }: RiderTableProps) {
         return;
       }
 
-      // TODO JAVA
       let raceResults: RaceResult[] = [];
       try {
         const raceResultsResponse = await fetch(
@@ -138,7 +137,6 @@ export default function RiderTable({ query }: RiderTableProps) {
       );
     }
 
-    // Flatten all race results from all riders into a single list
     const allRaceResults: RaceResult[] = [];
     results.forEach(rider => {
       rider.raceResults.forEach(race => {
@@ -146,7 +144,6 @@ export default function RiderTable({ query }: RiderTableProps) {
       });
     });
 
-    // Sort by date (most recent first)
     allRaceResults.sort((a, b) => new Date(b.raceDate).getTime() - new Date(a.raceDate).getTime());
 
     return allRaceResults.map((result, index) => (

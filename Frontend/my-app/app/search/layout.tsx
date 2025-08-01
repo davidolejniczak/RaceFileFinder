@@ -24,7 +24,6 @@ export default function SearchLayout({
 		setMounted(true);
 	}, []);
 
-	// Prevent hydration mismatch by not rendering the nav until mounted
 	if (!mounted) {
 		return (
 			<div className="p-8">

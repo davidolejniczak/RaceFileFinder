@@ -13,8 +13,8 @@ import {
 interface TeamRider {
   riderName: string;
   riderCountry: string;
-  riderCountryCode: string;
-  riderStrava?: string;
+  countryCode: string;
+  riderStravaLink?: string;
 }
 
 interface TeamRidersTableProps {
@@ -48,12 +48,11 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
       }
 
       const data = await response.json();
-      console.log("Fetched team riders:", data); // Debug statement
       const backendRiders = Array.isArray(data) ? data : [];
       setRiders(backendRiders);
 
     } catch (e: any) {
-      console.error("Error fetching team riders:", e.message); // Debug error
+      console.error("Error fetching team riders:", e.message); 
       setError(e.message);
     } finally {
       setIsLoading(false);
@@ -101,17 +100,21 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
         </TableCell>
         <TableCell className="border-r border-gray-200">
           <div className="flex items-center gap-2">
-            <span 
-              className={`fi fi-${rider.riderCountryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
-              title={rider.riderCountry}
-            ></span>
+            {rider.countryCode ? (
+              <span 
+                className={`fi fi-${rider.countryCode.toLowerCase()} w-5 h-4 rounded shadow-sm`}
+                title={rider.riderCountry}
+              ></span>
+            ) : (
+              <span className="text-gray-500 text-xs">N/A</span>
+            )}
             <span className="text-sm text-gray-600">{rider.riderCountry}</span>
           </div>
         </TableCell>
         <TableCell className="text-left">
-          {rider.riderStrava ? (
+          {rider.riderStravaLink ? (
             <a
-              href={rider.riderStrava}
+              href={rider.riderStravaLink}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium transition-colors"

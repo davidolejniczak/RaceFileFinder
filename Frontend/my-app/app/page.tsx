@@ -210,7 +210,6 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {isLoadingRiders ? (
-              // Loading skeleton
               [...Array(3)].map((_, index) => (
                 <Card key={index} className="h-48 animate-pulse bg-white/80 backdrop-blur-sm">
                   <CardHeader>

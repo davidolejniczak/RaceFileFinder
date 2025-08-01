@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface Team {
-  teamId: string;
+  teamID: string;
   teamName: string;
 }
 
@@ -56,7 +56,42 @@ export default function RaceSearch() {
 
   const handleSearch = async (searchQuery: string) => {
     setIsLoading(true);
-    router.push(`/results?query=${encodeURIComponent(searchQuery)}`);
+    setError(null); 
+    
+    try {
+      const response = await fetch(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/search?teamName=${encodeURIComponent(searchQuery)}`
+      );
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data: Team[] = await response.json();
+      
+      if (data.length > 0) {
+        const team = data[0];
+        
+        if (team.teamID) {
+          router.push(`/teams/${team.teamID}`);
+        } else {
+          const teamData = team as any;
+          const teamId = teamData.teamID;
+          
+          if (teamId) {
+            router.push(`/teams/${teamId}`);
+          } else {
+            setError("Team ID not found in response.");
+          }
+        }
+      } else {
+        setError("No team found with that name.");
+      }
+    } catch (e) {
+      setError("Failed to find team.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
@@ -67,14 +102,14 @@ export default function RaceSearch() {
     debouncedFetchSuggestions(value);
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
+  const handleSuggestionClick = async (suggestion: string) => {
     setInputValue(suggestion);
     setSuggestions([]);
     setShowSuggestions(false);
-    handleSearch(suggestion);
+    await handleSearch(suggestion);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
       let searchTarget = inputValue;
@@ -84,7 +119,7 @@ export default function RaceSearch() {
         setShowSuggestions(false);
         setSuggestions([]);
       }
-      handleSearch(searchTarget);
+      await handleSearch(searchTarget);
     }
   };
 
