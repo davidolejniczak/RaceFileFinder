@@ -37,7 +37,7 @@ export default function TeamTable({ query }: TeamTableProps) {
 
     try {
       const response = await fetch(
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/team/all?teamName=${encodeURIComponent(
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/all?teamName=${encodeURIComponent(
           searchQuery
         )}`
       );
