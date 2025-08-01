@@ -28,10 +28,10 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (teamId) {
+    if (teamName) {
       fetchTeamRiders();
     }
-  }, [teamId]);
+  }, [teamName]);
 
   const fetchTeamRiders = async () => {
     setIsLoading(true);
@@ -40,7 +40,7 @@ export default function TeamRidersTable({ teamId, teamName }: TeamRidersTablePro
 
     try {
       const response = await fetch(
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/${teamId}/riders`
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/riders?teamID=${encodeURIComponent(teamName)}`
       );
 
       if (!response.ok) {

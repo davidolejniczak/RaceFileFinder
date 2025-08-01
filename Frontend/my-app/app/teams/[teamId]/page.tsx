@@ -14,10 +14,12 @@ import TeamRidersTable from "@/components/search-tables/team-riders-table";
 import TeamResultsTable from "@/components/search-tables/team-results-table";
 
 interface Team {
-  teamId: string;
+  teamID: string;
   teamName: string;
   teamCountry: string;
-  teamCountryCode: string;
+  riderCount: number;
+  teamBestResult: string;
+  countryCode: string;
   teamUrl?: string;
 }
 
@@ -38,7 +40,9 @@ export default function TeamRidersPage() {
   const fetchTeamInfo = async () => {
     try {
       const response = await fetch(
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/${teamId}`
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/teams/results?teamID=${encodeURIComponent(
+          teamId
+        )}`
       );
 
       if (!response.ok) {
@@ -92,7 +96,7 @@ export default function TeamRidersPage() {
           <CardHeader>
             <div className="flex items-center gap-4">
               <span 
-                className={`fi fi-${team.teamCountryCode.toLowerCase()} w-12 h-9 rounded shadow-md`}
+                className={`fi fi-${team.countryCode.toLowerCase()} w-12 h-9 rounded shadow-md`}
                 title={team.teamCountry}
               ></span>
               <div>
@@ -116,22 +120,67 @@ export default function TeamRidersPage() {
 
       {/* Tables Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100%-200px)]">
-        {/* Team Riders Table */}
+        {/* Team Riders Table with Error Boundary */}
         <div className="flex flex-col">
           <h2 className="text-xl font-semibold mb-4">Team Riders</h2>
           <div className="flex-1 min-h-0">
-            <TeamRidersTable teamId={team.teamId} teamName={team.teamName} />
+            <ErrorBoundary fallback={ 
+              <div className="h-full flex items-center justify-center bg-red-50 border border-red-200 rounded-lg">
+                <div className="text-center p-4">
+                  <p className="text-red-600 font-medium">Failed to load team riders</p>
+                  <p className="text-red-500 text-sm mt-1">This component encountered an error</p>
+                </div>
+              </div>
+            }>
+              <TeamRidersTable teamId={team.teamID} teamName={team.teamName} />
+            </ErrorBoundary>
           </div>
         </div>
 
-        {/* Team Results Table */}
+        {/* Team Results Table with Error Boundary */}
         <div className="flex flex-col">
           <h2 className="text-xl font-semibold mb-4">Best Results</h2>
           <div className="flex-1 min-h-0">
-            <TeamResultsTable teamId={team.teamId} teamName={team.teamName} />
+            <ErrorBoundary fallback={
+              <div className="h-full flex items-center justify-center bg-red-50 border border-red-200 rounded-lg">
+                <div className="text-center p-4">
+                  <p className="text-red-600 font-medium">Failed to load team results</p>
+                  <p className="text-red-500 text-sm mt-1">This component encountered an error</p>
+                </div>
+              </div>
+            }>
+              <TeamResultsTable teamId={team.teamID} teamName={team.teamName} />
+            </ErrorBoundary>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}
+
+// Error Boundary Component
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode; fallback: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Component error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+
+    return this.props.children;
+  }
+}

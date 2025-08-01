@@ -29,10 +29,10 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (teamId) {
+    if (teamName) {
       fetchTeamResults();
     }
-  }, [teamId]);
+  }, [teamName]);
 
   const fetchTeamResults = async () => {
     setIsLoading(true);
@@ -42,7 +42,7 @@ export default function TeamResultsTable({ teamId, teamName }: TeamResultsTableP
     try {
       // tricky query check it out later
       const response = await fetch(
-        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/raceresults/${teamId}/results`
+        `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/raceresults/results?teamName=${encodeURIComponent(teamName)}`
       );
 
       if (!response.ok) {

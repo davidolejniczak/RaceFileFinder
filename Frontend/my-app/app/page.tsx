@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search, Trophy, Users, User, ArrowRight, Star, MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,9 +13,54 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+interface Rider {
+  riderID: string;
+  riderName: string;
+  ridercountry: string;
+  countryCode: string;
+  team: string;
+  riderAchievements?: string;
+  riderStravaLink?: string;
+  popular: boolean;
+}
+
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchType, setSearchType] = useState<"rider" | "race" | "team">("rider");
+  const [featuredRiders, setFeaturedRiders] = useState<Rider[]>([]);
+  const [isLoadingRiders, setIsLoadingRiders] = useState(true);
+
+  useEffect(() => {
+    fetchFeaturedRiders();
+  }, []);
+
+  const fetchFeaturedRiders = async () => {
+    const riderNames = ["Pogačar Tadej", "Evenepoel Remco", "van Aert Wout"];
+    const riderPromises = riderNames.map(async (name) => {
+      try {
+        const response = await fetch(
+          `https://cyclingfilefinder-25df5d1a64a0.herokuapp.com/api/rider/name?riderName=${encodeURIComponent(name)}`
+        );
+        if (response.ok) {
+          return await response.json();
+        }
+        return null;
+      } catch (error) {
+        console.error(`Error fetching rider ${name}:`, error);
+        return null;
+      }
+    });
+
+    try {
+      const riders = await Promise.all(riderPromises);
+      const validRiders = riders.filter(rider => rider !== null);
+      setFeaturedRiders(validRiders);
+    } catch (error) {
+      console.error("Error fetching featured riders:", error);
+    } finally {
+      setIsLoadingRiders(false);
+    }
+  };
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -55,49 +100,28 @@ export default function Home() {
 
   const featuredTeams = [
     {
-      name: "UAE Team Emirates",
+      name: "UAE Team Emirates - XRG",
       country: "UAE",
       countryCode: "AE",
-      riders: 28,
-      achievements: "Tour de France Champions"
+      riders: 30,
+      achievements: "2025 Tour de France Champions",
+      teamId:"AE"
     },
     {
       name: "INEOS Grenadiers", 
       country: "Great Britain",
       countryCode: "GB",
-      riders: 30,
-      achievements: "Multiple Grand Tour Wins"
+      riders: 28,
+      achievements: "Multiple Grand Tour Wins",
+      teamId:"IG"
     },
     {
-      name: "Jumbo-Visma",
+      name: "Team Visma | Lease a Bike",
       country: "Netherlands", 
       countryCode: "NL",
-      riders: 29,
-      achievements: "Tour de France Champions"
-    }
-  ];
-
-  const featuredRiders = [
-    {
-      name: "Tadej Pogačar",
-      country: "Slovenia",
-      countryCode: "SI",
-      team: "UAE Team Emirates",
-      achievements: "2x Tour de France Winner"
-    },
-    {
-      name: "Jonas Vingegaard",
-      country: "Denmark",
-      countryCode: "DK", 
-      team: "Jumbo-Visma",
-      achievements: "2x Tour de France Winner"
-    },
-    {
-      name: "Remco Evenepoel",
-      country: "Belgium",
-      countryCode: "BE",
-      team: "Soudal Quick-Step", 
-      achievements: "Vuelta Winner 2022"
+      riders: 30,
+      achievements: "2025 Grio d'Italia Champions",
+      teamId:"VI"
     }
   ];
 
@@ -168,6 +192,101 @@ export default function Home() {
                 <div className="text-gray-600">World Tour Teams</div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Riders Section */}
+      <section className="py-15 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Featured Riders
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Meet the world's top cyclists and find their Strava profiles
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {isLoadingRiders ? (
+              // Loading skeleton
+              [...Array(3)].map((_, index) => (
+                <Card key={index} className="h-48 animate-pulse bg-white/80 backdrop-blur-sm">
+                  <CardHeader>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-8 h-6 bg-gray-200 rounded"></div>
+                      <div className="h-6 bg-gray-200 rounded flex-1"></div>
+                    </div>
+                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              featuredRiders.map((rider, index) => (
+                <Card key={index} className="h-48 hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm border-0 shadow-md">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <span 
+                        className={`fi fi-${(rider.countryCode || 'xx').toLowerCase()} w-8 h-6 rounded shadow-sm`}
+                        title={rider.ridercountry}
+                      >
+                        {!rider.countryCode && <span className="text-xs">No code</span>}
+                      </span>
+                      <CardTitle className="text-lg">
+                        {rider.riderName || 'No name'}
+                      </CardTitle>
+                    </div>
+                    <CardDescription>{rider.ridercountry}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex-1 flex flex-col justify-end">
+                    <div className="space-y-1">
+                      <div className="text-sm">
+                        <span className="text-gray-600">Team: </span>
+                        <span className="font-semibold">{rider.team}</span>
+                      </div>
+                      {rider.riderAchievements && (
+                        <div className="text-xs text-gray-500">
+                          {rider.riderAchievements}
+                        </div>
+                      )}
+                    </div>
+                    <div className="mt-1">
+                      {rider.riderStravaLink ? (
+                        <a
+                          href={rider.riderStravaLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#fc4c02] hover:text-[#d64402] font-medium text-sm"
+                        >
+                          View Strava Profile →
+                        </a>
+                      ) : (
+                        <Link
+                          href={`/riders/${rider.riderID}`}
+                          className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                        >
+                          View Profile →
+                        </Link>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </div>
+
+          <div className="text-center">
+            <Link href="/riders">
+              <Button variant="outline" className="group">
+                View All Riders
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -276,7 +395,7 @@ export default function Home() {
                   </div>
                   <div className="mt-1">
                     <Link
-                      href={`/teams/${index + 1}`}
+                      href={`/teams/${team.teamId}`}
                       className="text-blue-600 hover:text-blue-800 font-medium text-sm"
                     >
                       View Team →
@@ -291,65 +410,6 @@ export default function Home() {
             <Link href="/teams">
               <Button variant="outline" className="group">
                 View All Teams
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Riders Section */}
-      <section className="py-15 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Featured Riders
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Meet the world's top cyclists and find their Strava profiles
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {featuredRiders.map((rider, index) => (
-              <Card key={index} className="h-48 hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <span 
-                      className={`fi fi-${rider.countryCode.toLowerCase()} w-8 h-6 rounded shadow-sm`}
-                      title={rider.country}
-                    ></span>
-                    <CardTitle className="text-lg">{rider.name}</CardTitle>
-                  </div>
-                  <CardDescription>{rider.country}</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col justify-end">
-                  <div className="space-y-1">
-                    <div className="text-sm">
-                      <span className="text-gray-600">Team: </span>
-                      <span className="font-semibold">{rider.team}</span>
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {rider.achievements}
-                    </div>
-                  </div>
-                  <div className="mt-1">
-                    <Link
-                      href={`/riders/${index + 1}`}
-                      className="text-blue-600 hover:text-blue-800 font-medium text-sm"
-                    >
-                      View Profile →
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Link href="/riders">
-              <Button variant="outline" className="group">
-                View All Riders
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
