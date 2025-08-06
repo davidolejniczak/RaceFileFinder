@@ -11,3 +11,6 @@ A Java Spring Boot, React-TS, full stack application allowing users to find info
 ## Database schema 
 
 ## Project Structure
+
+## Data Source 
+Data was collected on June 1st and not updated since 
