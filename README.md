@@ -1,9 +1,11 @@
-# Strava Pro Cyclist Race File Finder
+# Pro Cyclist Strava Finder
 
 Live Demo: https://cyclingfilefinder.vercel.app/  
 
 ## Project Overview
-A Java Spring Boot, React-TS, full stack application allowing users to find information about riders, teams and races from the UCI Men's WorldTour.
+A full stack application allowing users to find information about riders, teams and races from the UCI Men's WorldTour.
+
+## Tech Stack
 - **Frontend:** React, Next.js, TypeScript, TailwindCSS, Shadcn Components
 - **Backend:** Java Spring Boot, PostgreSQL  
 - **Hosting:** Vercel (Frontend), Heroku (Backend), Heroku Postgres (Database)
@@ -12,5 +14,5 @@ A Java Spring Boot, React-TS, full stack application allowing users to find info
 
 ## Project Structure
 
-## Data Source 
-Data was collected on June 1st and not updated since 
+## Data Cut-Off
+Data and race reaults were last updated on June 1st
