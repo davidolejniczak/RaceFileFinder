@@ -17,7 +17,10 @@ public class RiderService {
 
     public List<Rider> getAllRiders() {
         Sort sort = Sort.by(Sort.Order.asc("riderName"));
-        return riderRepository.findAll(sort);
+        List<Rider> riders = riderRepository.findAll(sort);
+        System.out.println(
+                "[DEBUG] Service - Retrieved riders from repository: " + (riders != null ? riders.size() : "null"));
+        return riders;
     }
 
     public Rider getRiderByName(String riderName) {
@@ -34,8 +37,8 @@ public class RiderService {
 
     }
 
-    public List<Rider> getByTeam(String riderTeam) {
-        return riderRepository.findByTeamIgnoreCase(riderTeam);
+    public List<Rider> getByTeam(String teamName) {
+        return riderRepository.findByTeamIgnoreCase(teamName);
     }
 
     public List<Rider> getByNameContaining(String keyword) {
@@ -64,6 +67,9 @@ public class RiderService {
     }
 
     public List<Rider> getPopularRiders() {
+        List<Rider> riders = riderRepository.findPopularRiders();
+        System.out.println(
+                "[DEBUG] Service - Retrieved riders from repository: " + (riders != null ? riders.size() : "null"));
         return riderRepository.findPopularRiders();
     }
 

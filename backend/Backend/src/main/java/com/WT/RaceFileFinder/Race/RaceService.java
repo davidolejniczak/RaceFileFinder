@@ -25,6 +25,9 @@ public class RaceService {
     }
 
     public List<Race> getAllRaces() {
-        return raceRepository.findAllRaces();
+        List<Race> races = raceRepository.findAllRaces();
+        System.out.println(
+                "[DEBUG] Service - Retrieved races from repository: " + (races != null ? races.size() : "null"));
+        return races;
     }
 }

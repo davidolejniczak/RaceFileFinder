@@ -16,7 +16,10 @@ public class TeamService {
 
     public List<Team> getAllTeams() {
         Sort sort = Sort.by(Sort.Order.asc("teamName"));
-        return teamRepository.findAll(sort);
+        List<Team> teams = teamRepository.findAll(sort);
+        System.out.println(
+                "[DEBUG] Service - Retrieved teams from repository: " + (teams != null ? teams.size() : "null"));
+        return teams;
     }
 
     public Team getTeamByName(String teamName) {
@@ -37,6 +40,21 @@ public class TeamService {
     }
 
     public Team getTeamById(String teamId) {
-        return teamRepository.findByTeamId(teamId);
+        Team team = teamRepository.findByTeamId(teamId);
+        System.out.println("[DEBUG] Service - Retrieved team by id: " + (team != null ? team : "null"));
+        return team;
+    }
+
+    public List<Team> searchTeams(String teamName) {
+        List<Team> teams = teamRepository.searchAll(teamName);
+        System.out
+                .println("[DEBUG] Service - Retrieved teams with details: " + (teams != null ? teams.size() : "null"));
+        return teams;
+    }
+
+    public Team getTeamDetails(String teamID) {
+        Team team = teamRepository.findTeamDetails(teamID);
+        System.out.println("[DEBUG] Service - Retrieved team details: " + (team != null ? team : "null"));
+        return team;
     }
 }

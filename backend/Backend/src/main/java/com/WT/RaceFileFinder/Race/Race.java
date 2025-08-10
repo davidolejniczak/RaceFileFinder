@@ -15,11 +15,11 @@ public class Race {
     private String raceYear;
     @Column(name = "racecountry")
     private String raceCountry;
-    @Column(name = "countryCode")
+    @Column(name = "countrycode")
     private String countryCode;
-    @Column(name = "raceWinner")
+    @Column(name = "racewinner")
     private String raceWinner;
-    @Column(name = "hasResults")
+    @Column(name = "hasresults")
     private boolean hasResults;
 
     protected Race() {

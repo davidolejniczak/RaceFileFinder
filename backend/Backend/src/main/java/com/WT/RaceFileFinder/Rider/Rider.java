@@ -7,10 +7,10 @@ import jakarta.persistence.*;
 public class Rider {
 
     @Id
-    @Column(name = "riderID", unique = true)
+    @Column(name = "riderid", unique = true)
     private String riderID;
 
-    @Column(name = "riderName")
+    @Column(name = "ridername")
     private String riderName;
 
     @Column(name = "nation")
@@ -19,23 +19,26 @@ public class Rider {
     @Column(name = "team")
     private String riderTeam;
 
-    @Column(name = "countryCode")
+    @Column(name = "countrycode")
     private String countryCode;
 
-    @Column(name = "riderAchievements")
+    @Column(name = "riderachievements")
     private String riderAchievements;
 
-    @Column(name = "riderStravaLink")
+    @Column(name = "riderstravalink")
     private String riderStravaLink;
 
-    @Column(name = "riderPopular")
+    @Column(name = "riderpopular")
     private boolean popular;
+
+    @Column(name = "displayname")
+    private String displayName;
 
     protected Rider() {
     }
 
     public Rider(String riderName, String riderCountry, String riderTeam, String riderID, String countryCode,
-            String riderAchievements, String riderStravaLink, boolean popular) {
+            String riderAchievements, String riderStravaLink, boolean popular, String displayName) {
         this.riderID = riderID;
         this.riderName = riderName;
         this.riderCountry = riderCountry;
@@ -44,6 +47,7 @@ public class Rider {
         this.riderAchievements = riderAchievements;
         this.riderStravaLink = riderStravaLink;
         this.popular = popular;
+        this.displayName = displayName;
     }
 
     public void setRiderName(String riderName) {
@@ -108,5 +112,13 @@ public class Rider {
 
     public void setPopular(boolean popular) {
         this.popular = popular;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

@@ -14,14 +14,14 @@ public interface RiderRepository extends JpaRepository<Rider, String> {
 
     Optional<Rider> findByRiderNameIgnoreCase(String riderName);
 
-    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(riderName)), ' ', '') = REPLACE(LOWER(unaccent(:riderName)),' '.'')", nativeQuery = true)
+    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(ridername)), ' ', '') = REPLACE(LOWER(unaccent(:riderName)),' '.'')", nativeQuery = true)
     Optional<Rider> searchByName(@Param("riderName") String riderName);
 
-    @Query(value = "SELECT * FROM riders WHERE unaccent(riderName) ILike unaccent(CONCAT('%', :keyword, '%'))", nativeQuery = true)
+    @Query(value = "SELECT * FROM riders WHERE unaccent(ridername) ILike unaccent(CONCAT('%', :keyword, '%'))", nativeQuery = true)
     List<Rider> findByRiderNameContaining(String keyword);
 
-    @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(team)),' ','') = LOWER(unaccent(:riderTeam))", nativeQuery = true)
-    List<Rider> findByTeamIgnoreCase(@Param("riderTeam") String riderTeam);
+    @Query(value = "SELECT * FROM riders WHERE LOWER(unaccent(team))= LOWER(unaccent(:team))", nativeQuery = true)
+    List<Rider> findByTeamIgnoreCase(@Param("team") String teamName);
 
     @Query(value = "SELECT * FROM riders WHERE REPLACE(LOWER(unaccent(nation)),' ','') = LOWER(unaccent(:riderCountry))", nativeQuery = true)
     List<Rider> findByNation(@Param("riderCountry") String riderCountry);
@@ -36,13 +36,16 @@ public interface RiderRepository extends JpaRepository<Rider, String> {
     // String riderTeam,
     // @Param("riderCountry") String riderCountry);
 
-    @Query(value = "SELECT * FROM riders WHERE riderId = :riderId", nativeQuery = true)
+    @Query(value = "SELECT * FROM riders WHERE riderid = :riderId", nativeQuery = true)
     Rider findByRiderId(@Param("riderId") String riderId);
 
     @Query(value = "SELECT * FROM riders WHERE teamId = :teamId", nativeQuery = true)
-    List<Rider> findByTeamId(@Param("teamId") String teamId);
+    List<Rider> findByTeamId(@Param("teamId") String teamId); // not used
 
-    @Query(value = "SELECT * FROM riders WHERE popular = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM riders WHERE riderpopular = true", nativeQuery = true)
     List<Rider> findPopularRiders();
+
+    @Query(value = "SELECT raceresults.racename, raceresults.riderposition, raceresults.ridername, riders.riderstravalink AS riderstrava FROM raceresults JOIN riders ON raceresults.ridername = riders.ridername WHERE riders.riderid = :riderId", nativeQuery = true)
+    List<Object[]> findRaceResultsByRiderId(@Param("riderId") String riderId);
 
 }

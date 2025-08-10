@@ -30,17 +30,19 @@ public class RiderController {
             @RequestParam(required = false) String riderTeam,
             @RequestParam(required = false) String riderCountry) {
 
+        List<Rider> riders;
         if (riderTeam != null && riderCountry != null) {
-            return riderService.getByTeamAndNation(riderTeam, riderCountry);
-        }
-        if (riderTeam != null) {
-            return riderService.getByTeam(riderTeam);
-        }
-        if (riderCountry != null) {
-            return riderService.getByNation(riderCountry);
+            riders = riderService.getByTeamAndNation(riderTeam, riderCountry);
+        } else if (riderTeam != null) {
+            riders = riderService.getByTeam(riderTeam);
+        } else if (riderCountry != null) {
+            riders = riderService.getByNation(riderCountry);
         } else {
-            return Collections.emptyList();
+            riders = Collections.emptyList();
         }
+
+        System.out.println("[DEBUG] Controller - Retrieved riders: " + (riders != null ? riders.size() : "null"));
+        return riders;
     }
 
     @GetMapping("/all")
@@ -77,6 +79,16 @@ public class RiderController {
 
     @GetMapping("/popular")
     public List<Rider> getPopularRiders() {
+        List<Rider> riders = riderService.getPopularRiders();
+        System.out.println("[DEBUG] Controller - Retrieved riders: " + (riders != null ? riders.size() : "null"));
         return riderService.getPopularRiders();
+    }
+
+    @GetMapping("/riders")
+    public List<Rider> getRidersByTeamName(@RequestParam String teamName) {
+        List<Rider> riders = riderService.getByTeam(teamName);
+        System.out.println(
+                "[DEBUG] Controller - Retrieved riders by team name: " + (riders != null ? riders.size() : "null"));
+        return riders;
     }
 }

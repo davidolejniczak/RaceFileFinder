@@ -9,22 +9,22 @@ public class Team {
     @Id
     private String teamID;
 
-    @Column(name = "teamName")
+    @Column(name = "teamname")
     private String teamName;
 
-    @Column(name = "teamCountry")
+    @Column(name = "teamcountry")
     private String teamCountry;
 
-    @Column(name = "countryCode")
+    @Column(name = "countrycode")
     private String countryCode;
 
-    @Column(name = "riderCount")
+    @Column(name = "ridercount")
     private int riderCount;
 
-    @Column(name = "bestResult")
+    @Column(name = "bestresult")
     private String teamBestResult;
 
-    @Column(name = "teamUrl")
+    @Column(name = "teamurl")
     private String teamUrl;
 
     protected Team() {
