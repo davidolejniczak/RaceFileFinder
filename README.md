@@ -1,4 +1,4 @@
-# Pro Cyclist Strava Finder
+# Race Atlas - a Pro Cyclist Strava Finder
 
 Live Demo: https://cyclingfilefinder.vercel.app/
 
